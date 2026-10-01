@@ -7,6 +7,19 @@ export function Navigation() {
   const nav = useRef<HTMLElement>(null);
   const productButton = useRef<HTMLButtonElement>(null);
   const mobileButton = useRef<HTMLButtonElement>(null);
+  const [dark, setDark] = useState(false);
+  useEffect(() => {
+    const saved = localStorage.getItem("pawabase.website.theme");
+    const next = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setDark(next);
+    document.documentElement.dataset.theme = next ? "dark" : "light";
+  }, []);
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.dataset.theme = next ? "dark" : "light";
+    localStorage.setItem("pawabase.website.theme", next ? "dark" : "light");
+  };
   useEffect(() => {
     const close = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -56,10 +69,10 @@ export function Navigation() {
           >
             Product <span aria-hidden="true">⌄</span>
           </button>
-          <a href="#developers" onClick={() => setMobile(false)}>
+          <a href={docs("clients/overview")} onClick={() => setMobile(false)}>
             Developers
           </a>
-          <a href="#community" onClick={() => setMobile(false)}>
+          <a href={github} onClick={() => setMobile(false)}>
             Open source
           </a>
           <a href={docs()}>
@@ -68,6 +81,7 @@ export function Navigation() {
           <a className="nav-github" href={github}>
             GitHub <span aria-hidden="true">↗</span>
           </a>
+          <button className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${dark ? "light" : "dark"} mode`} title={`Switch to ${dark ? "light" : "dark"} mode`}><span aria-hidden="true">{dark ? "☀" : "◐"}</span></button>
           {dashboard ? (
             <a className="button small" href={dashboard}>
               Open Studio <span aria-hidden="true">↗</span>
@@ -89,7 +103,7 @@ export function Navigation() {
               </h2>
               <p>Explore the building blocks in the documentation.</p>
               <a
-                href="#platform"
+                href={docs()}
                 onClick={() => {
                   setOpen(false);
                   setMobile(false);

@@ -11,11 +11,12 @@ const value = (key) =>
     ?.trim()
     .replace(/^["']|["']$/g, "");
 const origin = process.env.CAPTURE_STUDIO_URL || "http://localhost:8090";
+const captureTheme = process.env.CAPTURE_THEME === "dark" ? "dark" : "light";
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 try {
   const auth = await browser.newContext({
     viewport: { width: 1440, height: 900 },
-    colorScheme: "light",
+    colorScheme: captureTheme,
   });
   const login = await auth.newPage();
   await login.goto(`${origin}/login`);
@@ -44,12 +45,12 @@ try {
     const context = await browser.newContext({
       storageState: state,
       viewport: { width: 1440, height: 900 },
-      colorScheme: "light",
+      colorScheme: captureTheme,
       recordVideo: { dir: "artifacts/raw", size: { width: 1440, height: 900 } },
     });
     // Hide operator identity for the entire capture, before the page paints.
-    await context.addInitScript(() => {
-      localStorage.setItem("theme", "light");
+    await context.addInitScript((theme) => {
+      localStorage.setItem("pawabase.theme", theme);
       const style = document.createElement("style");
       style.textContent = ".sidebar-foot{visibility:hidden!important}";
       const observer = new MutationObserver(() => {
@@ -59,7 +60,7 @@ try {
         }
       });
       observer.observe(document, { childList: true, subtree: true });
-    });
+    }, captureTheme);
     const page = await context.newPage();
     await page.goto(base + path);
     await page.waitForTimeout(1800);
