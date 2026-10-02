@@ -1,5 +1,0 @@
-sillo-framework
-sillo-inertia
-pawabase>=0.2
-httpx>=0.27
-uvicorn>=0.30

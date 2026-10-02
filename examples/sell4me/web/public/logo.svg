@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" width="32" height="32" role="img" aria-label="Commerce">
-  <title>Commerce</title>
-  <!-- Kept in step with views/ui/Logo.tsx by hand. Three paths is a small
-       enough duplication that a build step to generate this would cost more
-       than it saves. -->
-  <path d="M16 3.4 27.2 9.2v13.6L16 28.6 4.8 22.8V9.2L16 3.4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-  <path d="M4.9 9.3 16 15.1l11.1-5.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
-  <path d="M16 28.4v-6.1l4.7-4.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
