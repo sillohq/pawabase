@@ -1,6 +1,0 @@
-Your order is on its way
-
-Order #{{ order.number }} has shipped.
-{% if order.tracking_number %}Tracking: {{ order.tracking_number }}
-{% endif %}
-{{ order.tracking_url or (store.shop_url ~ order.status_path) }}
