@@ -43,8 +43,8 @@ COPY angula angula
 COPY gateway gateway
 COPY studio studio
 COPY examples examples
-COPY docker/entrypoint.sh /usr/local/bin/pawabase
-RUN chmod +x /usr/local/bin/pawabase \
+COPY docker/entrypoint.sh /usr/local/bin/pawabase-service
+RUN chmod +x /usr/local/bin/pawabase-service \
     && useradd --create-home --uid 10001 pawabase \
     && mkdir -p /data /code \
     && chown -R pawabase:pawabase /data /code
@@ -52,5 +52,5 @@ COPY --from=studio-assets /src/dist studio/frontend/dist
 
 USER pawabase
 VOLUME ["/data"]
-ENTRYPOINT ["pawabase"]
+ENTRYPOINT ["pawabase-service"]
 CMD ["help"]
