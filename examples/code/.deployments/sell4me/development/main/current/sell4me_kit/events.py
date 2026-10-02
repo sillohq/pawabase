@@ -15,6 +15,8 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
+from .event_views import view_of
+
 log = logging.getLogger("sell4me.events")
 
 #: Every event, and what it means. A closed catalogue: it is what the webhook subscription
@@ -47,6 +49,9 @@ EVENTS: dict[str, str] = {
     "store.launched": "A store opened to the public.",
     "provider.connected": "A payment provider was verified.",
     "domain.verified": "A custom domain passed its DNS check.",
+    "ticket.created": "A shopper opened a help-desk conversation.",
+    "ticket.customer_replied": "A shopper followed up on a conversation.",
+    "ticket.replied": "Staff answered a conversation.",
 }
 
 
@@ -101,4 +106,9 @@ async def emit(c: Any, name: str, **payload: Any) -> DomainEvent:
             await fn(c, event)
         except Exception:  # noqa: BLE001
             log.exception("listener %s failed on %s", getattr(fn, "__qualname__", fn), name)
+    # …and onto the platform's bus, where flows react (audit trail, the bell, email) and the dashboard's event inspector shows it.
+    try:
+        await c.emit(name, await view_of(c, name, payload))
+    except Exception:  # noqa: BLE001 - an announcement must never undo the change it announces
+        log.exception("could not publish %s on the platform bus", name)
     return event

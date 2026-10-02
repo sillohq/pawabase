@@ -472,22 +472,24 @@ async def audit_list(c: Ctx):
             "pagination": {"page": page, "per_page": per_page, "total": total, "pages": max(1, -(-total // per_page))}}
 
 
-def _sample_mail_context(template: str, store: q.Row) -> dict[str, Any]:
-    """A believable context for one template, using this store's real identity (so a merchant sees their shop, and would notice a missing support address)."""
-    identity = {"name": store.name, "slug": store.slug, "support_email": store.support_email or store.email}
+def _sample_mail_context(template: str, store: q.Row, settings: Any) -> dict[str, Any]:
+    """A believable context for one template, in the shape the events publish, using this store's real identity (so a merchant sees their shop, and would notice a missing support address)."""
+    base = str(settings.app_url).rstrip("/")
+    scheme = "https" if base.startswith("https://") else "http"
+    identity = {"name": store.name, "slug": store.slug, "support_email": store.support_email or store.email, "shop_url": f"{scheme}://{store.slug}.{settings.storefront_suffix}", "app_url": base}
     money = lambda minor: Money(minor, store.currency).format()  # noqa: E731
     items = [{"title": "Field Notebook", "variant": "A5 · Ochre", "quantity": 2, "total": money(3998)}, {"title": "Fountain Pen", "variant": None, "quantity": 1, "total": money(6500)}]
     samples = {
-        "order_receipt": {"store": identity, "order": {"number": 1042, "status_url": "/orders/1042/sample-token", "subtotal": money(10498), "discount": money(1000), "shipping": money(495),
+        "order_receipt": {"store": identity, "order": {"number": 1042, "status_path": "/orders/1042/sample-token", "subtotal": money(10498), "discount": money(1000), "shipping": money(495),
                                                        "total": money(9993), "has_discount": True}, "items": items,
                           "address": {"name": "Ada Buyer", "line1": "12 Long Road", "line2": None, "city": "Leeds", "postal_code": "LS1 1AA", "country": "GB"}},
-        "order_shipped": {"store": identity, "order": {"number": 1042, "tracking_number": "TRK-9F2C-11A", "tracking_url": "https://example.com/track/TRK-9F2C-11A", "status_url": "/orders/1042/sample-token"}},
+        "order_shipped": {"store": identity, "order": {"number": 1042, "tracking_number": "TRK-9F2C-11A", "tracking_url": "https://example.com/track/TRK-9F2C-11A", "status_path": "/orders/1042/sample-token"}},
         "order_refunded": {"store": identity, "order": {"number": 1042}, "refund": {"amount": money(9993), "reason": "Arrived damaged"}},
-        "abandoned_cart": {"store": identity, "total": money(10498), "value": money(10498), "recover_url": "/cart/recover/sample-token", "items": items},
-        "staff_invitation": {"store": identity, "role": "manager", "accept_url": "/invitations/sample-token", "invited_by": "Ada Owner"},
-        "store_welcome": {"store": identity, "name": "Ada Owner"},
-        "password_reset": {"name": "Ada Owner", "reset_url": "/reset-password/sample-token"},
-        "help_reply": {"name": "Ada Buyer", "reply": "Thanks for asking — it ships tomorrow.", "question": "When will my order ship?", "ticket_url": "/help/sample-token", "store": identity},
+        "abandoned_cart": {"store": identity, "cart": {"value": money(10498), "recover_path": "/cart/recover/sample-token"}, "items": items},
+        "staff_invitation": {"store": identity, "invitation": {"role": "manager", "accept_url": f"{base}/invitations/sample-token", "invited_by": "Ada Owner"}},
+        "store_welcome": {"store": identity, "owner": {"name": "Ada Owner"}},
+        "password_reset": {"name": "Ada Owner", "reset_url": f"{base}/reset-password/sample-token"},
+        "help_reply": {"name": "Ada Buyer", "reply": "Thanks for asking — it ships tomorrow.", "question": "When will my order ship?", "ticket_path": "/help/sample-token", "store": identity},
     }
     return samples[template]
 
@@ -500,6 +502,6 @@ async def mail_preview(c: Ctx):
     if which not in mail_templates.TEMPLATES:
         which = "order_receipt"
     settings = await c.settings()
-    html, text, subject = mail_templates.render(which, _sample_mail_context(which, c.store), settings)
-    return {"templates": [{"key": k, "label": k.replace("_", " ").title()} for k in sorted(mail_templates.TEMPLATES)], "active": which, "subject": subject, "html": html, "text": text,
+    html, text, subject = mail_templates.render(which, _sample_mail_context(which, c.store, settings), settings)
+    return {"templates": [{"key": k, "label": k.replace("_", " ").title()} for k in mail_templates.TEMPLATES], "active": which, "subject": subject, "html": html, "text": text,
             "from_address": f"{settings.mail_from_name} <{settings.mail_from}>"}

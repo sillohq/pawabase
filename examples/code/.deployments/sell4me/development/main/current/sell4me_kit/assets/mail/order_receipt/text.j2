@@ -1,0 +1,11 @@
+Thank you for your order
+
+Order #{{ order.number }} is confirmed.
+
+{% for item in items %}  {{ item.title }} x{{ item.quantity }}  {{ item.total }}
+{% endfor %}
+  Subtotal  {{ order.subtotal }}
+  Shipping  {{ order.shipping }}
+  Total     {{ order.total }}
+
+Track it: {{ store.shop_url }}{{ order.status_path }}

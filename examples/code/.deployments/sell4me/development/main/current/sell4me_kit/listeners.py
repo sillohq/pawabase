@@ -1,9 +1,9 @@
-"""What follows from each domain event.
+"""What follows from each domain event, **in code**.
 
-The only module that knows the *consequences* of things happening. A service announces ``order.paid`` and stops; everything
-below decides what that means for the audit trail, the merchant's bell, their webhook endpoints, the customer's receipt and the
-analytics counters. Each listener does something trivial (an insert) or queues a job: an HTTP call to a merchant's endpoint, a
-mail send or an image resample never runs inside the request.
+``events.emit`` announces every event on the platform's bus first: the audit trail, the merchant's bell, the emails (receipt, shipping notice, refund, invitation,
+welcome, cart recovery) are **flows** and **mail templates** in the Pawabase dashboard, subscribed to those events (see ``blueprint/automation.py``). Only what needs
+this project's data and libraries stays here, because a flow's blocks cannot express it: fanning an event out to *each merchant's own* webhook endpoints (tenant data
+with signing and retry), resampling an uploaded image, the denormalised counters, a Paystack transfer, a campaign's attribution.
 
 Importing this module registers the listeners (``functions/_load.py`` does it once).
 """
@@ -16,102 +16,9 @@ from typing import Any
 
 from . import q
 from .events import DomainEvent, listener
-from .money import Money
-from . import audit
 from .services import webhooks_out
 
 log = logging.getLogger("sell4me.listeners")
-
-# ── the audit trail ──────────────────────────────────────────────────────
-
-AUDITED: dict[str, str] = {
-    "product.created": "Created the product {title}",
-    "product.updated": "Updated the product {title}",
-    "product.archived": "Archived the product {title}",
-    "order.paid": "Order #{number} was paid",
-    "order.fulfilled": "Fulfilled order #{number}",
-    "order.cancelled": "Cancelled order #{number}",
-    "refund.created": "Refunded {amount} on order #{number}",
-    "inventory.adjusted": "Adjusted stock for {sku} by {delta:+d}",
-    "provider.connected": "Connected {provider}",
-    "domain.verified": "Verified the domain {hostname}",
-    "staff.invited": "Invited {email} as {role}",
-    "staff.joined": "{email} joined the store",
-    "store.launched": "Launched the store",
-}
-
-
-def _audit_fields(event: DomainEvent) -> dict[str, Any]:
-    fields: dict[str, Any] = dict(event.payload)
-    for key in ("product", "order", "variant", "domain", "invitation"):
-        obj = event.get(key)
-        if obj is None:
-            continue
-        for attribute in ("title", "number", "sku", "hostname", "email", "role"):
-            value = obj.get(attribute) if isinstance(obj, dict) else getattr(obj, attribute, None)
-            if value is not None:
-                fields.setdefault(attribute, value)
-    refund = event.get("refund")
-    if refund is not None:
-        fields["amount"] = Money(refund.amount_minor, refund.currency).format()
-    return fields
-
-
-def _resource_id(event: DomainEvent) -> Any:
-    for key in ("order", "product", "variant", "refund", "domain", "invitation"):
-        obj = event.get(key)
-        if obj is not None:
-            return obj.get("id")
-    return None
-
-
-@listener(*AUDITED)
-async def write_audit_trail(c: Any, event: DomainEvent) -> None:
-    template = AUDITED.get(event.name)
-    if not template:
-        return
-    try:
-        summary = template.format(**_audit_fields(event))
-    except (KeyError, IndexError, ValueError):
-        summary = event.name.replace(".", " ")
-    await audit.record(await c.db(), store=event.store, actor=event.get("actor"), action=event.name, resource_type=event.name.split(".", 1)[0],
-                       resource_id=event.get("resource_id") or _resource_id(event), summary=summary, changes=event.get("changes") or {},
-                       ip_address=event.get("ip_address"))
-
-
-# ── the merchant's bell ──────────────────────────────────────────────────
-
-@listener("order.paid")
-async def notify_new_order(c: Any, event: DomainEvent) -> None:
-    order = event.order
-    if order is None:
-        return
-    await q.insert(await c.db(), "notifications", {"store_id": event.store.pk, "kind": "order.created", "title": f"New order #{order.number}",
-                   "body": f"{Money(order.total_minor, order.currency).format()} · {order.email}", "url": f"/orders/{order.pk}", "level": "success",
-                   "required_permission": "orders.read"})
-
-
-@listener("payment.failed")
-async def notify_failed_payment(c: Any, event: DomainEvent) -> None:
-    order, payment = event.order, event.payment
-    if order is None:
-        return
-    await q.insert(await c.db(), "notifications", {"store_id": event.store.pk, "kind": "payment.failed", "title": f"Payment failed on order #{order.number}",
-                   "body": (payment.failure_message if payment else None) or "The provider declined the payment.", "url": f"/orders/{order.pk}",
-                   "level": "warning", "required_permission": "payments.read"})
-
-
-@listener("inventory.low", "inventory.out")
-async def notify_stock(c: Any, event: DomainEvent) -> None:
-    variant, product = event.variant, event.product
-    if variant is None or product is None:
-        return
-    out = event.name == "inventory.out"
-    await q.insert(await c.db(), "notifications", {"store_id": event.store.pk, "kind": "inventory.low",
-                   "title": f"{product.title} is {'out of stock' if out else 'running low'}",
-                   "body": f"{variant.title} · no units remaining" if out else f"{variant.title} · {variant.available} left",
-                   "url": f"/products/{product.pk}", "level": "critical" if out else "warning", "required_permission": "inventory.read"})
-
 
 # ── the merchant's webhooks ──────────────────────────────────────────────
 
@@ -151,77 +58,6 @@ async def fan_out_to_webhooks(c: Any, event: DomainEvent) -> None:
         queued = await webhooks_out.dispatch(c, event.store, public, public_payload(event))
         if queued:
             await c.dispatch("webhooks.sweep", {})
-
-
-# ── email ────────────────────────────────────────────────────────────────
-
-def _store_ctx(store: q.Row) -> dict[str, Any]:
-    return {"name": store.name, "slug": store.slug, "support_email": store.support_email or store.email}
-
-
-@listener("order.paid")
-async def send_receipt(c: Any, event: DomainEvent) -> None:
-    order, store = event.order, event.store
-    if order is None or store is None:
-        return
-    db = await c.db()
-    items = await q.find(db, "order_items", {"order_id": order.pk}, order="id")
-    addresses = {a.kind: a for a in await q.find(db, "order_addresses", {"order_id": order.pk})}
-    shipping = addresses.get("shipping")
-    await c.dispatch("mail.send", {"template": "order_receipt", "to": order.email, "subject": f"Your {store.name} order #{order.number}", "context": {
-        "store": _store_ctx(store),
-        "order": {"number": order.number, "status_url": f"/orders/{order.number}/{order.cart_token}", "subtotal": Money(order.subtotal_minor, order.currency).format(),
-                  "discount": Money(order.discount_minor, order.currency).format(), "shipping": Money(order.shipping_minor, order.currency).format(),
-                  "total": Money(order.total_minor, order.currency).format(), "has_discount": (order.discount_minor or 0) > 0},
-        "items": [{"title": i.title, "variant": i.variant_title, "quantity": i.quantity, "total": Money(i.total_minor, order.currency).format()} for i in items],
-        "address": {"name": shipping.name, "line1": shipping.line1, "line2": shipping.line2, "city": shipping.city, "postal_code": shipping.postal_code,
-                    "country": shipping.country} if shipping else None}})
-
-
-@listener("order.fulfilled")
-async def send_shipping_notice(c: Any, event: DomainEvent) -> None:
-    order, store = event.order, event.store
-    if order is None or store is None:
-        return
-    await c.dispatch("mail.send", {"template": "order_shipped", "to": order.email, "subject": f"Your {store.name} order is on its way", "context": {
-        "store": _store_ctx(store), "order": {"number": order.number, "tracking_number": order.tracking_number, "tracking_url": order.tracking_url,
-                                              "status_url": f"/orders/{order.number}/{order.cart_token}"}}})
-
-
-@listener("refund.created")
-async def send_refund_notice(c: Any, event: DomainEvent) -> None:
-    refund, order, store = event.refund, event.order, event.store
-    if refund is None or order is None or store is None:
-        return
-    await c.dispatch("mail.send", {"template": "order_refunded", "to": order.email, "subject": f"Refund for {store.name} order #{order.number}", "context": {
-        "store": _store_ctx(store), "order": {"number": order.number},
-        "refund": {"amount": Money(refund.amount_minor, refund.currency).format(), "reason": refund.reason}}})
-
-
-@listener("staff.invited")
-async def send_invitation(c: Any, event: DomainEvent) -> None:
-    invitation, store = event.invitation, event.store
-    if invitation is None or store is None:
-        return
-    await c.dispatch("mail.send", {"template": "staff_invitation", "to": invitation.email, "subject": f"You have been invited to {store.name}", "context": {
-        "store": {"name": store.name}, "role": invitation.role, "accept_url": f"/invitations/{invitation.token}", "invited_by": event.get("invited_by_name")}})
-
-
-@listener("cart.abandoned")
-async def queue_cart_recovery(c: Any, event: DomainEvent) -> None:
-    """Send the recovery email after a delay: immediately would reach someone who stepped away for two minutes."""
-    record = event.record
-    if record is not None and record.email:
-        await c.dispatch("carts.recover_email", {"record_id": record.pk}, delay=3600)
-
-
-@listener("store.created")
-async def welcome_merchant(c: Any, event: DomainEvent) -> None:
-    store, owner = event.store, event.get("owner")
-    if store is None or not owner:
-        return
-    await c.dispatch("mail.send", {"template": "store_welcome", "to": owner.get("email"), "subject": f"{store.name} is ready", "context": {
-        "store": {"name": store.name, "slug": store.slug}, "name": owner.get("full_name") or owner.get("email")}})
 
 
 # ── media ────────────────────────────────────────────────────────────────
@@ -269,12 +105,3 @@ async def refresh_attributed_campaign(c: Any, event: DomainEvent) -> None:
     campaign = await q.first(await c.db(), "campaigns", {"store_id": order.store_id, "discount_id": order.discount_id})
     if campaign is not None:
         await c.dispatch("campaigns.refresh", {"campaign_id": campaign.pk})
-
-
-@listener("payout.paid")
-async def notify_payout(c: Any, event: DomainEvent) -> None:
-    payout = event.payout
-    if payout is None:
-        return
-    await q.insert(await c.db(), "notifications", {"store_id": event.store.pk, "kind": "payout.paid", "title": "A payout was sent",
-                   "body": Money(payout.amount_minor, payout.currency).format(), "url": "/payments/payouts", "level": "success", "required_permission": "payouts.read"})

@@ -1,0 +1,33 @@
+{#- Shared pieces: edit them in one template and copy to the others, or restyle all by editing the colours here. -#}
+{% macro heading(text) %}<h1 style="margin:0 0 10px 0;font:600 21px/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2c2521;letter-spacing:-0.02em;">{{ text }}</h1>{% endmacro %}
+{% macro button(label, url) %}<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:22px 0;"><tr><td style="background:#2c2521;border-radius:999px;"><a href="{{ url }}" style="display:inline-block;padding:11px 26px;color:#ffffff;text-decoration:none;font:500 14px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">{{ label }}</a></td></tr></table>{% endmacro %}
+{% macro lines(items, with_totals=true) %}<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:18px 0;">{% for item in items %}<tr><td style="padding:9px 0;border-bottom:1px solid #e9e3dc;font-size:14px;">{{ item.title }}{% if item.variant %}<span style="color:#7c7269;"> · {{ item.variant }}</span>{% endif %}<span style="color:#7c7269;"> × {{ item.quantity }}</span></td>{% if with_totals %}<td style="padding:9px 0;border-bottom:1px solid #e9e3dc;font-size:14px;text-align:right;white-space:nowrap;">{{ item.total }}</td>{% endif %}</tr>{% endfor %}</table>{% endmacro %}
+{% macro total_row(label, value, strong=false) %}<tr><td style="padding:3px 0;{% if strong %}border-top:1px solid #e9e3dc;padding-top:10px;{% endif %}color:{{ '#2c2521' if strong else '#7c7269' }};font-size:14px;font-weight:{{ 600 if strong else 400 }};">{{ label }}</td><td style="padding:3px 0;{% if strong %}border-top:1px solid #e9e3dc;padding-top:10px;{% endif %}text-align:right;color:#2c2521;font-size:14px;font-weight:{{ 600 if strong else 400 }};white-space:nowrap;">{{ value }}</td></tr>{% endmacro %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<title>Reset your password</title>
+</head>
+<body style="margin:0;padding:0;background:#f7f4f0;">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Choose a new password for your account</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f7f4f0;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#ffffff;border:1px solid #e9e3dc;border-radius:14px;overflow:hidden;">
+        <tr><td style="padding:26px 30px 0 30px;"><span style="font:600 15px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2c2521;letter-spacing:-0.01em;">{{ app_name }}</span></td></tr>
+        <tr><td style="padding:22px 30px 30px 30px;font:400 15px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#2c2521;">
+{{ heading('Reset your password') }}
+<p style="margin:0 0 14px 0;color:#2c2521;">Hello {{ name or 'there' }} — use the button below to choose a new password.</p>
+{{ button('Reset password', reset_url) }}
+<p style="margin:0 0 14px 0;color:#7c7269;">This link works once and expires in an hour. If you did not ask to reset your password, you can ignore this email — nothing changes until you open a new one.</p>
+        </td></tr>
+      </table>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+        <tr><td style="padding:18px 30px;text-align:center;font:400 12px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#7c7269;">Sent by {{ app_name }}.</td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

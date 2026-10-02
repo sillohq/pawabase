@@ -15,6 +15,7 @@ from datetime import UTC, datetime
 from typing import Any
 
 from .. import q
+from ..events import emit
 
 
 def _token() -> str:
@@ -58,7 +59,7 @@ async def open_ticket(c: Any, *, store: q.Row, name: str, email: str, message: s
                                                  "customer_email": email.strip().lower(), "opt_in_email": opt_in_email, "subject": subject,
                                                  "status": "open", "last_message_at": datetime.now(UTC)})
     first = await q.insert(db, "help_messages", {"ticket_id": ticket.pk, "from_staff": False, "body": message.strip()})
-    await _notify_staff(db, ticket)
+    await emit(c, "ticket.created", store=store, ticket=ticket)
     await _broadcast(c, store, ticket, kind="ticket.created", message=first)
     return ticket
 
@@ -69,7 +70,7 @@ async def add_customer_reply(c: Any, store: q.Row, ticket: q.Row, body: str) -> 
     message = await q.insert(db, "help_messages", {"ticket_id": ticket.pk, "from_staff": False, "body": body.strip()})
     await q.update(db, "help_tickets", ticket.pk, {"status": "open", "last_message_at": datetime.now(UTC)})
     ticket = await q.get(db, "help_tickets", ticket.pk)
-    await _notify_staff(db, ticket)
+    await emit(c, "ticket.customer_replied", store=store, ticket=ticket)
     await _broadcast(c, store, ticket, kind="message", message=message)
     return message
 
@@ -80,8 +81,8 @@ async def add_staff_reply(c: Any, store: q.Row, ticket: q.Row, *, author_id: str
     message = await q.insert(db, "help_messages", {"ticket_id": ticket.pk, "from_staff": True, "author_id": author_id, "body": body.strip()})
     await q.update(db, "help_tickets", ticket.pk, {"status": "answered", "last_message_at": datetime.now(UTC)})
     ticket = await q.get(db, "help_tickets", ticket.pk)
-    if ticket.opt_in_email:
-        await _email_customer(c, store, ticket, body)
+    first = await q.first(db, "help_messages", {"ticket_id": ticket.pk, "from_staff": False}, order="id")
+    await emit(c, "ticket.replied", store=store, ticket=ticket, reply=body, question=first.body if first else None)
     await _broadcast(c, store, ticket, kind="message", message=message)
     return message
 
@@ -90,20 +91,6 @@ async def close(c: Any, store: q.Row, ticket: q.Row) -> None:
     db = await c.db()
     await q.update(db, "help_tickets", ticket.pk, {"status": "closed", "closed_at": datetime.now(UTC)})
     await _broadcast(c, store, await q.get(db, "help_tickets", ticket.pk), kind="ticket.updated")
-
-
-async def _notify_staff(db: Any, ticket: q.Row) -> None:
-    await q.insert(db, "notifications", {"store_id": ticket.store_id, "kind": "help.ticket", "title": f"Help desk: {ticket.subject}",
-                                         "body": f"{ticket.customer_name} · {ticket.customer_email}", "url": f"/help-desk/{ticket.pk}", "level": "info",
-                                         "required_permission": "support.read"})
-
-
-async def _email_customer(c: Any, store: q.Row, ticket: q.Row, reply: str) -> None:
-    db = await c.db()
-    first = await q.first(db, "help_messages", {"ticket_id": ticket.pk, "from_staff": False}, order="id")
-    await c.dispatch("mail.send", {"template": "help_reply", "to": ticket.customer_email, "subject": "", "context": {
-        "name": ticket.customer_name, "reply": reply, "question": first.body if first else None, "ticket_url": f"/help/{ticket.token}",
-        "store": {"name": store.name, "slug": store.slug, "support_email": store.support_email or store.email}}})
 
 
 def serialize_ticket(ticket: q.Row) -> dict[str, Any]:

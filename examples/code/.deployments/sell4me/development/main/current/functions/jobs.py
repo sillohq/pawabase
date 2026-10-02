@@ -19,7 +19,7 @@ from datetime import UTC, date, datetime, timedelta
 from typing import Any
 
 import sell4me_kit.listeners  # noqa: F401
-from sell4me_kit import mail_templates, media, q
+from sell4me_kit import media, q
 from sell4me_kit.context import Ctx
 from sell4me_kit.endpoints import job
 from sell4me_kit.events import emit
@@ -34,11 +34,10 @@ log = logging.getLogger("sell4me.jobs")
 
 # ── mail ─────────────────────────────────────────────────────────────────
 
-@job("mail.send", "Send one templated email. Nothing in the application sends inline: a slow or down SMTP server must not be able to fail the order that triggered the receipt", timeout=60)
+@job("mail.send", "Send one email through the platform's mail service, rendering a template stored in the Pawabase dashboard (Mail templates). Flows send mail directly with the same call; this is for code that needs to", timeout=60)
 async def mail_send(c: Ctx):
     data = c.input
-    html, text, subject = mail_templates.render(data["template"], data.get("context") or {}, await c.settings())
-    await c.runtime.send_mail([data["to"]], data.get("subject") or subject, html=html, text=text)
+    await c.runtime.send_mail([data["to"]], data.get("subject") or "", template=data["template"], data={"app_name": (await c.settings()).app_name, **(data.get("context") or {})})
     return {"sent": True, "to": data["to"], "template": data["template"]}
 
 
@@ -129,9 +128,13 @@ async def carts_recover_email(c: Ctx):
     # Claim before sending: a retry after a slow send must not email the shopper twice.
     if not await db.execute("UPDATE abandoned_carts SET recovery_status = 'notified', notified_at = ? WHERE id = ? AND recovery_status = 'pending'", [datetime.now(UTC), record.pk]):
         return {"skipped": True}
-    await c.dispatch("mail.send", {"template": "abandoned_cart", "to": record.email, "subject": f"You left something at {store.name}", "context": {
-        "store": {"name": store.name, "slug": store.slug}, "value": Money(record.value_minor, record.currency).format(), "recover_url": f"/cart/recover/{record.recovery_token}",
-        "items": [{"title": i["title"], "variant": i["variant"], "quantity": i["quantity"], "image": None} for i in items]}})
+    settings = await c.settings()
+    base = str(settings.app_url).rstrip("/")
+    shop = f"{'https' if base.startswith('https://') else 'http'}://{store.slug}.{settings.storefront_suffix}"
+    await c.runtime.send_mail([record.email], "", template="abandoned_cart", data={
+        "app_name": settings.app_name, "store": {"name": store.name, "slug": store.slug, "shop_url": shop, "support_email": store.support_email or store.email},
+        "cart": {"value": Money(record.value_minor, record.currency).format(), "recover_path": f"/cart/recover/{record.recovery_token}"},
+        "items": [{"title": i["title"], "variant": i["variant"], "quantity": i["quantity"]} for i in items]})
     return {"notified": record.pk}
 
 
