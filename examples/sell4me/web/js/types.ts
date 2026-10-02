@@ -52,6 +52,7 @@ export type SharedProps = {
     name: string
     env: string
     platform_fee: { minor: number; currency: string }
+    pawabase?: { url: string; key: string; project: string; environment: string }
   }
 }
 

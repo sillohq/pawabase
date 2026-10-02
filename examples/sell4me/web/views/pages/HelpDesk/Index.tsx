@@ -1,6 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react'
-import { useEffect } from 'react'
 import { ago } from '@/js/hooks'
+import { useChannel } from '@/js/realtime'
 import { Badge, Empty, PageHeader, Panel, Tabs } from '@/views/ui/kit'
 import { IconCustomerService } from '@/views/ui/icons'
 
@@ -24,39 +24,13 @@ type Props = {
   counts: { open: number; answered: number; closed: number }
   status: string
   store: { help_desk_enabled: boolean }
+  realtime?: { channel: string }
 }
 
-function socketUrl(): string {
-  const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
-  return `${proto}://${window.location.host}/ws/help-desk`
-}
-
-export default function Index({ tickets, counts, status, store }: Props) {
-  // A ticket arriving or changing anywhere in the store — reload this list
-  // quietly rather than push the new row over the wire twice: the socket only
-  // has to say "something changed", and the guarded route already knows how
-  // to answer that correctly (permissions, filters, the tab that is active).
-  useEffect(() => {
-    let cancelled = false
-    let retry: ReturnType<typeof setTimeout> | null = null
-    let socket: WebSocket | null = null
-
-    function connect() {
-      if (cancelled) return
-      socket = new WebSocket(socketUrl())
-      socket.onmessage = () => router.reload({ only: ['tickets', 'counts'] })
-      socket.onclose = () => {
-        if (!cancelled) retry = setTimeout(connect, 2000)
-      }
-    }
-
-    connect()
-    return () => {
-      cancelled = true
-      if (retry) clearTimeout(retry)
-      socket?.close()
-    }
-  }, [])
+export default function Index({ tickets, counts, status, store, realtime }: Props) {
+  // A ticket arriving or changing anywhere in the store: reload the list quietly. The channel only says "something changed"; the server knows how to answer
+  // that correctly (permissions, filters, the tab that is active).
+  useChannel(realtime?.channel, () => router.reload({ only: ['tickets', 'counts'] }))
 
   return (
     <>

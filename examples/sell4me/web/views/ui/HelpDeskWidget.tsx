@@ -12,8 +12,7 @@
  * scoped to the store — the same shape as the cart's own token, just kept on
  * the client instead of in a cookie.
  *
- * The conversation itself is a WebSocket (`/ws/help/{token}`,
- * `routes/storefront/help_ws.py`), not polling: a staff reply reaches this
+ * The conversation is live through `@pawabase/client` (`js/realtime.ts`), not polling: a staff reply reaches this
  * component the instant `app/services/helpdesk.py` publishes it
  * (`app/services/realtime.py`), the same way the shopper's own message
  * reaches the dashboard. Starting a ticket is still a one-shot POST — there
@@ -21,6 +20,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react'
+import { useChannel } from '@/js/realtime'
 import { IconClose, IconCustomerService, IconMail } from '@/views/ui/icons'
 
 type Message = {
@@ -38,7 +38,7 @@ type Ticket = {
   opt_in_email: boolean
 }
 
-type Thread = { ticket: Ticket; messages: Message[] }
+type Thread = { ticket: Ticket; messages: Message[]; channel: string }
 
 function storageKey(storeSlug: string) {
   return `helpdesk:${storeSlug}`
@@ -47,11 +47,6 @@ function storageKey(storeSlug: string) {
 function readXsrfToken(): string {
   const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]*)/)
   return match ? decodeURIComponent(match[1]) : ''
-}
-
-function socketUrl(token: string): string {
-  const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
-  return `${proto}://${window.location.host}/ws/help/${token}`
 }
 
 export default function HelpDeskWidget({
@@ -66,7 +61,6 @@ export default function HelpDeskWidget({
   const [open, setOpen] = useState(false)
   const [token, setToken] = useState<string | null>(null)
   const [thread, setThread] = useState<Thread | null>(null)
-  const [connected, setConnected] = useState(false)
   const [unread, setUnread] = useState(false)
   const [starting, setStarting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -75,7 +69,6 @@ export default function HelpDeskWidget({
   const [email, setEmail] = useState('')
   const [optIn, setOptIn] = useState(true)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const socketRef = useRef<WebSocket | null>(null)
 
   // A returning shopper's own conversation, if their browser still has it —
   // resumed the instant the widget mounts, whether or not it is open, so a
@@ -89,52 +82,32 @@ export default function HelpDeskWidget({
     }
   }, [storeSlug])
 
-  // The one live connection this component holds, for as long as it has a
-  // ticket to hold it open for. Reconnects on its own after a drop — a
-  // shopper's laptop sleeping mid-conversation should not end the chat.
+  // Load the conversation once a token is known (the first render after a reload, or right after the first message).
   useEffect(() => {
     if (!token) return
     let cancelled = false
-    let retry: ReturnType<typeof setTimeout> | null = null
-
-    function connect() {
-      if (cancelled) return
-      const socket = new WebSocket(socketUrl(token as string))
-      socketRef.current = socket
-
-      socket.onopen = () => setConnected(true)
-
-      socket.onmessage = (event) => {
-        const data = JSON.parse(event.data)
-        if (data.type === 'ready' || data.type === 'ticket.created') {
-          setThread({ ticket: data.ticket, messages: data.messages ?? [] })
-        } else if (data.type === 'message') {
-          setThread((prev) =>
-            prev && prev.ticket.id === data.ticket.id
-              ? { ticket: data.ticket, messages: [...prev.messages, data.message] }
-              : prev,
-          )
-          if (data.message.from_staff) setUnread((was) => was || !open)
-        } else if (data.type === 'ticket.updated') {
-          setThread((prev) => (prev && prev.ticket.id === data.ticket.id ? { ...prev, ticket: data.ticket } : prev))
-        }
-      }
-
-      socket.onclose = () => {
-        setConnected(false)
-        socketRef.current = null
-        if (!cancelled) retry = setTimeout(connect, 2000)
-      }
-    }
-
-    connect()
+    fetch(`/help/tickets/${token}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (!cancelled && data) setThread(data)
+      })
+      .catch(() => undefined)
     return () => {
       cancelled = true
-      if (retry) clearTimeout(retry)
-      socketRef.current?.close()
-      socketRef.current = null
     }
-  }, [token]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [token])
+
+  // Staff replies arrive live on the ticket's own channel.
+  const connected = useChannel(thread?.channel, (data) => {
+    if (data.type === 'message') {
+      setThread((prev) =>
+        prev && prev.ticket.id === data.ticket.id ? { ...prev, ticket: data.ticket, messages: prev.messages.some((m) => m.id === data.message.id) ? prev.messages : [...prev.messages, data.message] } : prev,
+      )
+      if (data.message.from_staff) setUnread((was) => was || !open)
+    } else if (data.type === 'ticket.updated') {
+      setThread((prev) => (prev && prev.ticket.id === data.ticket.id ? { ...prev, ticket: data.ticket } : prev))
+    }
+  })
 
   useEffect(() => {
     if (open) {
@@ -176,18 +149,24 @@ export default function HelpDeskWidget({
     }
   }
 
-  function sendReply(event: React.FormEvent) {
+  async function sendReply(event: React.FormEvent) {
     event.preventDefault()
     const body = draft.trim()
-    if (!body) return
-    const socket = socketRef.current
-    if (!socket || socket.readyState !== WebSocket.OPEN) {
-      setError('Reconnecting — try again in a moment.')
-      return
+    if (!body || !token) return
+    try {
+      const response = await fetch(`/help/tickets/${token}/reply`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-XSRF-TOKEN': readXsrfToken() },
+        body: JSON.stringify({ message: body }),
+      })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.message || data.error || 'Could not send that.')
+      setThread(data)
+      setDraft('')
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not send that. Try again.')
     }
-    socket.send(JSON.stringify({ message: body }))
-    setDraft('')
-    setError(null)
   }
 
   return (

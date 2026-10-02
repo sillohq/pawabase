@@ -4468,6 +4468,19 @@
     ]
    },
    {
+    "method": "GET",
+    "path": "/account/stores/{store}/context",
+    "name": "account.context",
+    "description": "What every dashboard screen's chrome needs for one store: who the caller is there, their role and permissions, the store, a signed 'View storefront' link, the unread count",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "account.context",
+    "tags": [
+     "account"
+    ],
+    "enabled": true
+   },
+   {
     "method": "POST",
     "path": "/account/stores/{store}/switch",
     "name": "account.switch_store",

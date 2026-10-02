@@ -10,7 +10,7 @@ Multi-tenant commerce: merchant dashboard API, hosted storefront API, checkout a
 |---|---|
 | Resources (tables) | 54 |
 | Composite unique indexes (installed by `scripts/provision.py`) | 17 |
-| HTTP routes | 180 |
+| HTTP routes | 181 |
 | Job functions (no route) | 17 |
 | Schedules | 8 |
 | Inbound webhooks | 3 |
@@ -27,9 +27,13 @@ Multi-tenant commerce: merchant dashboard API, hosted storefront API, checkout a
 python blueprint/build.py                       # regenerate sell4me.blueprint.json and this file
 # create the project from the blueprint (what scripts/provision.py does against a local stack):
 #   POST /platform/v1/projects   {"ref": "sell4me", "name": "Sell4me", "environments": ["development"], "blueprint": <sell4me.blueprint.json>}
-# functions are code: put code/sell4me and kit/sell4me_kit on the API's PAWABASE_CODE_PATH / PYTHONPATH
+# the functions are code, deployed with the pawabase kit: URL + a secret key + project + environment (+ branch), from .env / pawabase.toml / flags
+cp .env.example .env && $EDITOR .env              # PAWABASE_URL, PAWABASE_API_KEY=pb_sk_…
+pawabase deploy                                   # bundles code/sell4me/functions + kit/sell4me_kit, checks they import, uploads, activates
+pawabase deploy --branch my-feature               # or beside main, reachable with ?branch=my-feature
+pawabase emulate --watch                          # run them locally on :8787 against the deployment (forwards everything else)
 # then set the secrets below, install the composite unique indexes, and set the paystack inbound hook's secret
-scripts/reset.sh                                # all of the above, against a throwaway local stack on SQLite
+scripts/reset.sh                                  # all of the above, against a throwaway local stack on SQLite
 ```
 
 A blueprint carries *definitions* and never secrets, data or users. After creating the project: set the secrets (next section), run the composite-index
@@ -271,6 +275,7 @@ All paths are under `/rest/v1` on the gateway. `policy` is the platform's gate (
 | POST | `/account/invitations/accept` | `account.accept_invitation` | authenticated |  | `token`* | Accept a staff invitation with its token (the signed-in user joins the store) |
 | GET | `/account/me` | `account.me` | authenticated |  |  | The signed-in user, their profile and the stores they work in |
 | PATCH | `/account/profile` | `account.update_profile` | authenticated |  | `full_name`, `avatar_url`, `timezone_name`, `heard_from`, `signup_goal` | Update the signed-in user's profile |
+| GET | `/account/stores/{store}/context` | `account.context` | authenticated |  |  | What every dashboard screen's chrome needs for one store: who the caller is there, their role and permissions, the store, a signed 'View storefront' link, the unread count |
 | POST | `/account/stores/{store}/switch` | `account.switch_store` | authenticated |  |  | Make a store the one a return visit lands in |
 
 ### analytics

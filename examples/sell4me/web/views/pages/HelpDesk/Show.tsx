@@ -1,6 +1,7 @@
 import { Head, router, useForm } from '@inertiajs/react'
 import { useEffect, useRef, useState } from 'react'
 import { ago, date, useShared } from '@/js/hooks'
+import { useChannel } from '@/js/realtime'
 import { Badge, Button, PageHeader, Panel, Textarea } from '@/views/ui/kit'
 import { IconMail } from '@/views/ui/icons'
 
@@ -27,12 +28,7 @@ type Message = {
 const STATUS_TONE = { open: 'critical', answered: 'positive', closed: 'neutral' } as const
 const STATUS_LABEL = { open: 'Awaiting reply', answered: 'Answered', closed: 'Closed' } as const
 
-function socketUrl(ticketId: number): string {
-  const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
-  return `${proto}://${window.location.host}/ws/help-desk?ticket=${ticketId}`
-}
-
-export default function Show({ ticket, messages }: { ticket: Ticket; messages: Message[] }) {
+export default function Show({ ticket, messages, realtime }: { ticket: Ticket; messages: Message[]; realtime?: { channel: string } }) {
   const { errors } = useShared()
   const form = useForm({ message: '' })
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -46,35 +42,16 @@ export default function Show({ ticket, messages }: { ticket: Ticket; messages: M
   useEffect(() => setLive([]), [messages])
   useEffect(() => setStatus(ticket.status), [ticket.status])
 
-  useEffect(() => {
-    let cancelled = false
-    let retry: ReturnType<typeof setTimeout> | null = null
-    let socket: WebSocket | null = null
-
-    function connect() {
-      if (cancelled) return
-      socket = new WebSocket(socketUrl(ticket.id))
-      socket.onmessage = (event) => {
-        const data = JSON.parse(event.data)
-        if (data.type === 'message') {
-          setLive((prev) => (prev.some((m) => m.id === data.message.id) ? prev : [...prev, data.message]))
-          setStatus(data.ticket.status)
-        } else if (data.type === 'ticket.updated' || data.type === 'ticket.created') {
-          setStatus(data.ticket.status)
-        }
-      }
-      socket.onclose = () => {
-        if (!cancelled) retry = setTimeout(connect, 2000)
-      }
+  // A shopper's follow-up arrives on the store's staff channel; show it if it belongs to this ticket.
+  useChannel(realtime?.channel, (data) => {
+    if (data.ticket?.id !== ticket.id) return
+    if (data.type === 'message') {
+      setLive((prev) => (prev.some((m) => m.id === data.message.id) ? prev : [...prev, data.message]))
+      setStatus(data.ticket.status)
+    } else if (data.type === 'ticket.updated' || data.type === 'ticket.created') {
+      setStatus(data.ticket.status)
     }
-
-    connect()
-    return () => {
-      cancelled = true
-      if (retry) clearTimeout(retry)
-      socket?.close()
-    }
-  }, [ticket.id])
+  })
 
   const thread = [...messages, ...live]
 

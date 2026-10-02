@@ -1,5 +1,6 @@
 import { Head } from '@inertiajs/react'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
+import { useChannel } from '@/js/realtime'
 import { Container, PageTitle, ShopButton } from '@/views/ui/shop'
 
 type Ticket = {
@@ -16,70 +17,49 @@ type Props = {
   ticket: Ticket
   messages: Message[]
   theme: { store: { name: string } }
+  realtime: { channel: string }
 }
 
-function socketUrl(token: string): string {
-  const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
-  return `${proto}://${window.location.host}/ws/help/${token}`
+function readXsrfToken(): string {
+  const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]*)/)
+  return match ? decodeURIComponent(match[1]) : ''
 }
 
-export default function HelpTicket({ ticket: initialTicket, messages: initial, theme }: Props) {
+export default function HelpTicket({ ticket: initialTicket, messages: initial, theme, realtime }: Props) {
   const [ticket, setTicket] = useState(initialTicket)
   const [messages, setMessages] = useState(initial)
-  const [connected, setConnected] = useState(false)
   const [draft, setDraft] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const socketRef = useRef<WebSocket | null>(null)
 
-  useEffect(() => {
-    let cancelled = false
-    let retry: ReturnType<typeof setTimeout> | null = null
-
-    function connect() {
-      if (cancelled) return
-      const socket = new WebSocket(socketUrl(initialTicket.token))
-      socketRef.current = socket
-      socket.onopen = () => setConnected(true)
-      socket.onmessage = (event) => {
-        const data = JSON.parse(event.data)
-        if (data.type === 'ready') {
-          setTicket(data.ticket)
-          setMessages(data.messages)
-        } else if (data.type === 'message') {
-          setTicket(data.ticket)
-          setMessages((prev) => [...prev, data.message])
-        } else if (data.type === 'ticket.updated') {
-          setTicket(data.ticket)
-        }
-      }
-      socket.onclose = () => {
-        setConnected(false)
-        socketRef.current = null
-        if (!cancelled) retry = setTimeout(connect, 2000)
-      }
+  // The ticket's own channel carries the staff's replies (the unguessable token in its name is the capability).
+  const connected = useChannel(realtime.channel, (data) => {
+    if (data.type === 'message') {
+      setTicket(data.ticket)
+      setMessages((prev) => (prev.some((m) => m.id === data.message.id) ? prev : [...prev, data.message]))
+    } else if (data.type === 'ticket.updated') {
+      setTicket(data.ticket)
     }
+  })
 
-    connect()
-    return () => {
-      cancelled = true
-      if (retry) clearTimeout(retry)
-      socketRef.current?.close()
-      socketRef.current = null
-    }
-  }, [initialTicket.token])
-
-  function send(event: React.FormEvent) {
+  async function send(event: React.FormEvent) {
     event.preventDefault()
     const body = draft.trim()
     if (!body) return
-    const socket = socketRef.current
-    if (!socket || socket.readyState !== WebSocket.OPEN) {
-      setError('Reconnecting — try again in a moment.')
-      return
+    try {
+      const response = await fetch(`/help/tickets/${initialTicket.token}/reply`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-XSRF-TOKEN': readXsrfToken() },
+        body: JSON.stringify({ message: body }),
+      })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.message || data.error || 'Could not send that.')
+      setTicket(data.ticket)
+      setMessages(data.messages)
+      setDraft('')
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not send that. Try again.')
     }
-    socket.send(JSON.stringify({ message: body }))
-    setDraft('')
-    setError(null)
   }
 
   return (
