@@ -1,0 +1,4267 @@
+[
+ {
+  "name": "abandoned_carts",
+  "description": "Sell4me AbandonedCart (commerce).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "cart_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "customer_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "email",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "value_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3,
+    "required": false,
+    "default": "NGN"
+   },
+   {
+    "name": "item_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "recovery_status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "pending"
+   },
+   {
+    "name": "recovery_token",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "notified_at",
+    "type": "datetime"
+   },
+   {
+    "name": "recovered_at",
+    "type": "datetime"
+   },
+   {
+    "name": "recovered_order_id",
+    "type": "integer",
+    "indexed": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "commerce"
+  ]
+ },
+ {
+  "name": "api_keys",
+  "description": "Sell4me ApiKey (platform).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "name",
+    "type": "string",
+    "max_length": 150,
+    "required": false
+   },
+   {
+    "name": "prefix",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "key_hash",
+    "type": "string",
+    "max_length": 128,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "scopes",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "last_used_at",
+    "type": "datetime"
+   },
+   {
+    "name": "last_used_ip",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "request_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "expires_at",
+    "type": "datetime"
+   },
+   {
+    "name": "revoked_at",
+    "type": "datetime"
+   },
+   {
+    "name": "rotated_from_id",
+    "type": "integer"
+   },
+   {
+    "name": "created_by_id",
+    "type": "integer",
+    "indexed": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "platform"
+  ]
+ },
+ {
+  "name": "audit_logs",
+  "description": "Sell4me AuditLog (platform).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "actor_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "actor_label",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "action",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "resource_type",
+    "type": "string",
+    "max_length": 48,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "resource_id",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "summary",
+    "type": "string",
+    "max_length": 500,
+    "required": false
+   },
+   {
+    "name": "changes",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "ip_address",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "user_agent",
+    "type": "string",
+    "max_length": 500
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "platform"
+  ]
+ },
+ {
+  "name": "campaigns",
+  "description": "Sell4me Campaign (marketing).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "name",
+    "type": "string",
+    "max_length": 200,
+    "required": false
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "discount"
+   },
+   {
+    "name": "description",
+    "type": "text"
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "draft"
+   },
+   {
+    "name": "segment_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "discount_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "product_ids",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "starts_at",
+    "type": "datetime"
+   },
+   {
+    "name": "ends_at",
+    "type": "datetime"
+   },
+   {
+    "name": "budget_minor",
+    "type": "integer"
+   },
+   {
+    "name": "spend_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "orders_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "revenue_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "recipients_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "recovered_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "last_run_at",
+    "type": "datetime"
+   },
+   {
+    "name": "created_by_id",
+    "type": "integer",
+    "indexed": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "marketing"
+  ]
+ },
+ {
+  "name": "cart_items",
+  "description": "Sell4me CartItem (commerce).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "cart_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "variant_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "quantity",
+    "type": "integer",
+    "required": false,
+    "default": 1
+   },
+   {
+    "name": "unit_price_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "commerce"
+  ]
+ },
+ {
+  "name": "carts",
+  "description": "Sell4me Cart (commerce).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "token",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "customer_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "email",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3,
+    "required": false,
+    "default": "NGN"
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "open"
+   },
+   {
+    "name": "discount_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "discount_code",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "last_activity_at",
+    "type": "datetime"
+   },
+   {
+    "name": "reserved_at",
+    "type": "datetime"
+   },
+   {
+    "name": "converted_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "commerce"
+  ]
+ },
+ {
+  "name": "collection_products",
+  "description": "Sell4me CollectionProduct (catalog).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "collection_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "product_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "position",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "catalog"
+  ]
+ },
+ {
+  "name": "collections",
+  "description": "Sell4me Collection (catalog).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "max_length": 200,
+    "required": false
+   },
+   {
+    "name": "slug",
+    "type": "string",
+    "max_length": 200,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "description",
+    "type": "text",
+    "required": false,
+    "default": ""
+   },
+   {
+    "name": "image_url",
+    "type": "string",
+    "max_length": 1000
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "default": "manual"
+   },
+   {
+    "name": "rules",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "is_published",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   },
+   {
+    "name": "position",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "seo_title",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "seo_description",
+    "type": "string",
+    "max_length": 400
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "catalog"
+  ]
+ },
+ {
+  "name": "customer_addresses",
+  "description": "Sell4me CustomerAddress (commerce).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "customer_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "max_length": 60
+   },
+   {
+    "name": "first_name",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "last_name",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "company",
+    "type": "string",
+    "max_length": 150
+   },
+   {
+    "name": "line1",
+    "type": "string",
+    "max_length": 200,
+    "required": false
+   },
+   {
+    "name": "line2",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "city",
+    "type": "string",
+    "max_length": 100,
+    "required": false
+   },
+   {
+    "name": "province",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "postal_code",
+    "type": "string",
+    "max_length": 20
+   },
+   {
+    "name": "country",
+    "type": "string",
+    "max_length": 2,
+    "required": false,
+    "default": "US"
+   },
+   {
+    "name": "phone",
+    "type": "string",
+    "max_length": 40
+   },
+   {
+    "name": "is_default",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "commerce"
+  ]
+ },
+ {
+  "name": "customers",
+  "description": "Sell4me Customer (commerce).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "email",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "first_name",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "last_name",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "phone",
+    "type": "string",
+    "max_length": 40
+   },
+   {
+    "name": "password",
+    "type": "string",
+    "max_length": 128
+   },
+   {
+    "name": "accepts_marketing",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "tags",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "note",
+    "type": "text"
+   },
+   {
+    "name": "orders_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "total_spent_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "first_order_at",
+    "type": "datetime"
+   },
+   {
+    "name": "last_order_at",
+    "type": "datetime"
+   },
+   {
+    "name": "risk_score",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "commerce"
+  ]
+ },
+ {
+  "name": "daily_stats",
+  "description": "Sell4me DailyStat (analytics).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "date",
+    "type": "date",
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "orders_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "paid_orders_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "cancelled_orders_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "gross_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "discount_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "shipping_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "tax_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "refund_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "provider_fee_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "platform_fee_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "net_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "new_customers",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "returning_customers",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "sessions",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "product_views",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "add_to_carts",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "checkouts_started",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "payments_succeeded",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "payments_failed",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "analytics"
+  ]
+ },
+ {
+  "name": "designs",
+  "description": "Sell4me Design (builder).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "max_length": 200,
+    "required": false
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "poster"
+   },
+   {
+    "name": "width",
+    "type": "integer",
+    "required": false,
+    "default": 1080
+   },
+   {
+    "name": "height",
+    "type": "integer",
+    "required": false,
+    "default": 1080
+   },
+   {
+    "name": "data",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "thumbnail",
+    "type": "text"
+   },
+   {
+    "name": "product_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "discount_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "created_by_id",
+    "type": "integer",
+    "indexed": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "builder"
+  ]
+ },
+ {
+  "name": "discount_usages",
+  "description": "Sell4me DiscountUsage (marketing).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "discount_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "customer_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "amount_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "marketing"
+  ]
+ },
+ {
+  "name": "discounts",
+  "description": "Sell4me Discount (marketing).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "code",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "description",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "default": "percentage"
+   },
+   {
+    "name": "value",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "scope",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "default": "order"
+   },
+   {
+    "name": "scope_ids",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "minimum_order_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "maximum_discount_minor",
+    "type": "integer"
+   },
+   {
+    "name": "usage_limit",
+    "type": "integer"
+   },
+   {
+    "name": "per_customer_limit",
+    "type": "integer"
+   },
+   {
+    "name": "usage_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "starts_at",
+    "type": "datetime"
+   },
+   {
+    "name": "ends_at",
+    "type": "datetime"
+   },
+   {
+    "name": "is_active",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   },
+   {
+    "name": "segment_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "is_automatic",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "marketing"
+  ]
+ },
+ {
+  "name": "domains",
+  "description": "Sell4me Domain (platform).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "hostname",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "is_platform",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "is_primary",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "pending"
+   },
+   {
+    "name": "verification_token",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "verified_at",
+    "type": "datetime"
+   },
+   {
+    "name": "last_checked_at",
+    "type": "datetime"
+   },
+   {
+    "name": "check_message",
+    "type": "string",
+    "max_length": 500
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "platform"
+  ]
+ },
+ {
+  "name": "export_jobs",
+  "description": "Sell4me ExportJob (analytics).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "requested_by_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "resource",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "filters",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "format",
+    "type": "string",
+    "max_length": 8,
+    "required": false,
+    "default": "csv"
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "queued"
+   },
+   {
+    "name": "row_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "file_path",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "file_size",
+    "type": "integer"
+   },
+   {
+    "name": "error",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "started_at",
+    "type": "datetime"
+   },
+   {
+    "name": "completed_at",
+    "type": "datetime"
+   },
+   {
+    "name": "expires_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "analytics"
+  ]
+ },
+ {
+  "name": "help_messages",
+  "description": "Sell4me HelpMessage (support).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "ticket_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "from_staff",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "author_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "body",
+    "type": "text",
+    "required": false
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "support"
+  ]
+ },
+ {
+  "name": "help_tickets",
+  "description": "Sell4me HelpTicket (support).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "token",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "customer_name",
+    "type": "string",
+    "max_length": 120,
+    "required": false
+   },
+   {
+    "name": "customer_email",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "opt_in_email",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "subject",
+    "type": "string",
+    "max_length": 200,
+    "required": false
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "open"
+   },
+   {
+    "name": "last_message_at",
+    "type": "datetime",
+    "required": false
+   },
+   {
+    "name": "closed_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "support"
+  ]
+ },
+ {
+  "name": "inventory_movements",
+  "description": "Sell4me InventoryMovement (catalog).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "variant_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "delta",
+    "type": "integer",
+    "required": false
+   },
+   {
+    "name": "balance_after",
+    "type": "integer",
+    "required": false
+   },
+   {
+    "name": "reason",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "note",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "reference_type",
+    "type": "string",
+    "max_length": 40
+   },
+   {
+    "name": "reference_id",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "actor_id",
+    "type": "integer",
+    "indexed": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "catalog"
+  ]
+ },
+ {
+  "name": "invitations",
+  "description": "Sell4me Invitation (identity).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "email",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "role",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "default": "support"
+   },
+   {
+    "name": "token",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "invited_by_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "expires_at",
+    "type": "datetime",
+    "required": false
+   },
+   {
+    "name": "accepted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "revoked_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "identity"
+  ]
+ },
+ {
+  "name": "ledger_entries",
+  "description": "Sell4me LedgerEntry (finance).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "amount_minor",
+    "type": "integer",
+    "required": false
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3,
+    "required": false,
+    "default": "NGN"
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "payment_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "refund_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "payout_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "description",
+    "type": "string",
+    "max_length": 255,
+    "required": false
+   },
+   {
+    "name": "metadata",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "occurred_at",
+    "type": "datetime",
+    "required": false,
+    "indexed": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "finance"
+  ]
+ },
+ {
+  "name": "notifications",
+  "description": "Sell4me Notification (platform).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "user_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 48,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "max_length": 200,
+    "required": false
+   },
+   {
+    "name": "body",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "url",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "level",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "default": "info"
+   },
+   {
+    "name": "required_permission",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "read_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "platform"
+  ]
+ },
+ {
+  "name": "order_addresses",
+  "description": "Sell4me OrderAddress (commerce).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 16,
+    "required": false
+   },
+   {
+    "name": "first_name",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "last_name",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "company",
+    "type": "string",
+    "max_length": 150
+   },
+   {
+    "name": "line1",
+    "type": "string",
+    "max_length": 200,
+    "required": false
+   },
+   {
+    "name": "line2",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "city",
+    "type": "string",
+    "max_length": 100,
+    "required": false
+   },
+   {
+    "name": "province",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "postal_code",
+    "type": "string",
+    "max_length": 20
+   },
+   {
+    "name": "country",
+    "type": "string",
+    "max_length": 2,
+    "required": false,
+    "default": "US"
+   },
+   {
+    "name": "phone",
+    "type": "string",
+    "max_length": 40
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "commerce"
+  ]
+ },
+ {
+  "name": "order_events",
+  "description": "Sell4me OrderEvent (commerce).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 48,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "message",
+    "type": "string",
+    "max_length": 500,
+    "required": false
+   },
+   {
+    "name": "data",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "actor_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "is_customer_visible",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "commerce"
+  ]
+ },
+ {
+  "name": "order_items",
+  "description": "Sell4me OrderItem (commerce).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "variant_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "product_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "max_length": 255,
+    "required": false
+   },
+   {
+    "name": "variant_title",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "sku",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "image_url",
+    "type": "string",
+    "max_length": 1000
+   },
+   {
+    "name": "quantity",
+    "type": "integer",
+    "required": false,
+    "default": 1
+   },
+   {
+    "name": "unit_price_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "discount_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "tax_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "total_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "cost_minor",
+    "type": "integer"
+   },
+   {
+    "name": "quantity_fulfilled",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "quantity_refunded",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "requires_shipping",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "commerce"
+  ]
+ },
+ {
+  "name": "orders",
+  "description": "Sell4me Order (commerce).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "number",
+    "type": "integer",
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "customer_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "email",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "phone",
+    "type": "string",
+    "max_length": 40
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3,
+    "required": false,
+    "default": "NGN"
+   },
+   {
+    "name": "subtotal_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "discount_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "shipping_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "tax_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "total_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "refunded_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "indexed": true,
+    "default": "pending"
+   },
+   {
+    "name": "payment_status",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "indexed": true,
+    "default": "unpaid"
+   },
+   {
+    "name": "fulfilment_status",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "indexed": true,
+    "default": "unfulfilled"
+   },
+   {
+    "name": "discount_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "discount_code",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "shipping_method",
+    "type": "string",
+    "max_length": 120
+   },
+   {
+    "name": "tracking_number",
+    "type": "string",
+    "max_length": 120
+   },
+   {
+    "name": "tracking_url",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "note",
+    "type": "text"
+   },
+   {
+    "name": "tags",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "source",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "storefront"
+   },
+   {
+    "name": "campaign_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "risk_score",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "risk_flags",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "cart_token",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "client_ip",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "pos_session_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "placed_at",
+    "type": "datetime"
+   },
+   {
+    "name": "paid_at",
+    "type": "datetime"
+   },
+   {
+    "name": "fulfilled_at",
+    "type": "datetime"
+   },
+   {
+    "name": "cancelled_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "commerce"
+  ]
+ },
+ {
+  "name": "page_revisions",
+  "description": "Sell4me PageRevision (builder).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "page_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "tree",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "reason",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "default": "autosave"
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "max_length": 120
+   },
+   {
+    "name": "actor_id",
+    "type": "integer",
+    "indexed": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "builder"
+  ]
+ },
+ {
+  "name": "payment_attempts",
+  "description": "Sell4me PaymentAttempt (finance).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "payment_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "provider",
+    "type": "string",
+    "max_length": 24,
+    "required": false
+   },
+   {
+    "name": "reference",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "amount_minor",
+    "type": "integer",
+    "required": false
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3,
+    "required": false,
+    "default": "NGN"
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "pending"
+   },
+   {
+    "name": "error_code",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "error_message",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "client_ip",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "user_agent",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "instrument_fingerprint",
+    "type": "string",
+    "max_length": 128
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "finance"
+  ]
+ },
+ {
+  "name": "payment_provider_accounts",
+  "description": "Sell4me PaymentProviderAccount (finance).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "provider",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "public_key",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "secret_key_encrypted",
+    "type": "text"
+   },
+   {
+    "name": "webhook_secret_encrypted",
+    "type": "text"
+   },
+   {
+    "name": "provider_account_id",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "bank_code",
+    "type": "string",
+    "max_length": 16
+   },
+   {
+    "name": "bank_name",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "account_name",
+    "type": "string",
+    "max_length": 150
+   },
+   {
+    "name": "account_number_last4",
+    "type": "string",
+    "max_length": 4
+   },
+   {
+    "name": "recipient_code",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "is_test_mode",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   },
+   {
+    "name": "is_default",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "pending"
+   },
+   {
+    "name": "status_message",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "capabilities",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "last_verified_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "finance"
+  ]
+ },
+ {
+  "name": "payments",
+  "description": "Sell4me Payment (finance).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "provider",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "provider_account_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "provider_reference",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "reference",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3,
+    "required": false,
+    "default": "NGN"
+   },
+   {
+    "name": "amount_minor",
+    "type": "integer",
+    "required": false
+   },
+   {
+    "name": "provider_fee_minor",
+    "type": "integer"
+   },
+   {
+    "name": "platform_fee_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "refunded_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "pending"
+   },
+   {
+    "name": "method",
+    "type": "string",
+    "max_length": 40
+   },
+   {
+    "name": "card_brand",
+    "type": "string",
+    "max_length": 24
+   },
+   {
+    "name": "card_last4",
+    "type": "string",
+    "max_length": 4
+   },
+   {
+    "name": "failure_code",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "failure_message",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "raw_response",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "authorized_at",
+    "type": "datetime"
+   },
+   {
+    "name": "captured_at",
+    "type": "datetime"
+   },
+   {
+    "name": "failed_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "finance"
+  ]
+ },
+ {
+  "name": "payouts",
+  "description": "Sell4me Payout (finance).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "payment_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "provider",
+    "type": "string",
+    "max_length": 24,
+    "required": false
+   },
+   {
+    "name": "provider_account_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "provider_reference",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "amount_minor",
+    "type": "integer",
+    "required": false
+   },
+   {
+    "name": "platform_fee_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3,
+    "required": false,
+    "default": "NGN"
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "indexed": true,
+    "default": "pending"
+   },
+   {
+    "name": "destination",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "period_start",
+    "type": "datetime"
+   },
+   {
+    "name": "period_end",
+    "type": "datetime"
+   },
+   {
+    "name": "initiated_at",
+    "type": "datetime"
+   },
+   {
+    "name": "expected_at",
+    "type": "datetime"
+   },
+   {
+    "name": "paid_at",
+    "type": "datetime"
+   },
+   {
+    "name": "failure_message",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "raw_response",
+    "type": "json",
+    "required": false
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "finance"
+  ]
+ },
+ {
+  "name": "pos_devices",
+  "description": "Sell4me PosDevice (pos).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "max_length": 100,
+    "required": false
+   },
+   {
+    "name": "token",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "pos_domain",
+    "type": "string",
+    "max_length": 253,
+    "indexed": true
+   },
+   {
+    "name": "pos_domain_status",
+    "type": "string",
+    "max_length": 16,
+    "indexed": true
+   },
+   {
+    "name": "pos_domain_verification_token",
+    "type": "string",
+    "max_length": 64
+   },
+   {
+    "name": "pos_domain_verified_at",
+    "type": "datetime"
+   },
+   {
+    "name": "pos_domain_last_checked_at",
+    "type": "datetime"
+   },
+   {
+    "name": "pos_domain_check_message",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "last_operator_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "receipt_header",
+    "type": "text"
+   },
+   {
+    "name": "receipt_footer",
+    "type": "text"
+   },
+   {
+    "name": "print_receipt_auto",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "is_active",
+    "type": "boolean",
+    "required": false,
+    "indexed": true,
+    "default": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "pos"
+  ]
+ },
+ {
+  "name": "pos_session_items",
+  "description": "Sell4me PosSessionItem (pos).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "session_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "variant_id",
+    "type": "integer"
+   },
+   {
+    "name": "product_title",
+    "type": "string",
+    "max_length": 255,
+    "required": false
+   },
+   {
+    "name": "variant_title",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "sku",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "quantity_sold",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "quantity_refunded",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "gross_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "refunded_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "pos"
+  ]
+ },
+ {
+  "name": "pos_sessions",
+  "description": "Sell4me PosSession (pos).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "device_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "opened_by_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "closed_by_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "open"
+   },
+   {
+    "name": "opening_float_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "closing_count_minor",
+    "type": "integer"
+   },
+   {
+    "name": "expected_cash_minor",
+    "type": "integer"
+   },
+   {
+    "name": "total_sales_minor",
+    "type": "integer"
+   },
+   {
+    "name": "total_refunds_minor",
+    "type": "integer"
+   },
+   {
+    "name": "order_count",
+    "type": "integer"
+   },
+   {
+    "name": "cash_tendered_minor",
+    "type": "integer"
+   },
+   {
+    "name": "card_tendered_minor",
+    "type": "integer"
+   },
+   {
+    "name": "note",
+    "type": "text"
+   },
+   {
+    "name": "opened_at",
+    "type": "datetime",
+    "required": false
+   },
+   {
+    "name": "closed_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "pos"
+  ]
+ },
+ {
+  "name": "product_images",
+  "description": "Sell4me ProductImage (catalog).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "product_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "variant_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "url",
+    "type": "string",
+    "max_length": 1000,
+    "required": false
+   },
+   {
+    "name": "storage_key",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "alt",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "position",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "variants",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "width",
+    "type": "integer"
+   },
+   {
+    "name": "height",
+    "type": "integer"
+   },
+   {
+    "name": "placeholder",
+    "type": "text"
+   },
+   {
+    "name": "dominant_color",
+    "type": "string",
+    "max_length": 16
+   },
+   {
+    "name": "processed_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "catalog"
+  ]
+ },
+ {
+  "name": "product_option_values",
+  "description": "Sell4me ProductOptionValue (catalog).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "option_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "value",
+    "type": "string",
+    "max_length": 100,
+    "required": false
+   },
+   {
+    "name": "position",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "catalog"
+  ]
+ },
+ {
+  "name": "product_options",
+  "description": "Sell4me ProductOption (catalog).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "product_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "name",
+    "type": "string",
+    "max_length": 60,
+    "required": false
+   },
+   {
+    "name": "position",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "catalog"
+  ]
+ },
+ {
+  "name": "product_variants",
+  "description": "Sell4me ProductVariant (catalog).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "product_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "default": "Default"
+   },
+   {
+    "name": "sku",
+    "type": "string",
+    "max_length": 100,
+    "indexed": true
+   },
+   {
+    "name": "barcode",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "price_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "compare_at_minor",
+    "type": "integer"
+   },
+   {
+    "name": "cost_minor",
+    "type": "integer"
+   },
+   {
+    "name": "stock",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "reserved",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "track_inventory",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   },
+   {
+    "name": "allow_backorder",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "low_stock_threshold",
+    "type": "integer",
+    "required": false,
+    "default": 5
+   },
+   {
+    "name": "weight_grams",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "length_mm",
+    "type": "integer"
+   },
+   {
+    "name": "width_mm",
+    "type": "integer"
+   },
+   {
+    "name": "height_mm",
+    "type": "integer"
+   },
+   {
+    "name": "position",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "is_default",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "catalog"
+  ]
+ },
+ {
+  "name": "products",
+  "description": "Sell4me Product (catalog).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "max_length": 255,
+    "required": false
+   },
+   {
+    "name": "slug",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "description",
+    "type": "text",
+    "required": false,
+    "default": ""
+   },
+   {
+    "name": "summary",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "draft"
+   },
+   {
+    "name": "product_type",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "vendor",
+    "type": "string",
+    "max_length": 150
+   },
+   {
+    "name": "tags",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "requires_shipping",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   },
+   {
+    "name": "is_taxable",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   },
+   {
+    "name": "seo_title",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "seo_description",
+    "type": "string",
+    "max_length": 400
+   },
+   {
+    "name": "view_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "cart_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "purchase_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "published_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "catalog"
+  ]
+ },
+ {
+  "name": "refunds",
+  "description": "Sell4me Refund (finance).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "payment_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "reference",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "provider",
+    "type": "string",
+    "max_length": 24,
+    "required": false
+   },
+   {
+    "name": "provider_reference",
+    "type": "string",
+    "max_length": 255,
+    "indexed": true
+   },
+   {
+    "name": "amount_minor",
+    "type": "integer",
+    "required": false
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3,
+    "required": false,
+    "default": "NGN"
+   },
+   {
+    "name": "reason",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "note",
+    "type": "text"
+   },
+   {
+    "name": "line_items",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "restock",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "pending"
+   },
+   {
+    "name": "failure_message",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "platform_fee_reversed",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "actor_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "processed_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "finance"
+  ]
+ },
+ {
+  "name": "segments",
+  "description": "Sell4me Segment (marketing).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "name",
+    "type": "string",
+    "max_length": 150,
+    "required": false
+   },
+   {
+    "name": "description",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "rules",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "is_system",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "cached_count",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "counted_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "marketing"
+  ]
+ },
+ {
+  "name": "shipping_rates",
+  "description": "Sell4me ShippingRate (platform).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "zone_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "name",
+    "type": "string",
+    "max_length": 150,
+    "required": false
+   },
+   {
+    "name": "description",
+    "type": "string",
+    "max_length": 300
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "default": "flat"
+   },
+   {
+    "name": "price_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "min_weight_grams",
+    "type": "integer"
+   },
+   {
+    "name": "max_weight_grams",
+    "type": "integer"
+   },
+   {
+    "name": "min_subtotal_minor",
+    "type": "integer"
+   },
+   {
+    "name": "max_subtotal_minor",
+    "type": "integer"
+   },
+   {
+    "name": "delivery_estimate",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "is_active",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   },
+   {
+    "name": "position",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "platform"
+  ]
+ },
+ {
+  "name": "shipping_zones",
+  "description": "Sell4me ShippingZone (platform).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "name",
+    "type": "string",
+    "max_length": 150,
+    "required": false
+   },
+   {
+    "name": "countries",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "position",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "platform"
+  ]
+ },
+ {
+  "name": "store_members",
+  "description": "Sell4me StoreMember (identity).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "user_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "role",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "default": "support"
+   },
+   {
+    "name": "extra_permissions",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "denied_permissions",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "default": "active"
+   },
+   {
+    "name": "last_seen_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "identity"
+  ]
+ },
+ {
+  "name": "storefront_events",
+  "description": "Sell4me StorefrontEvent (analytics).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "product_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "variant_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "collection_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "order_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "session_token",
+    "type": "string",
+    "max_length": 64,
+    "indexed": true
+   },
+   {
+    "name": "value_minor",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "quantity",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "referrer",
+    "type": "string",
+    "max_length": 500
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "analytics"
+  ]
+ },
+ {
+  "name": "storefront_pages",
+  "description": "Sell4me StorefrontPage (builder).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "max_length": 200,
+    "required": false
+   },
+   {
+    "name": "slug",
+    "type": "string",
+    "max_length": 200,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "kind",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "indexed": true,
+    "default": "page"
+   },
+   {
+    "name": "draft",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "published",
+    "type": "json"
+   },
+   {
+    "name": "is_published",
+    "type": "boolean",
+    "required": false,
+    "indexed": true,
+    "default": false
+   },
+   {
+    "name": "published_at",
+    "type": "datetime"
+   },
+   {
+    "name": "seo_title",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "seo_description",
+    "type": "string",
+    "max_length": 400
+   },
+   {
+    "name": "og_image_url",
+    "type": "string",
+    "max_length": 1000
+   },
+   {
+    "name": "noindex",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "settings",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "created_by_id",
+    "type": "integer",
+    "indexed": true
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "builder"
+  ]
+ },
+ {
+  "name": "stores",
+  "description": "Sell4me Store (identity).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "slug",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "unique": true
+   },
+   {
+    "name": "name",
+    "type": "string",
+    "max_length": 150,
+    "required": false
+   },
+   {
+    "name": "legal_name",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3,
+    "required": false,
+    "default": "NGN"
+   },
+   {
+    "name": "country",
+    "type": "string",
+    "max_length": 2,
+    "required": false,
+    "default": "NG"
+   },
+   {
+    "name": "timezone_name",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "default": "UTC"
+   },
+   {
+    "name": "weight_unit",
+    "type": "string",
+    "max_length": 8,
+    "required": false,
+    "default": "kg"
+   },
+   {
+    "name": "email",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "phone",
+    "type": "string",
+    "max_length": 40
+   },
+   {
+    "name": "support_email",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "address_line1",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "address_line2",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "city",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "province",
+    "type": "string",
+    "max_length": 100
+   },
+   {
+    "name": "postal_code",
+    "type": "string",
+    "max_length": 20
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "draft"
+   },
+   {
+    "name": "onboarding_completed",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "launched_at",
+    "type": "datetime"
+   },
+   {
+    "name": "maintenance_enabled",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "maintenance_title",
+    "type": "string",
+    "max_length": 120
+   },
+   {
+    "name": "maintenance_message",
+    "type": "text"
+   },
+   {
+    "name": "maintenance_ends_at",
+    "type": "datetime"
+   },
+   {
+    "name": "help_desk_enabled",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "help_desk_greeting",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "owner_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "help_secret",
+    "type": "string",
+    "max_length": 64
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "identity"
+  ]
+ },
+ {
+  "name": "themes",
+  "description": "Sell4me Theme (platform).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "name",
+    "type": "string",
+    "max_length": 100,
+    "required": false,
+    "default": "Default"
+   },
+   {
+    "name": "is_active",
+    "type": "boolean",
+    "required": false,
+    "default": false
+   },
+   {
+    "name": "logo_url",
+    "type": "string",
+    "max_length": 1000
+   },
+   {
+    "name": "favicon_url",
+    "type": "string",
+    "max_length": 1000
+   },
+   {
+    "name": "color_primary",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "#111827"
+   },
+   {
+    "name": "color_accent",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "#2563eb"
+   },
+   {
+    "name": "color_background",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "#ffffff"
+   },
+   {
+    "name": "color_surface",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "#f9fafb"
+   },
+   {
+    "name": "color_text",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "#111827"
+   },
+   {
+    "name": "color_muted",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "#6b7280"
+   },
+   {
+    "name": "color_border",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "#e5e7eb"
+   },
+   {
+    "name": "font_heading",
+    "type": "string",
+    "max_length": 80,
+    "required": false,
+    "default": "Inter"
+   },
+   {
+    "name": "font_body",
+    "type": "string",
+    "max_length": 80,
+    "required": false,
+    "default": "Inter"
+   },
+   {
+    "name": "corner_style",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "default": "soft"
+   },
+   {
+    "name": "style",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "sections",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "header_links",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "footer_links",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "social_links",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "announcement",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "footer_text",
+    "type": "text"
+   },
+   {
+    "name": "seo_title",
+    "type": "string",
+    "max_length": 200
+   },
+   {
+    "name": "seo_description",
+    "type": "string",
+    "max_length": 400
+   },
+   {
+    "name": "og_image_url",
+    "type": "string",
+    "max_length": 1000
+   },
+   {
+    "name": "robots_policy",
+    "type": "string",
+    "max_length": 32,
+    "required": false,
+    "default": "index,follow"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "platform"
+  ]
+ },
+ {
+  "name": "variant_option_values",
+  "description": "Sell4me VariantOptionValue (catalog).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "variant_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "option_value_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "catalog"
+  ]
+ },
+ {
+  "name": "webhook_deliveries",
+  "description": "Sell4me WebhookDelivery (platform).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "webhook_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "event",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "event_id",
+    "type": "string",
+    "max_length": 64,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "payload",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "pending"
+   },
+   {
+    "name": "attempt",
+    "type": "integer",
+    "required": false,
+    "default": 1
+   },
+   {
+    "name": "status_code",
+    "type": "integer"
+   },
+   {
+    "name": "response_body",
+    "type": "text"
+   },
+   {
+    "name": "error",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "duration_ms",
+    "type": "integer"
+   },
+   {
+    "name": "next_attempt_at",
+    "type": "datetime",
+    "indexed": true
+   },
+   {
+    "name": "delivered_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "platform"
+  ]
+ },
+ {
+  "name": "webhook_events",
+  "description": "Sell4me WebhookEvent (finance).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "provider",
+    "type": "string",
+    "max_length": 24,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "event_id",
+    "type": "string",
+    "max_length": 255,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "event_type",
+    "type": "string",
+    "max_length": 100,
+    "required": false,
+    "indexed": true
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true
+   },
+   {
+    "name": "payload",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 16,
+    "required": false,
+    "indexed": true,
+    "default": "received"
+   },
+   {
+    "name": "error",
+    "type": "text"
+   },
+   {
+    "name": "attempts",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "processed_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "finance"
+  ]
+ },
+ {
+  "name": "webhooks",
+  "description": "Sell4me Webhook (platform).",
+  "fields": [
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   },
+   {
+    "name": "store_id",
+    "type": "integer",
+    "indexed": true,
+    "required": false
+   },
+   {
+    "name": "url",
+    "type": "string",
+    "max_length": 1000,
+    "required": false
+   },
+   {
+    "name": "events",
+    "type": "json",
+    "required": false
+   },
+   {
+    "name": "description",
+    "type": "string",
+    "max_length": 300
+   },
+   {
+    "name": "secret",
+    "type": "string",
+    "max_length": 64,
+    "required": false
+   },
+   {
+    "name": "is_active",
+    "type": "boolean",
+    "required": false,
+    "default": true
+   },
+   {
+    "name": "consecutive_failures",
+    "type": "integer",
+    "required": false,
+    "default": 0
+   },
+   {
+    "name": "disabled_at",
+    "type": "datetime"
+   },
+   {
+    "name": "last_delivery_at",
+    "type": "datetime"
+   },
+   {
+    "name": "last_status_code",
+    "type": "integer"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "platform"
+  ]
+ }
+]

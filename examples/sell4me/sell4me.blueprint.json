@@ -1,0 +1,8393 @@
+{
+ "format": "pawabase.blueprint",
+ "version": 1,
+ "name": "Sell4me",
+ "description": "Multi-tenant commerce: merchant dashboard API, hosted storefront API, checkout and payments, POS, help desk.",
+ "source": {
+  "generator": "examples/sell4me/blueprint/build.py"
+ },
+ "definitions": {
+  "resources": [
+   {
+    "name": "abandoned_carts",
+    "description": "Sell4me AbandonedCart (commerce).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "cart_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "customer_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "email",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "value_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3,
+      "required": false,
+      "default": "NGN"
+     },
+     {
+      "name": "item_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "recovery_status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "pending"
+     },
+     {
+      "name": "recovery_token",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "notified_at",
+      "type": "datetime"
+     },
+     {
+      "name": "recovered_at",
+      "type": "datetime"
+     },
+     {
+      "name": "recovered_order_id",
+      "type": "integer",
+      "indexed": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "commerce"
+    ]
+   },
+   {
+    "name": "api_keys",
+    "description": "Sell4me ApiKey (platform).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "max_length": 150,
+      "required": false
+     },
+     {
+      "name": "prefix",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "key_hash",
+      "type": "string",
+      "max_length": 128,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "scopes",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "last_used_at",
+      "type": "datetime"
+     },
+     {
+      "name": "last_used_ip",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "request_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "expires_at",
+      "type": "datetime"
+     },
+     {
+      "name": "revoked_at",
+      "type": "datetime"
+     },
+     {
+      "name": "rotated_from_id",
+      "type": "integer"
+     },
+     {
+      "name": "created_by_id",
+      "type": "integer",
+      "indexed": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "platform"
+    ]
+   },
+   {
+    "name": "audit_logs",
+    "description": "Sell4me AuditLog (platform).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "actor_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "actor_label",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "action",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "resource_type",
+      "type": "string",
+      "max_length": 48,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "resource_id",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "summary",
+      "type": "string",
+      "max_length": 500,
+      "required": false
+     },
+     {
+      "name": "changes",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "ip_address",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "user_agent",
+      "type": "string",
+      "max_length": 500
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "platform"
+    ]
+   },
+   {
+    "name": "campaigns",
+    "description": "Sell4me Campaign (marketing).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "max_length": 200,
+      "required": false
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "discount"
+     },
+     {
+      "name": "description",
+      "type": "text"
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "draft"
+     },
+     {
+      "name": "segment_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "discount_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "product_ids",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "starts_at",
+      "type": "datetime"
+     },
+     {
+      "name": "ends_at",
+      "type": "datetime"
+     },
+     {
+      "name": "budget_minor",
+      "type": "integer"
+     },
+     {
+      "name": "spend_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "orders_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "revenue_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "recipients_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "recovered_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "last_run_at",
+      "type": "datetime"
+     },
+     {
+      "name": "created_by_id",
+      "type": "integer",
+      "indexed": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "marketing"
+    ]
+   },
+   {
+    "name": "cart_items",
+    "description": "Sell4me CartItem (commerce).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "cart_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "variant_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "quantity",
+      "type": "integer",
+      "required": false,
+      "default": 1
+     },
+     {
+      "name": "unit_price_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "commerce"
+    ]
+   },
+   {
+    "name": "carts",
+    "description": "Sell4me Cart (commerce).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "token",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "customer_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "email",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3,
+      "required": false,
+      "default": "NGN"
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "open"
+     },
+     {
+      "name": "discount_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "discount_code",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "last_activity_at",
+      "type": "datetime"
+     },
+     {
+      "name": "reserved_at",
+      "type": "datetime"
+     },
+     {
+      "name": "converted_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "commerce"
+    ]
+   },
+   {
+    "name": "collection_products",
+    "description": "Sell4me CollectionProduct (catalog).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "collection_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "product_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "position",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "catalog"
+    ]
+   },
+   {
+    "name": "collections",
+    "description": "Sell4me Collection (catalog).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "max_length": 200,
+      "required": false
+     },
+     {
+      "name": "slug",
+      "type": "string",
+      "max_length": 200,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "description",
+      "type": "text",
+      "required": false,
+      "default": ""
+     },
+     {
+      "name": "image_url",
+      "type": "string",
+      "max_length": 1000
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "default": "manual"
+     },
+     {
+      "name": "rules",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "is_published",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     },
+     {
+      "name": "position",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "seo_title",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "seo_description",
+      "type": "string",
+      "max_length": 400
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "catalog"
+    ]
+   },
+   {
+    "name": "customer_addresses",
+    "description": "Sell4me CustomerAddress (commerce).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "customer_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "label",
+      "type": "string",
+      "max_length": 60
+     },
+     {
+      "name": "first_name",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "last_name",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "company",
+      "type": "string",
+      "max_length": 150
+     },
+     {
+      "name": "line1",
+      "type": "string",
+      "max_length": 200,
+      "required": false
+     },
+     {
+      "name": "line2",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "city",
+      "type": "string",
+      "max_length": 100,
+      "required": false
+     },
+     {
+      "name": "province",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "postal_code",
+      "type": "string",
+      "max_length": 20
+     },
+     {
+      "name": "country",
+      "type": "string",
+      "max_length": 2,
+      "required": false,
+      "default": "US"
+     },
+     {
+      "name": "phone",
+      "type": "string",
+      "max_length": 40
+     },
+     {
+      "name": "is_default",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "commerce"
+    ]
+   },
+   {
+    "name": "customers",
+    "description": "Sell4me Customer (commerce).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "email",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "first_name",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "last_name",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "phone",
+      "type": "string",
+      "max_length": 40
+     },
+     {
+      "name": "password",
+      "type": "string",
+      "max_length": 128
+     },
+     {
+      "name": "accepts_marketing",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "tags",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "note",
+      "type": "text"
+     },
+     {
+      "name": "orders_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "total_spent_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "first_order_at",
+      "type": "datetime"
+     },
+     {
+      "name": "last_order_at",
+      "type": "datetime"
+     },
+     {
+      "name": "risk_score",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "commerce"
+    ]
+   },
+   {
+    "name": "daily_stats",
+    "description": "Sell4me DailyStat (analytics).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "date",
+      "type": "date",
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "orders_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "paid_orders_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "cancelled_orders_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "gross_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "discount_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "shipping_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "tax_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "refund_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "provider_fee_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "platform_fee_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "net_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "new_customers",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "returning_customers",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "sessions",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "product_views",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "add_to_carts",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "checkouts_started",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "payments_succeeded",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "payments_failed",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "analytics"
+    ]
+   },
+   {
+    "name": "designs",
+    "description": "Sell4me Design (builder).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "max_length": 200,
+      "required": false
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "poster"
+     },
+     {
+      "name": "width",
+      "type": "integer",
+      "required": false,
+      "default": 1080
+     },
+     {
+      "name": "height",
+      "type": "integer",
+      "required": false,
+      "default": 1080
+     },
+     {
+      "name": "data",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "thumbnail",
+      "type": "text"
+     },
+     {
+      "name": "product_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "discount_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "created_by_id",
+      "type": "integer",
+      "indexed": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "builder"
+    ]
+   },
+   {
+    "name": "discount_usages",
+    "description": "Sell4me DiscountUsage (marketing).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "discount_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "customer_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "amount_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "marketing"
+    ]
+   },
+   {
+    "name": "discounts",
+    "description": "Sell4me Discount (marketing).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "code",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "description",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "default": "percentage"
+     },
+     {
+      "name": "value",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "scope",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "default": "order"
+     },
+     {
+      "name": "scope_ids",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "minimum_order_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "maximum_discount_minor",
+      "type": "integer"
+     },
+     {
+      "name": "usage_limit",
+      "type": "integer"
+     },
+     {
+      "name": "per_customer_limit",
+      "type": "integer"
+     },
+     {
+      "name": "usage_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "starts_at",
+      "type": "datetime"
+     },
+     {
+      "name": "ends_at",
+      "type": "datetime"
+     },
+     {
+      "name": "is_active",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     },
+     {
+      "name": "segment_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "is_automatic",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "marketing"
+    ]
+   },
+   {
+    "name": "domains",
+    "description": "Sell4me Domain (platform).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "hostname",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "is_platform",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "is_primary",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "pending"
+     },
+     {
+      "name": "verification_token",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "verified_at",
+      "type": "datetime"
+     },
+     {
+      "name": "last_checked_at",
+      "type": "datetime"
+     },
+     {
+      "name": "check_message",
+      "type": "string",
+      "max_length": 500
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "platform"
+    ]
+   },
+   {
+    "name": "export_jobs",
+    "description": "Sell4me ExportJob (analytics).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "requested_by_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "resource",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "filters",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "format",
+      "type": "string",
+      "max_length": 8,
+      "required": false,
+      "default": "csv"
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "queued"
+     },
+     {
+      "name": "row_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "file_path",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "file_size",
+      "type": "integer"
+     },
+     {
+      "name": "error",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "started_at",
+      "type": "datetime"
+     },
+     {
+      "name": "completed_at",
+      "type": "datetime"
+     },
+     {
+      "name": "expires_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "analytics"
+    ]
+   },
+   {
+    "name": "help_messages",
+    "description": "Sell4me HelpMessage (support).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "ticket_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "from_staff",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "author_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "body",
+      "type": "text",
+      "required": false
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "support"
+    ]
+   },
+   {
+    "name": "help_tickets",
+    "description": "Sell4me HelpTicket (support).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "token",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "customer_name",
+      "type": "string",
+      "max_length": 120,
+      "required": false
+     },
+     {
+      "name": "customer_email",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "opt_in_email",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "subject",
+      "type": "string",
+      "max_length": 200,
+      "required": false
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "open"
+     },
+     {
+      "name": "last_message_at",
+      "type": "datetime",
+      "required": false
+     },
+     {
+      "name": "closed_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "support"
+    ]
+   },
+   {
+    "name": "inventory_movements",
+    "description": "Sell4me InventoryMovement (catalog).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "variant_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "delta",
+      "type": "integer",
+      "required": false
+     },
+     {
+      "name": "balance_after",
+      "type": "integer",
+      "required": false
+     },
+     {
+      "name": "reason",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "note",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "reference_type",
+      "type": "string",
+      "max_length": 40
+     },
+     {
+      "name": "reference_id",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "actor_id",
+      "type": "integer",
+      "indexed": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "catalog"
+    ]
+   },
+   {
+    "name": "invitations",
+    "description": "Sell4me Invitation (identity).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "email",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "role",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "default": "support"
+     },
+     {
+      "name": "token",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "invited_by_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "expires_at",
+      "type": "datetime",
+      "required": false
+     },
+     {
+      "name": "accepted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "revoked_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "identity"
+    ]
+   },
+   {
+    "name": "ledger_entries",
+    "description": "Sell4me LedgerEntry (finance).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "amount_minor",
+      "type": "integer",
+      "required": false
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3,
+      "required": false,
+      "default": "NGN"
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "payment_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "refund_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "payout_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "description",
+      "type": "string",
+      "max_length": 255,
+      "required": false
+     },
+     {
+      "name": "metadata",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "occurred_at",
+      "type": "datetime",
+      "required": false,
+      "indexed": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "finance"
+    ]
+   },
+   {
+    "name": "notifications",
+    "description": "Sell4me Notification (platform).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "user_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 48,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "max_length": 200,
+      "required": false
+     },
+     {
+      "name": "body",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "url",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "level",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "default": "info"
+     },
+     {
+      "name": "required_permission",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "read_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "platform"
+    ]
+   },
+   {
+    "name": "order_addresses",
+    "description": "Sell4me OrderAddress (commerce).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 16,
+      "required": false
+     },
+     {
+      "name": "first_name",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "last_name",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "company",
+      "type": "string",
+      "max_length": 150
+     },
+     {
+      "name": "line1",
+      "type": "string",
+      "max_length": 200,
+      "required": false
+     },
+     {
+      "name": "line2",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "city",
+      "type": "string",
+      "max_length": 100,
+      "required": false
+     },
+     {
+      "name": "province",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "postal_code",
+      "type": "string",
+      "max_length": 20
+     },
+     {
+      "name": "country",
+      "type": "string",
+      "max_length": 2,
+      "required": false,
+      "default": "US"
+     },
+     {
+      "name": "phone",
+      "type": "string",
+      "max_length": 40
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "commerce"
+    ]
+   },
+   {
+    "name": "order_events",
+    "description": "Sell4me OrderEvent (commerce).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 48,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "message",
+      "type": "string",
+      "max_length": 500,
+      "required": false
+     },
+     {
+      "name": "data",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "actor_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "is_customer_visible",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "commerce"
+    ]
+   },
+   {
+    "name": "order_items",
+    "description": "Sell4me OrderItem (commerce).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "variant_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "product_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "max_length": 255,
+      "required": false
+     },
+     {
+      "name": "variant_title",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "sku",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "image_url",
+      "type": "string",
+      "max_length": 1000
+     },
+     {
+      "name": "quantity",
+      "type": "integer",
+      "required": false,
+      "default": 1
+     },
+     {
+      "name": "unit_price_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "discount_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "tax_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "total_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "cost_minor",
+      "type": "integer"
+     },
+     {
+      "name": "quantity_fulfilled",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "quantity_refunded",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "requires_shipping",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "commerce"
+    ]
+   },
+   {
+    "name": "orders",
+    "description": "Sell4me Order (commerce).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "number",
+      "type": "integer",
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "customer_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "email",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "phone",
+      "type": "string",
+      "max_length": 40
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3,
+      "required": false,
+      "default": "NGN"
+     },
+     {
+      "name": "subtotal_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "discount_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "shipping_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "tax_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "total_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "refunded_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "indexed": true,
+      "default": "pending"
+     },
+     {
+      "name": "payment_status",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "indexed": true,
+      "default": "unpaid"
+     },
+     {
+      "name": "fulfilment_status",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "indexed": true,
+      "default": "unfulfilled"
+     },
+     {
+      "name": "discount_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "discount_code",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "shipping_method",
+      "type": "string",
+      "max_length": 120
+     },
+     {
+      "name": "tracking_number",
+      "type": "string",
+      "max_length": 120
+     },
+     {
+      "name": "tracking_url",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "note",
+      "type": "text"
+     },
+     {
+      "name": "tags",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "source",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "storefront"
+     },
+     {
+      "name": "campaign_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "risk_score",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "risk_flags",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "cart_token",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "client_ip",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "pos_session_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "placed_at",
+      "type": "datetime"
+     },
+     {
+      "name": "paid_at",
+      "type": "datetime"
+     },
+     {
+      "name": "fulfilled_at",
+      "type": "datetime"
+     },
+     {
+      "name": "cancelled_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "commerce"
+    ]
+   },
+   {
+    "name": "page_revisions",
+    "description": "Sell4me PageRevision (builder).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "page_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "tree",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "reason",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "default": "autosave"
+     },
+     {
+      "name": "label",
+      "type": "string",
+      "max_length": 120
+     },
+     {
+      "name": "actor_id",
+      "type": "integer",
+      "indexed": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "builder"
+    ]
+   },
+   {
+    "name": "payment_attempts",
+    "description": "Sell4me PaymentAttempt (finance).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "payment_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "provider",
+      "type": "string",
+      "max_length": 24,
+      "required": false
+     },
+     {
+      "name": "reference",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "amount_minor",
+      "type": "integer",
+      "required": false
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3,
+      "required": false,
+      "default": "NGN"
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "pending"
+     },
+     {
+      "name": "error_code",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "error_message",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "client_ip",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "user_agent",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "instrument_fingerprint",
+      "type": "string",
+      "max_length": 128
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "finance"
+    ]
+   },
+   {
+    "name": "payment_provider_accounts",
+    "description": "Sell4me PaymentProviderAccount (finance).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "provider",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "label",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "public_key",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "secret_key_encrypted",
+      "type": "text"
+     },
+     {
+      "name": "webhook_secret_encrypted",
+      "type": "text"
+     },
+     {
+      "name": "provider_account_id",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "bank_code",
+      "type": "string",
+      "max_length": 16
+     },
+     {
+      "name": "bank_name",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "account_name",
+      "type": "string",
+      "max_length": 150
+     },
+     {
+      "name": "account_number_last4",
+      "type": "string",
+      "max_length": 4
+     },
+     {
+      "name": "recipient_code",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "is_test_mode",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     },
+     {
+      "name": "is_default",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "pending"
+     },
+     {
+      "name": "status_message",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "capabilities",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "last_verified_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "finance"
+    ]
+   },
+   {
+    "name": "payments",
+    "description": "Sell4me Payment (finance).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "provider",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "provider_account_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "provider_reference",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "reference",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3,
+      "required": false,
+      "default": "NGN"
+     },
+     {
+      "name": "amount_minor",
+      "type": "integer",
+      "required": false
+     },
+     {
+      "name": "provider_fee_minor",
+      "type": "integer"
+     },
+     {
+      "name": "platform_fee_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "refunded_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "pending"
+     },
+     {
+      "name": "method",
+      "type": "string",
+      "max_length": 40
+     },
+     {
+      "name": "card_brand",
+      "type": "string",
+      "max_length": 24
+     },
+     {
+      "name": "card_last4",
+      "type": "string",
+      "max_length": 4
+     },
+     {
+      "name": "failure_code",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "failure_message",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "raw_response",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "authorized_at",
+      "type": "datetime"
+     },
+     {
+      "name": "captured_at",
+      "type": "datetime"
+     },
+     {
+      "name": "failed_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "finance"
+    ]
+   },
+   {
+    "name": "payouts",
+    "description": "Sell4me Payout (finance).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "payment_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "provider",
+      "type": "string",
+      "max_length": 24,
+      "required": false
+     },
+     {
+      "name": "provider_account_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "provider_reference",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "amount_minor",
+      "type": "integer",
+      "required": false
+     },
+     {
+      "name": "platform_fee_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3,
+      "required": false,
+      "default": "NGN"
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "indexed": true,
+      "default": "pending"
+     },
+     {
+      "name": "destination",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "period_start",
+      "type": "datetime"
+     },
+     {
+      "name": "period_end",
+      "type": "datetime"
+     },
+     {
+      "name": "initiated_at",
+      "type": "datetime"
+     },
+     {
+      "name": "expected_at",
+      "type": "datetime"
+     },
+     {
+      "name": "paid_at",
+      "type": "datetime"
+     },
+     {
+      "name": "failure_message",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "raw_response",
+      "type": "json",
+      "required": false
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "finance"
+    ]
+   },
+   {
+    "name": "pos_devices",
+    "description": "Sell4me PosDevice (pos).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "label",
+      "type": "string",
+      "max_length": 100,
+      "required": false
+     },
+     {
+      "name": "token",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "pos_domain",
+      "type": "string",
+      "max_length": 253,
+      "indexed": true
+     },
+     {
+      "name": "pos_domain_status",
+      "type": "string",
+      "max_length": 16,
+      "indexed": true
+     },
+     {
+      "name": "pos_domain_verification_token",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "pos_domain_verified_at",
+      "type": "datetime"
+     },
+     {
+      "name": "pos_domain_last_checked_at",
+      "type": "datetime"
+     },
+     {
+      "name": "pos_domain_check_message",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "last_operator_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "receipt_header",
+      "type": "text"
+     },
+     {
+      "name": "receipt_footer",
+      "type": "text"
+     },
+     {
+      "name": "print_receipt_auto",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "is_active",
+      "type": "boolean",
+      "required": false,
+      "indexed": true,
+      "default": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "pos"
+    ]
+   },
+   {
+    "name": "pos_session_items",
+    "description": "Sell4me PosSessionItem (pos).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "session_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "variant_id",
+      "type": "integer"
+     },
+     {
+      "name": "product_title",
+      "type": "string",
+      "max_length": 255,
+      "required": false
+     },
+     {
+      "name": "variant_title",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "sku",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "quantity_sold",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "quantity_refunded",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "gross_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "refunded_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "pos"
+    ]
+   },
+   {
+    "name": "pos_sessions",
+    "description": "Sell4me PosSession (pos).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "device_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "opened_by_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "closed_by_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "open"
+     },
+     {
+      "name": "opening_float_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "closing_count_minor",
+      "type": "integer"
+     },
+     {
+      "name": "expected_cash_minor",
+      "type": "integer"
+     },
+     {
+      "name": "total_sales_minor",
+      "type": "integer"
+     },
+     {
+      "name": "total_refunds_minor",
+      "type": "integer"
+     },
+     {
+      "name": "order_count",
+      "type": "integer"
+     },
+     {
+      "name": "cash_tendered_minor",
+      "type": "integer"
+     },
+     {
+      "name": "card_tendered_minor",
+      "type": "integer"
+     },
+     {
+      "name": "note",
+      "type": "text"
+     },
+     {
+      "name": "opened_at",
+      "type": "datetime",
+      "required": false
+     },
+     {
+      "name": "closed_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "pos"
+    ]
+   },
+   {
+    "name": "product_images",
+    "description": "Sell4me ProductImage (catalog).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "product_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "variant_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "url",
+      "type": "string",
+      "max_length": 1000,
+      "required": false
+     },
+     {
+      "name": "storage_key",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "alt",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "position",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "variants",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "width",
+      "type": "integer"
+     },
+     {
+      "name": "height",
+      "type": "integer"
+     },
+     {
+      "name": "placeholder",
+      "type": "text"
+     },
+     {
+      "name": "dominant_color",
+      "type": "string",
+      "max_length": 16
+     },
+     {
+      "name": "processed_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "catalog"
+    ]
+   },
+   {
+    "name": "product_option_values",
+    "description": "Sell4me ProductOptionValue (catalog).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "option_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "value",
+      "type": "string",
+      "max_length": 100,
+      "required": false
+     },
+     {
+      "name": "position",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "catalog"
+    ]
+   },
+   {
+    "name": "product_options",
+    "description": "Sell4me ProductOption (catalog).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "product_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "max_length": 60,
+      "required": false
+     },
+     {
+      "name": "position",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "catalog"
+    ]
+   },
+   {
+    "name": "product_variants",
+    "description": "Sell4me ProductVariant (catalog).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "product_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "default": "Default"
+     },
+     {
+      "name": "sku",
+      "type": "string",
+      "max_length": 100,
+      "indexed": true
+     },
+     {
+      "name": "barcode",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "price_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "compare_at_minor",
+      "type": "integer"
+     },
+     {
+      "name": "cost_minor",
+      "type": "integer"
+     },
+     {
+      "name": "stock",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "reserved",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "track_inventory",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     },
+     {
+      "name": "allow_backorder",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "low_stock_threshold",
+      "type": "integer",
+      "required": false,
+      "default": 5
+     },
+     {
+      "name": "weight_grams",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "length_mm",
+      "type": "integer"
+     },
+     {
+      "name": "width_mm",
+      "type": "integer"
+     },
+     {
+      "name": "height_mm",
+      "type": "integer"
+     },
+     {
+      "name": "position",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "is_default",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "catalog"
+    ]
+   },
+   {
+    "name": "products",
+    "description": "Sell4me Product (catalog).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "max_length": 255,
+      "required": false
+     },
+     {
+      "name": "slug",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "description",
+      "type": "text",
+      "required": false,
+      "default": ""
+     },
+     {
+      "name": "summary",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "draft"
+     },
+     {
+      "name": "product_type",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "vendor",
+      "type": "string",
+      "max_length": 150
+     },
+     {
+      "name": "tags",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "requires_shipping",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     },
+     {
+      "name": "is_taxable",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     },
+     {
+      "name": "seo_title",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "seo_description",
+      "type": "string",
+      "max_length": 400
+     },
+     {
+      "name": "view_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "cart_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "purchase_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "published_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "catalog"
+    ]
+   },
+   {
+    "name": "refunds",
+    "description": "Sell4me Refund (finance).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "payment_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "reference",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "provider",
+      "type": "string",
+      "max_length": 24,
+      "required": false
+     },
+     {
+      "name": "provider_reference",
+      "type": "string",
+      "max_length": 255,
+      "indexed": true
+     },
+     {
+      "name": "amount_minor",
+      "type": "integer",
+      "required": false
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3,
+      "required": false,
+      "default": "NGN"
+     },
+     {
+      "name": "reason",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "note",
+      "type": "text"
+     },
+     {
+      "name": "line_items",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "restock",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "pending"
+     },
+     {
+      "name": "failure_message",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "platform_fee_reversed",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "actor_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "processed_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "finance"
+    ]
+   },
+   {
+    "name": "segments",
+    "description": "Sell4me Segment (marketing).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "max_length": 150,
+      "required": false
+     },
+     {
+      "name": "description",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "rules",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "is_system",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "cached_count",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "counted_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "marketing"
+    ]
+   },
+   {
+    "name": "shipping_rates",
+    "description": "Sell4me ShippingRate (platform).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "zone_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "max_length": 150,
+      "required": false
+     },
+     {
+      "name": "description",
+      "type": "string",
+      "max_length": 300
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "default": "flat"
+     },
+     {
+      "name": "price_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "min_weight_grams",
+      "type": "integer"
+     },
+     {
+      "name": "max_weight_grams",
+      "type": "integer"
+     },
+     {
+      "name": "min_subtotal_minor",
+      "type": "integer"
+     },
+     {
+      "name": "max_subtotal_minor",
+      "type": "integer"
+     },
+     {
+      "name": "delivery_estimate",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "is_active",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     },
+     {
+      "name": "position",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "platform"
+    ]
+   },
+   {
+    "name": "shipping_zones",
+    "description": "Sell4me ShippingZone (platform).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "max_length": 150,
+      "required": false
+     },
+     {
+      "name": "countries",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "position",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "platform"
+    ]
+   },
+   {
+    "name": "store_members",
+    "description": "Sell4me StoreMember (identity).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "user_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "role",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "default": "support"
+     },
+     {
+      "name": "extra_permissions",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "denied_permissions",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "default": "active"
+     },
+     {
+      "name": "last_seen_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "identity"
+    ]
+   },
+   {
+    "name": "storefront_events",
+    "description": "Sell4me StorefrontEvent (analytics).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "product_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "variant_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "collection_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "order_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "session_token",
+      "type": "string",
+      "max_length": 64,
+      "indexed": true
+     },
+     {
+      "name": "value_minor",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "quantity",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "referrer",
+      "type": "string",
+      "max_length": 500
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "analytics"
+    ]
+   },
+   {
+    "name": "storefront_pages",
+    "description": "Sell4me StorefrontPage (builder).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "max_length": 200,
+      "required": false
+     },
+     {
+      "name": "slug",
+      "type": "string",
+      "max_length": 200,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "kind",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "indexed": true,
+      "default": "page"
+     },
+     {
+      "name": "draft",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "published",
+      "type": "json"
+     },
+     {
+      "name": "is_published",
+      "type": "boolean",
+      "required": false,
+      "indexed": true,
+      "default": false
+     },
+     {
+      "name": "published_at",
+      "type": "datetime"
+     },
+     {
+      "name": "seo_title",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "seo_description",
+      "type": "string",
+      "max_length": 400
+     },
+     {
+      "name": "og_image_url",
+      "type": "string",
+      "max_length": 1000
+     },
+     {
+      "name": "noindex",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "settings",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "created_by_id",
+      "type": "integer",
+      "indexed": true
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "builder"
+    ]
+   },
+   {
+    "name": "stores",
+    "description": "Sell4me Store (identity).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "slug",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "unique": true
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "max_length": 150,
+      "required": false
+     },
+     {
+      "name": "legal_name",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3,
+      "required": false,
+      "default": "NGN"
+     },
+     {
+      "name": "country",
+      "type": "string",
+      "max_length": 2,
+      "required": false,
+      "default": "NG"
+     },
+     {
+      "name": "timezone_name",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "default": "UTC"
+     },
+     {
+      "name": "weight_unit",
+      "type": "string",
+      "max_length": 8,
+      "required": false,
+      "default": "kg"
+     },
+     {
+      "name": "email",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "phone",
+      "type": "string",
+      "max_length": 40
+     },
+     {
+      "name": "support_email",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "address_line1",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "address_line2",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "city",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "province",
+      "type": "string",
+      "max_length": 100
+     },
+     {
+      "name": "postal_code",
+      "type": "string",
+      "max_length": 20
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "draft"
+     },
+     {
+      "name": "onboarding_completed",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "launched_at",
+      "type": "datetime"
+     },
+     {
+      "name": "maintenance_enabled",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "maintenance_title",
+      "type": "string",
+      "max_length": 120
+     },
+     {
+      "name": "maintenance_message",
+      "type": "text"
+     },
+     {
+      "name": "maintenance_ends_at",
+      "type": "datetime"
+     },
+     {
+      "name": "help_desk_enabled",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "help_desk_greeting",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "owner_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "help_secret",
+      "type": "string",
+      "max_length": 64
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "identity"
+    ]
+   },
+   {
+    "name": "themes",
+    "description": "Sell4me Theme (platform).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "max_length": 100,
+      "required": false,
+      "default": "Default"
+     },
+     {
+      "name": "is_active",
+      "type": "boolean",
+      "required": false,
+      "default": false
+     },
+     {
+      "name": "logo_url",
+      "type": "string",
+      "max_length": 1000
+     },
+     {
+      "name": "favicon_url",
+      "type": "string",
+      "max_length": 1000
+     },
+     {
+      "name": "color_primary",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "#111827"
+     },
+     {
+      "name": "color_accent",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "#2563eb"
+     },
+     {
+      "name": "color_background",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "#ffffff"
+     },
+     {
+      "name": "color_surface",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "#f9fafb"
+     },
+     {
+      "name": "color_text",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "#111827"
+     },
+     {
+      "name": "color_muted",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "#6b7280"
+     },
+     {
+      "name": "color_border",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "#e5e7eb"
+     },
+     {
+      "name": "font_heading",
+      "type": "string",
+      "max_length": 80,
+      "required": false,
+      "default": "Inter"
+     },
+     {
+      "name": "font_body",
+      "type": "string",
+      "max_length": 80,
+      "required": false,
+      "default": "Inter"
+     },
+     {
+      "name": "corner_style",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "default": "soft"
+     },
+     {
+      "name": "style",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "sections",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "header_links",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "footer_links",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "social_links",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "announcement",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "footer_text",
+      "type": "text"
+     },
+     {
+      "name": "seo_title",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "seo_description",
+      "type": "string",
+      "max_length": 400
+     },
+     {
+      "name": "og_image_url",
+      "type": "string",
+      "max_length": 1000
+     },
+     {
+      "name": "robots_policy",
+      "type": "string",
+      "max_length": 32,
+      "required": false,
+      "default": "index,follow"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "platform"
+    ]
+   },
+   {
+    "name": "variant_option_values",
+    "description": "Sell4me VariantOptionValue (catalog).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "variant_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "option_value_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "catalog"
+    ]
+   },
+   {
+    "name": "webhook_deliveries",
+    "description": "Sell4me WebhookDelivery (platform).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "webhook_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "event",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "event_id",
+      "type": "string",
+      "max_length": 64,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "payload",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "pending"
+     },
+     {
+      "name": "attempt",
+      "type": "integer",
+      "required": false,
+      "default": 1
+     },
+     {
+      "name": "status_code",
+      "type": "integer"
+     },
+     {
+      "name": "response_body",
+      "type": "text"
+     },
+     {
+      "name": "error",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "duration_ms",
+      "type": "integer"
+     },
+     {
+      "name": "next_attempt_at",
+      "type": "datetime",
+      "indexed": true
+     },
+     {
+      "name": "delivered_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "platform"
+    ]
+   },
+   {
+    "name": "webhook_events",
+    "description": "Sell4me WebhookEvent (finance).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "provider",
+      "type": "string",
+      "max_length": 24,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "event_id",
+      "type": "string",
+      "max_length": 255,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "event_type",
+      "type": "string",
+      "max_length": 100,
+      "required": false,
+      "indexed": true
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true
+     },
+     {
+      "name": "payload",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 16,
+      "required": false,
+      "indexed": true,
+      "default": "received"
+     },
+     {
+      "name": "error",
+      "type": "text"
+     },
+     {
+      "name": "attempts",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "processed_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "finance"
+    ]
+   },
+   {
+    "name": "webhooks",
+    "description": "Sell4me Webhook (platform).",
+    "fields": [
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     },
+     {
+      "name": "store_id",
+      "type": "integer",
+      "indexed": true,
+      "required": false
+     },
+     {
+      "name": "url",
+      "type": "string",
+      "max_length": 1000,
+      "required": false
+     },
+     {
+      "name": "events",
+      "type": "json",
+      "required": false
+     },
+     {
+      "name": "description",
+      "type": "string",
+      "max_length": 300
+     },
+     {
+      "name": "secret",
+      "type": "string",
+      "max_length": 64,
+      "required": false
+     },
+     {
+      "name": "is_active",
+      "type": "boolean",
+      "required": false,
+      "default": true
+     },
+     {
+      "name": "consecutive_failures",
+      "type": "integer",
+      "required": false,
+      "default": 0
+     },
+     {
+      "name": "disabled_at",
+      "type": "datetime"
+     },
+     {
+      "name": "last_delivery_at",
+      "type": "datetime"
+     },
+     {
+      "name": "last_status_code",
+      "type": "integer"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "platform"
+    ]
+   },
+   {
+    "name": "profiles",
+    "description": "What Sell4me kept on the user (identity itself is Akountz's): name, avatar, timezone, last store, onboarding survey.",
+    "fields": [
+     {
+      "name": "user_id",
+      "type": "string",
+      "max_length": 64,
+      "unique": true
+     },
+     {
+      "name": "email",
+      "type": "string",
+      "max_length": 255,
+      "indexed": true
+     },
+     {
+      "name": "full_name",
+      "type": "string",
+      "max_length": 150
+     },
+     {
+      "name": "avatar_url",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "timezone_name",
+      "type": "string",
+      "max_length": 64,
+      "default": "UTC"
+     },
+     {
+      "name": "last_store_id",
+      "type": "integer"
+     },
+     {
+      "name": "heard_from",
+      "type": "string",
+      "max_length": 32
+     },
+     {
+      "name": "signup_goal",
+      "type": "string",
+      "max_length": 32
+     },
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "identity"
+    ]
+   },
+   {
+    "name": "sandbox_charges",
+    "description": "Charges of the offline sandbox payment provider (development and demos only). Rows, not process memory: functions run in separate workers.",
+    "fields": [
+     {
+      "name": "reference",
+      "type": "string",
+      "max_length": 100,
+      "indexed": true
+     },
+     {
+      "name": "provider_reference",
+      "type": "string",
+      "max_length": 100,
+      "unique": true
+     },
+     {
+      "name": "amount_minor",
+      "type": "integer"
+     },
+     {
+      "name": "currency",
+      "type": "string",
+      "max_length": 3
+     },
+     {
+      "name": "email",
+      "type": "string",
+      "max_length": 255
+     },
+     {
+      "name": "status",
+      "type": "string",
+      "max_length": 20,
+      "default": "pending"
+     },
+     {
+      "name": "metadata",
+      "type": "json"
+     },
+     {
+      "name": "refunded_minor",
+      "type": "integer",
+      "default": 0
+     },
+     {
+      "name": "return_url",
+      "type": "text"
+     },
+     {
+      "name": "cancel_url",
+      "type": "text"
+     },
+     {
+      "name": "deleted_at",
+      "type": "datetime"
+     }
+    ],
+    "operations": {},
+    "events": false,
+    "tags": [
+     "identity"
+    ]
+   }
+  ],
+  "routes": [
+   {
+    "method": "POST",
+    "path": "/account/invitations/accept",
+    "name": "account.accept_invitation",
+    "description": "Accept a staff invitation with its token (the signed-in user joins the store)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "account.accept_invitation",
+    "tags": [
+     "account"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "token",
+      "type": "string",
+      "required": true
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/account/me",
+    "name": "account.me",
+    "description": "The signed-in user, their profile and the stores they work in",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "account.me",
+    "tags": [
+     "account"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "PATCH",
+    "path": "/account/profile",
+    "name": "account.update_profile",
+    "description": "Update the signed-in user's profile",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "account.update_profile",
+    "tags": [
+     "account"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "full_name",
+      "type": "string",
+      "max_length": 150
+     },
+     {
+      "name": "avatar_url",
+      "type": "string",
+      "max_length": 500
+     },
+     {
+      "name": "timezone_name",
+      "type": "string",
+      "max_length": 64
+     },
+     {
+      "name": "heard_from",
+      "type": "string"
+     },
+     {
+      "name": "signup_goal",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/account/stores/{store}/switch",
+    "name": "account.switch_store",
+    "description": "Make a store the one a return visit lands in",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "account.switch_store",
+    "tags": [
+     "account"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/analytics",
+    "name": "analytics.overview",
+    "description": "Headline numbers, the series and top products for a window",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "analytics.overview",
+    "tags": [
+     "analytics"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/analytics/customers",
+    "name": "analytics.customers",
+    "description": "Who is buying and whether they come back. Repeat rate is computed over the *window*: over all time it would flatter every store",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "analytics.customers",
+    "tags": [
+     "analytics"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/analytics/products",
+    "name": "analytics.products",
+    "description": "Product performance for a window",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "analytics.products",
+    "tags": [
+     "analytics"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/analytics/sales",
+    "name": "analytics.sales",
+    "description": "Sales broken down by source, status and payment provider",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "analytics.sales",
+    "tags": [
+     "analytics"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/analytics/series",
+    "name": "analytics.series",
+    "description": "One metric's daily series (revenue, orders, ...)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "analytics.series",
+    "tags": [
+     "analytics"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/api/v1/discounts",
+    "name": "api.discounts",
+    "description": "List discounts (scope `discounts.read`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.discounts",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "POST",
+    "path": "/api/v1/discounts",
+    "name": "api.discount_create",
+    "description": "Create a discount code (scope `discounts.manage`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.discount_create",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "code",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "kind",
+      "type": "string"
+     },
+     {
+      "name": "value",
+      "type": "json"
+     },
+     {
+      "name": "title",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/api/v1/me",
+    "name": "api.me",
+    "description": "What this key is and what it can do: the first call an integrator makes",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.me",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/api/v1/orders",
+    "name": "api.orders",
+    "description": "List orders: keyset pagination (starting_after), because an offset walks the table and shifts under a caller when an order arrives (scope `orders.read`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.orders",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/api/v1/orders/{order_id}",
+    "name": "api.order",
+    "description": "One order (scope `orders.read`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.order",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "POST",
+    "path": "/api/v1/orders/{order_id}/cancel",
+    "name": "api.order_cancel",
+    "description": "Cancel an order (stock is released; a paid order must be refunded instead) (scope `orders.cancel`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.order_cancel",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "reason",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "POST",
+    "path": "/api/v1/orders/{order_id}/deliver",
+    "name": "api.order_deliver",
+    "description": "Mark a shipped order delivered (scope `orders.fulfil`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.order_deliver",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "POST",
+    "path": "/api/v1/orders/{order_id}/fulfil",
+    "name": "api.order_fulfil",
+    "description": "Mark a paid order shipped (scope `orders.fulfil`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.order_fulfil",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "tracking_number",
+      "type": "string"
+     },
+     {
+      "name": "tracking_url",
+      "type": "string"
+     },
+     {
+      "name": "carrier",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/api/v1/products",
+    "name": "api.products",
+    "description": "List products (scope `products.read`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.products",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "POST",
+    "path": "/api/v1/products",
+    "name": "api.product_create",
+    "description": "Create a product with its default variant (scope `products.create`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.product_create",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "name": "slug",
+      "type": "string"
+     },
+     {
+      "name": "description",
+      "type": "text"
+     },
+     {
+      "name": "status",
+      "type": "string"
+     },
+     {
+      "name": "price",
+      "type": "json"
+     },
+     {
+      "name": "compare_at",
+      "type": "json"
+     },
+     {
+      "name": "sku",
+      "type": "string"
+     },
+     {
+      "name": "stock",
+      "type": "integer"
+     },
+     {
+      "name": "track_inventory",
+      "type": "boolean"
+     },
+     {
+      "name": "image_url",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "DELETE",
+    "path": "/api/v1/products/{product_id}",
+    "name": "api.product_archive",
+    "description": "Archive a product: matches the dashboard's delete, and nothing with order history behind it is ever hard-deleted (scope `products.delete`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.product_archive",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/api/v1/products/{product_id}",
+    "name": "api.product",
+    "description": "One product (scope `products.read`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.product",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "PATCH",
+    "path": "/api/v1/products/{product_id}",
+    "name": "api.product_update",
+    "description": "Update a product (price, stock and SKU act on the default variant) (scope `products.update`)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "api.product_update",
+    "tags": [
+     "api"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "name": "slug",
+      "type": "string"
+     },
+     {
+      "name": "description",
+      "type": "text"
+     },
+     {
+      "name": "status",
+      "type": "string"
+     },
+     {
+      "name": "price",
+      "type": "json"
+     },
+     {
+      "name": "compare_at",
+      "type": "json"
+     },
+     {
+      "name": "sku",
+      "type": "string"
+     },
+     {
+      "name": "stock",
+      "type": "integer"
+     },
+     {
+      "name": "track_inventory",
+      "type": "boolean"
+     },
+     {
+      "name": "image_url",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 600,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/collections",
+    "name": "collections.list",
+    "description": "List collections with product counts and the product picker's options",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "collections.list",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/collections",
+    "name": "collections.save",
+    "description": "Create or update a collection (manual or automatic)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "collections.save",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "id",
+      "type": "integer"
+     },
+     {
+      "name": "title",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "slug",
+      "type": "string"
+     },
+     {
+      "name": "description",
+      "type": "text"
+     },
+     {
+      "name": "image_url",
+      "type": "string"
+     },
+     {
+      "name": "kind",
+      "type": "string"
+     },
+     {
+      "name": "rules",
+      "type": "json"
+     },
+     {
+      "name": "is_published",
+      "type": "boolean"
+     },
+     {
+      "name": "product_ids",
+      "type": "json"
+     },
+     {
+      "name": "seo_title",
+      "type": "string"
+     },
+     {
+      "name": "seo_description",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "DELETE",
+    "path": "/dash/{store}/images/{image_id}",
+    "name": "images.delete",
+    "description": "Remove an image and everything derived from it",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "images.delete",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/inventory",
+    "name": "inventory.list",
+    "description": "Stock levels per variant (all, low, out, tracked)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "inventory.list",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/inventory/{variant_id}",
+    "name": "inventory.adjust",
+    "description": "Adjust one variant's stock, by delta or to an absolute count, with a reason",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "inventory.adjust",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "mode",
+      "type": "string"
+     },
+     {
+      "name": "value",
+      "type": "json"
+     },
+     {
+      "name": "reason",
+      "type": "string"
+     },
+     {
+      "name": "note",
+      "type": "string"
+     },
+     {
+      "name": "allow_negative",
+      "type": "boolean"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/product-form",
+    "name": "products.options",
+    "description": "What the product form needs: collections",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "products.options",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/products",
+    "name": "products.list",
+    "description": "List products (status, search, paging)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "products.list",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/products",
+    "name": "products.create",
+    "description": "Create a product",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "products.create",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "max_length": 200
+     },
+     {
+      "name": "slug",
+      "type": "string"
+     },
+     {
+      "name": "description",
+      "type": "text"
+     },
+     {
+      "name": "summary",
+      "type": "string"
+     },
+     {
+      "name": "status",
+      "type": "string"
+     },
+     {
+      "name": "price",
+      "type": "json"
+     },
+     {
+      "name": "compare_at",
+      "type": "json"
+     },
+     {
+      "name": "cost",
+      "type": "json"
+     },
+     {
+      "name": "sku",
+      "type": "string"
+     },
+     {
+      "name": "barcode",
+      "type": "string"
+     },
+     {
+      "name": "stock",
+      "type": "integer"
+     },
+     {
+      "name": "weight_grams",
+      "type": "integer"
+     },
+     {
+      "name": "track_inventory",
+      "type": "boolean"
+     },
+     {
+      "name": "product_type",
+      "type": "string"
+     },
+     {
+      "name": "vendor",
+      "type": "string"
+     },
+     {
+      "name": "tags",
+      "type": "json"
+     },
+     {
+      "name": "requires_shipping",
+      "type": "boolean"
+     },
+     {
+      "name": "seo_title",
+      "type": "string"
+     },
+     {
+      "name": "seo_description",
+      "type": "string"
+     },
+     {
+      "name": "options",
+      "type": "json"
+     },
+     {
+      "name": "variants",
+      "type": "json"
+     },
+     {
+      "name": "image_ids",
+      "type": "json"
+     },
+     {
+      "name": "collection_ids",
+      "type": "json"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/products/{product_id}",
+    "name": "products.show",
+    "description": "One product: details, variants, and its 30-day performance and stock movements",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "products.show",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "PATCH",
+    "path": "/dash/{store}/products/{product_id}",
+    "name": "products.update",
+    "description": "Update a product",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "products.update",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "title",
+      "type": "string",
+      "max_length": 200
+     },
+     {
+      "name": "slug",
+      "type": "string"
+     },
+     {
+      "name": "description",
+      "type": "text"
+     },
+     {
+      "name": "summary",
+      "type": "string"
+     },
+     {
+      "name": "status",
+      "type": "string"
+     },
+     {
+      "name": "price",
+      "type": "json"
+     },
+     {
+      "name": "compare_at",
+      "type": "json"
+     },
+     {
+      "name": "cost",
+      "type": "json"
+     },
+     {
+      "name": "sku",
+      "type": "string"
+     },
+     {
+      "name": "barcode",
+      "type": "string"
+     },
+     {
+      "name": "stock",
+      "type": "integer"
+     },
+     {
+      "name": "weight_grams",
+      "type": "integer"
+     },
+     {
+      "name": "track_inventory",
+      "type": "boolean"
+     },
+     {
+      "name": "product_type",
+      "type": "string"
+     },
+     {
+      "name": "vendor",
+      "type": "string"
+     },
+     {
+      "name": "tags",
+      "type": "json"
+     },
+     {
+      "name": "requires_shipping",
+      "type": "boolean"
+     },
+     {
+      "name": "seo_title",
+      "type": "string"
+     },
+     {
+      "name": "seo_description",
+      "type": "string"
+     },
+     {
+      "name": "options",
+      "type": "json"
+     },
+     {
+      "name": "variants",
+      "type": "json"
+     },
+     {
+      "name": "image_ids",
+      "type": "json"
+     },
+     {
+      "name": "collection_ids",
+      "type": "json"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/products/{product_id}/archive",
+    "name": "products.archive",
+    "description": "Archive a product (never a hard delete: order lines point at it)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "products.archive",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/products/{product_id}/images",
+    "name": "images.upload",
+    "description": "Upload a product image (base64); derivatives are made by a queued job",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "images.upload",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "file",
+      "type": "text",
+      "required": true
+     },
+     {
+      "name": "alt",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/products/{product_id}/images/order",
+    "name": "images.reorder",
+    "description": "Set the display order from a list of image ids",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "images.reorder",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "ids",
+      "type": "json",
+      "required": true
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/products/{product_id}/images/status",
+    "name": "images.status",
+    "description": "Which images have finished being resized (the uploader polls this)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "images.status",
+    "tags": [
+     "catalog"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/abandoned-carts",
+    "name": "abandoned.list",
+    "description": "Abandoned carts with recovery links and status counts",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "abandoned.list",
+    "tags": [
+     "customers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/abandoned-carts/{record_id}/notify",
+    "name": "abandoned.notify",
+    "description": "Send the recovery email now (and mark the cart followed up)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "abandoned.notify",
+    "tags": [
+     "customers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/customers",
+    "name": "customers.list",
+    "description": "List customers: search, segment, sort, paging",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "customers.list",
+    "tags": [
+     "customers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/customers/{customer_id}",
+    "name": "customers.show",
+    "description": "One customer: profile, addresses, the segments they are in, order and abandoned-cart history",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "customers.show",
+    "tags": [
+     "customers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "PATCH",
+    "path": "/dash/{store}/customers/{customer_id}",
+    "name": "customers.update",
+    "description": "Edit a customer",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "customers.update",
+    "tags": [
+     "customers"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "first_name",
+      "type": "string"
+     },
+     {
+      "name": "last_name",
+      "type": "string"
+     },
+     {
+      "name": "phone",
+      "type": "string"
+     },
+     {
+      "name": "note",
+      "type": "text"
+     },
+     {
+      "name": "accepts_marketing",
+      "type": "boolean"
+     },
+     {
+      "name": "tags",
+      "type": "json"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/segments",
+    "name": "segments.list",
+    "description": "Segments with live counts, and the rule builder's fields and operators",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "segments.list",
+    "tags": [
+     "customers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/segments",
+    "name": "segments.save",
+    "description": "Create or update a segment (built-in segments are read-only)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "segments.save",
+    "tags": [
+     "customers"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "id",
+      "type": "integer"
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "description",
+      "type": "string"
+     },
+     {
+      "name": "rules",
+      "type": "json"
+     }
+    ]
+   },
+   {
+    "method": "DELETE",
+    "path": "/dash/{store}/segments/{segment_id}",
+    "name": "segments.delete",
+    "description": "Delete a segment (built-in segments cannot be deleted)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "segments.delete",
+    "tags": [
+     "customers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/segments/{segment_id}/customers",
+    "name": "segments.members",
+    "description": "The customers in one segment (resolved live)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "segments.members",
+    "tags": [
+     "customers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/overview",
+    "name": "dashboard.overview",
+    "description": "The morning screen: store, period, what needs attention, onboarding, recent orders, headline numbers, series, top products",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "dashboard.overview",
+    "tags": [
+     "dashboard"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/designs",
+    "name": "designs.list",
+    "description": "Saved designs and the canvas presets",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "designs.list",
+    "tags": [
+     "designs"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/designs",
+    "name": "designs.create",
+    "description": "Start a design",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "designs.create",
+    "tags": [
+     "designs"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "kind",
+      "type": "string"
+     },
+     {
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "name": "width",
+      "type": "integer"
+     },
+     {
+      "name": "height",
+      "type": "integer"
+     }
+    ]
+   },
+   {
+    "method": "DELETE",
+    "path": "/dash/{store}/designs/{design_id}",
+    "name": "designs.delete",
+    "description": "Delete a design",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "designs.delete",
+    "tags": [
+     "designs"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/designs/{design_id}",
+    "name": "designs.show",
+    "description": "The editor's payload: the document, products with real prices, valid coupons",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "designs.show",
+    "tags": [
+     "designs"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "PATCH",
+    "path": "/dash/{store}/designs/{design_id}",
+    "name": "designs.save",
+    "description": "Save a design (document size-capped, thumbnail validated)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "designs.save",
+    "tags": [
+     "designs"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "name": "data",
+      "type": "json"
+     },
+     {
+      "name": "width",
+      "type": "integer"
+     },
+     {
+      "name": "height",
+      "type": "integer"
+     },
+     {
+      "name": "thumbnail",
+      "type": "text"
+     },
+     {
+      "name": "product_id",
+      "type": "integer"
+     },
+     {
+      "name": "discount_id",
+      "type": "integer"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/designs/{design_id}/duplicate",
+    "name": "designs.duplicate",
+    "description": "Copy a design",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "designs.duplicate",
+    "tags": [
+     "designs"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/developers",
+    "name": "developers.overview",
+    "description": "API keys (prefix only), webhooks, and what can be subscribed to",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "developers.overview",
+    "tags": [
+     "developers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/developers/keys",
+    "name": "developers.create_key",
+    "description": "Mint an API key (the plaintext is returned exactly once)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "developers.create_key",
+    "tags": [
+     "developers"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "name",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "scopes",
+      "type": "json",
+      "required": true
+     },
+     {
+      "name": "expires_days",
+      "type": "integer"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/developers/keys/{key_id}/revoke",
+    "name": "developers.revoke_key",
+    "description": "Revoke an API key",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "developers.revoke_key",
+    "tags": [
+     "developers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/developers/logs",
+    "name": "developers.webhook_logs",
+    "description": "Every delivery attempt, so a merchant can debug their own endpoint ('delivered on the fourth try, 90 seconds late' is a different fact from 'delivered')",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "developers.webhook_logs",
+    "tags": [
+     "developers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/developers/mail",
+    "name": "mail.preview",
+    "description": "Render any email template against a sample context, without placing an order to trigger one",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "mail.preview",
+    "tags": [
+     "developers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/developers/webhooks",
+    "name": "developers.save_webhook",
+    "description": "Create or update a webhook endpoint (the signing secret is returned once, on creation)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "developers.save_webhook",
+    "tags": [
+     "developers"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "id",
+      "type": "integer"
+     },
+     {
+      "name": "url",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "events",
+      "type": "json",
+      "required": true
+     },
+     {
+      "name": "description",
+      "type": "string"
+     },
+     {
+      "name": "is_active",
+      "type": "boolean"
+     }
+    ]
+   },
+   {
+    "method": "DELETE",
+    "path": "/dash/{store}/developers/webhooks/{webhook_id}",
+    "name": "developers.delete_webhook",
+    "description": "Remove a webhook endpoint",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "developers.delete_webhook",
+    "tags": [
+     "developers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/developers/webhooks/{webhook_id}/test",
+    "name": "developers.test_webhook",
+    "description": "Send a synthetic event through the real delivery path",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "developers.test_webhook",
+    "tags": [
+     "developers"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/exports",
+    "name": "exports.list",
+    "description": "Recent exports and what can be exported",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "exports.list",
+    "tags": [
+     "exports"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/exports",
+    "name": "exports.request",
+    "description": "Queue an export. The permission for the *resource* is checked too: `reports.export` alone must not let a marketing member export the customer list by naming it",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "exports.request",
+    "tags": [
+     "exports"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "resource",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "filters",
+      "type": "json"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/exports/{export_id}/download",
+    "name": "exports.download",
+    "description": "A short-lived signed URL for a finished export (the files hold customer names, emails and addresses, so the tenant scope and permission are checked first)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "exports.download",
+    "tags": [
+     "exports"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/payments",
+    "name": "finance.overview",
+    "description": "The financial dashboard: ledger summary, payment counts, series, recent entries and payouts",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.overview",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/payments/fees",
+    "name": "finance.fees",
+    "description": "Where the money went: platform and provider fees itemised per order (a single total is not a number a merchant can check)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.fees",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/payments/ledger",
+    "name": "finance.ledger",
+    "description": "The ledger entries (every movement of money), paged",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.ledger",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/payments/payouts",
+    "name": "finance.payouts",
+    "description": "Settlements to the merchant's bank (platform-initiated, one per confirmed order)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.payouts",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/payments/payouts/connect",
+    "name": "payouts.banks",
+    "description": "The bank list and this store's connected payout account",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "payouts.banks",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/payments/payouts/connect",
+    "name": "payouts.connect",
+    "description": "Connect the bank account payouts are sent to (resolved, then a Paystack subaccount and transfer recipient are created)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "payouts.connect",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "business_name",
+      "type": "string"
+     },
+     {
+      "name": "bank_code",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "bank_name",
+      "type": "string"
+     },
+     {
+      "name": "account_number",
+      "type": "string",
+      "required": true
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/payments/providers",
+    "name": "finance.providers",
+    "description": "Payment providers: the catalogue and this store's (masked) connections",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.providers",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/payments/providers/{provider_key}/connect",
+    "name": "finance.provider_connect",
+    "description": "Save a provider's credentials, then prove they work",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.provider_connect",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "label",
+      "type": "string"
+     },
+     {
+      "name": "is_test_mode",
+      "type": "boolean"
+     },
+     {
+      "name": "public_key",
+      "type": "string"
+     },
+     {
+      "name": "secret_key",
+      "type": "string"
+     },
+     {
+      "name": "webhook_secret",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/payments/providers/{provider_key}/default",
+    "name": "finance.provider_default",
+    "description": "Make a connected provider the default",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.provider_default",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/payments/providers/{provider_key}/disconnect",
+    "name": "finance.provider_disconnect",
+    "description": "Remove a provider's credentials (the row stays: payments point at it)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.provider_disconnect",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/payments/providers/{provider_key}/verify",
+    "name": "finance.provider_verify",
+    "description": "Re-check a connected provider's keys",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.provider_verify",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/payments/refunds",
+    "name": "finance.refunds",
+    "description": "Refunds issued",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.refunds",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/payments/transactions",
+    "name": "finance.transactions",
+    "description": "Transactions: status tabs, search, paging",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "finance.transactions",
+    "tags": [
+     "finance"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/campaigns",
+    "name": "campaigns.list",
+    "description": "List campaigns with status counts and the pickers' options",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "campaigns.list",
+    "tags": [
+     "marketing"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/campaigns",
+    "name": "campaigns.save",
+    "description": "Create or update a campaign",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "campaigns.save",
+    "tags": [
+     "marketing"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "id",
+      "type": "integer"
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "kind",
+      "type": "string"
+     },
+     {
+      "name": "description",
+      "type": "string"
+     },
+     {
+      "name": "segment_id",
+      "type": "integer"
+     },
+     {
+      "name": "discount_id",
+      "type": "integer"
+     },
+     {
+      "name": "product_ids",
+      "type": "json"
+     },
+     {
+      "name": "starts_at",
+      "type": "string"
+     },
+     {
+      "name": "ends_at",
+      "type": "string"
+     },
+     {
+      "name": "budget",
+      "type": "json"
+     },
+     {
+      "name": "spend",
+      "type": "json"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/campaigns/{campaign_id}",
+    "name": "campaigns.show",
+    "description": "One campaign with refreshed results, redemptions and audience size",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "campaigns.show",
+    "tags": [
+     "marketing"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/campaigns/{campaign_id}/status",
+    "name": "campaigns.status",
+    "description": "Start, pause, resume or finish a campaign (the allowed moves are declared, not inferred)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "campaigns.status",
+    "tags": [
+     "marketing"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "status",
+      "type": "string",
+      "required": true
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/discounts",
+    "name": "discounts.list",
+    "description": "List discounts with state counts and the pickers' options",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "discounts.list",
+    "tags": [
+     "marketing"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/discounts",
+    "name": "discounts.save",
+    "description": "Create or update a discount (percentage, fixed amount, free shipping; automatic or by code)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "discounts.save",
+    "tags": [
+     "marketing"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "id",
+      "type": "integer"
+     },
+     {
+      "name": "code",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "name": "description",
+      "type": "string"
+     },
+     {
+      "name": "kind",
+      "type": "string"
+     },
+     {
+      "name": "value",
+      "type": "json"
+     },
+     {
+      "name": "scope",
+      "type": "string"
+     },
+     {
+      "name": "scope_ids",
+      "type": "json"
+     },
+     {
+      "name": "minimum_order",
+      "type": "json"
+     },
+     {
+      "name": "maximum_discount",
+      "type": "json"
+     },
+     {
+      "name": "usage_limit",
+      "type": "integer"
+     },
+     {
+      "name": "per_customer_limit",
+      "type": "integer"
+     },
+     {
+      "name": "starts_at",
+      "type": "string"
+     },
+     {
+      "name": "ends_at",
+      "type": "string"
+     },
+     {
+      "name": "is_active",
+      "type": "boolean"
+     },
+     {
+      "name": "is_automatic",
+      "type": "boolean"
+     },
+     {
+      "name": "segment_id",
+      "type": "integer"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/discounts/{discount_id}/toggle",
+    "name": "discounts.toggle",
+    "description": "Enable or disable a discount",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "discounts.toggle",
+    "tags": [
+     "marketing"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/notifications",
+    "name": "notifications.list",
+    "description": "The notification centre, filtered *in the query path* by permission (a payment failure is not for the inventory clerk), so an unauthorised one never leaves the server",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "notifications.list",
+    "tags": [
+     "notifications"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/notifications/read",
+    "name": "notifications.read",
+    "description": "Mark one notification (id) or every one read",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "notifications.read",
+    "tags": [
+     "notifications"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "id",
+      "type": "integer"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/onboarding/options",
+    "name": "onboarding.options",
+    "description": "What the create-store wizard offers: templates, categories, currencies",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "onboarding.options",
+    "tags": [
+     "onboarding"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/onboarding/slug",
+    "name": "onboarding.check_slug",
+    "description": "Whether a store address is free",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "onboarding.check_slug",
+    "tags": [
+     "onboarding"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/onboarding/stores",
+    "name": "onboarding.create_store",
+    "description": "Create a store and everything it needs to function",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "onboarding.create_store",
+    "tags": [
+     "onboarding"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "max_length": 150
+     },
+     {
+      "name": "slug",
+      "type": "string"
+     },
+     {
+      "name": "currency",
+      "type": "string"
+     },
+     {
+      "name": "country",
+      "type": "string"
+     },
+     {
+      "name": "template",
+      "type": "string"
+     },
+     {
+      "name": "colors",
+      "type": "json"
+     },
+     {
+      "name": "product",
+      "type": "json"
+     },
+     {
+      "name": "logo",
+      "type": "string"
+     },
+     {
+      "name": "announcement",
+      "type": "string"
+     },
+     {
+      "name": "discount",
+      "type": "json"
+     },
+     {
+      "name": "invites",
+      "type": "json"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/orders",
+    "name": "orders.list",
+    "description": "List orders: tabs (all, pending, paid, fulfilled, cancelled, refunded), search, paging",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "orders.list",
+    "tags": [
+     "orders"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/orders/{order_id}",
+    "name": "orders.show",
+    "description": "One order: lines, addresses, payments, refunds, timeline, risk",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "orders.show",
+    "tags": [
+     "orders"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/orders/{order_id}/cancel",
+    "name": "orders.cancel",
+    "description": "Cancel an order and return its stock (does not refund: taking money back is a separate decision with its own permission)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "orders.cancel",
+    "tags": [
+     "orders"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "reason",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/orders/{order_id}/deliver",
+    "name": "orders.deliver",
+    "description": "Mark an order delivered",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "orders.deliver",
+    "tags": [
+     "orders"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/orders/{order_id}/fulfil",
+    "name": "orders.fulfil",
+    "description": "Mark an order shipped, with tracking",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "orders.fulfil",
+    "tags": [
+     "orders"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "tracking_number",
+      "type": "string"
+     },
+     {
+      "name": "tracking_url",
+      "type": "string"
+     },
+     {
+      "name": "carrier",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/orders/{order_id}/note",
+    "name": "orders.note",
+    "description": "Save an order's note (also a timeline entry)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "orders.note",
+    "tags": [
+     "orders"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "note",
+      "type": "text"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/orders/{order_id}/refund",
+    "name": "orders.refund",
+    "description": "Refund some or all of an order; the amount is recomputed from the lines the merchant chose",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "orders.refund",
+    "tags": [
+     "orders"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "lines",
+      "type": "json"
+     },
+     {
+      "name": "amount_minor",
+      "type": "integer"
+     },
+     {
+      "name": "reason",
+      "type": "string"
+     },
+     {
+      "name": "restock",
+      "type": "boolean"
+     },
+     {
+      "name": "include_shipping",
+      "type": "boolean"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/pos",
+    "name": "pos.index",
+    "description": "The POS hub: the open session, recent POS sales, devices",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.index",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/pos/config",
+    "name": "pos.config",
+    "description": "POS configuration: devices, receipt settings, custom domains",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.config",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pos/config/device",
+    "name": "pos.device_save",
+    "description": "Create or update a POS device",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.device_save",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "device_id",
+      "type": "integer"
+     },
+     {
+      "name": "label",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "pos_domain",
+      "type": "string"
+     },
+     {
+      "name": "receipt_header",
+      "type": "string"
+     },
+     {
+      "name": "receipt_footer",
+      "type": "string"
+     },
+     {
+      "name": "print_receipt_auto",
+      "type": "boolean"
+     }
+    ]
+   },
+   {
+    "method": "DELETE",
+    "path": "/dash/{store}/pos/config/device/{device_id}",
+    "name": "pos.device_delete",
+    "description": "Remove a device (marks it inactive)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.device_delete",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pos/config/device/{device_id}/verify",
+    "name": "pos.device_verify",
+    "description": "Check a POS device domain's ownership TXT record",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.device_verify",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/pos/customer-search",
+    "name": "pos.customer_search",
+    "description": "Terminal customer lookup by email",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.customer_search",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pos/sale",
+    "name": "pos.sale",
+    "description": "Create a POS order and (for cash) record the payment in one step; for card, creates the pending order that /pos/sale/card/start then charges",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.sale",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "items",
+      "type": "json",
+      "required": true
+     },
+     {
+      "name": "payment_method",
+      "type": "string"
+     },
+     {
+      "name": "amount_tendered",
+      "type": "integer"
+     },
+     {
+      "name": "customer_id",
+      "type": "integer"
+     },
+     {
+      "name": "customer_email",
+      "type": "string"
+     },
+     {
+      "name": "discount_minor",
+      "type": "integer"
+     },
+     {
+      "name": "note",
+      "type": "string"
+     },
+     {
+      "name": "session_id",
+      "type": "integer"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pos/sale/card/start",
+    "name": "pos.card_start",
+    "description": "Start a card charge for a pending POS order (returns the provider's payment URL)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.card_start",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "order_id",
+      "type": "integer",
+      "required": true
+     },
+     {
+      "name": "return_url",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/pos/search",
+    "name": "pos.product_search",
+    "description": "Terminal product search by title, SKU or barcode",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.product_search",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/pos/sessions",
+    "name": "pos.sessions",
+    "description": "Cashier sessions, most recent first",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.sessions",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pos/sessions/open",
+    "name": "pos.session_open",
+    "description": "Open a cashier session (a device cannot have two open)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.session_open",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "device_id",
+      "type": "integer"
+     },
+     {
+      "name": "opening_float",
+      "type": "integer"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/pos/sessions/{session_id}",
+    "name": "pos.session_show",
+    "description": "End-of-day report for one session",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.session_show",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pos/sessions/{session_id}/close",
+    "name": "pos.session_close",
+    "description": "Close a session: expected cash, variance and per-variant totals are computed from every order in it",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.session_close",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "closing_count",
+      "type": "integer"
+     },
+     {
+      "name": "note",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/pos/terminal",
+    "name": "pos.terminal",
+    "description": "Everything the full-screen terminal needs: the quick grid, manual discounts, the open session, the card public key, and (with ?device=) the device",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pos.terminal",
+    "tags": [
+     "pos"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/search",
+    "name": "search",
+    "description": "The command palette's query: one endpoint across five resources, five rows each. The cap is the design: a hundred results means the merchant belongs on a list page",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "search",
+    "tags": [
+     "search"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/audit",
+    "name": "audit.list",
+    "description": "Who did what: read-only (there is no endpoint that edits or deletes a row, which is the log's entire value)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "audit.list",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/onboarding",
+    "name": "settings.onboarding",
+    "description": "The setup checklist with each step's real state",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "settings.onboarding",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/roles",
+    "name": "team.roles",
+    "description": "The roles-and-permissions grid, built from the table the guard reads",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "team.roles",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/settings",
+    "name": "settings.general",
+    "description": "Store settings, the onboarding checklist and what is locked",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "settings.general",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "PATCH",
+    "path": "/dash/{store}/settings",
+    "name": "settings.save",
+    "description": "Save store settings",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "settings.save",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "name",
+      "type": "string"
+     },
+     {
+      "name": "legal_name",
+      "type": "string"
+     },
+     {
+      "name": "email",
+      "type": "string"
+     },
+     {
+      "name": "phone",
+      "type": "string"
+     },
+     {
+      "name": "support_email",
+      "type": "string"
+     },
+     {
+      "name": "address_line1",
+      "type": "string"
+     },
+     {
+      "name": "address_line2",
+      "type": "string"
+     },
+     {
+      "name": "city",
+      "type": "string"
+     },
+     {
+      "name": "province",
+      "type": "string"
+     },
+     {
+      "name": "postal_code",
+      "type": "string"
+     },
+     {
+      "name": "country",
+      "type": "string"
+     },
+     {
+      "name": "timezone_name",
+      "type": "string"
+     },
+     {
+      "name": "weight_unit",
+      "type": "string"
+     },
+     {
+      "name": "currency",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/settings/help-desk",
+    "name": "settings.help_desk",
+    "description": "Turn the storefront's help desk widget on or off",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "settings.help_desk",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "help_desk_enabled",
+      "type": "boolean"
+     },
+     {
+      "name": "help_desk_greeting",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/settings/launch",
+    "name": "settings.launch",
+    "description": "Open the store to the public (refuses with what is still to do)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "settings.launch",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/settings/maintenance",
+    "name": "settings.maintenance",
+    "description": "Turn maintenance mode on or off and set what shoppers are told",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "settings.maintenance",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "maintenance_enabled",
+      "type": "boolean"
+     },
+     {
+      "name": "maintenance_title",
+      "type": "string"
+     },
+     {
+      "name": "maintenance_message",
+      "type": "text"
+     },
+     {
+      "name": "maintenance_ends_at",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/shipping",
+    "name": "shipping.list",
+    "description": "Shipping zones and their rates",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "shipping.list",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/shipping",
+    "name": "shipping.save_zone",
+    "description": "Save a shipping zone and its rates (rates are replaced wholesale for the zone being saved; no other zone is touched)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "shipping.save_zone",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "id",
+      "type": "integer"
+     },
+     {
+      "name": "name",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "countries",
+      "type": "json"
+     },
+     {
+      "name": "rates",
+      "type": "json"
+     }
+    ]
+   },
+   {
+    "method": "DELETE",
+    "path": "/dash/{store}/shipping/{zone_id}",
+    "name": "shipping.delete_zone",
+    "description": "Delete a shipping zone and its rates",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "shipping.delete_zone",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/team",
+    "name": "team.list",
+    "description": "Members, open invitations and the roles on offer",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "team.list",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/team/invitations",
+    "name": "team.invite",
+    "description": "Invite someone to the store (cannot invite above your own reach)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "team.invite",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "email",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "role",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "DELETE",
+    "path": "/dash/{store}/team/invitations/{invitation_id}",
+    "name": "team.revoke_invitation",
+    "description": "Revoke an open invitation",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "team.revoke_invitation",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "DELETE",
+    "path": "/dash/{store}/team/{member_id}",
+    "name": "team.remove_member",
+    "description": "Remove a member (never yourself, never the last owner)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "team.remove_member",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "PATCH",
+    "path": "/dash/{store}/team/{member_id}",
+    "name": "team.update_member",
+    "description": "Change a member's role, permission overrides or status",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "team.update_member",
+    "tags": [
+     "settings"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "role",
+      "type": "string"
+     },
+     {
+      "name": "extra_permissions",
+      "type": "json"
+     },
+     {
+      "name": "denied_permissions",
+      "type": "json"
+     },
+     {
+      "name": "status",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/hosts/resolve",
+    "name": "shop.resolve",
+    "description": "Map a hostname (a verified custom domain, or <slug>.<STOREFRONT_SUFFIX>) to the shop it belongs to",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.resolve",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}",
+    "name": "shop.info",
+    "description": "The page chrome: theme, store identity, the built header (and its CSS), the basket's item count",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.info",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/cart",
+    "name": "shop.cart",
+    "description": "The basket as money and as props (created on first use; the token in the response is the one to keep)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.cart",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/shop/{store}/cart/add",
+    "name": "shop.cart_add",
+    "description": "Put a variant in the basket (availability is a courtesy; the reservation at checkout is the guarantee)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.cart_add",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "variant_id",
+      "type": "integer",
+      "required": true
+     },
+     {
+      "name": "quantity",
+      "type": "integer"
+     },
+     {
+      "name": "cart_token",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 120,
+     "window": 60
+    }
+   },
+   {
+    "method": "POST",
+    "path": "/shop/{store}/cart/discount",
+    "name": "shop.cart_discount",
+    "description": "Apply a discount code, or clear it (an empty code). The refusal is written for a shopper and says something they can act on",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.cart_discount",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "code",
+      "type": "string"
+     },
+     {
+      "name": "cart_token",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 120,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/cart/recover/{token}",
+    "name": "shop.cart_recover",
+    "description": "Restore an abandoned basket from the link in the recovery email: reopens the original cart and returns its token",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.cart_recover",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/shop/{store}/cart/update",
+    "name": "shop.cart_update",
+    "description": "Set a line's quantity (0 removes it)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.cart_update",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "item_id",
+      "type": "integer",
+      "required": true
+     },
+     {
+      "name": "quantity",
+      "type": "integer",
+      "required": true
+     },
+     {
+      "name": "cart_token",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 120,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/checkout",
+    "name": "shop.checkout",
+    "description": "What the checkout form needs: the basket, shipping options for the destination, the payment provider",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.checkout",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/shop/{store}/checkout",
+    "name": "shop.checkout_start",
+    "description": "Reserve stock, create the order and start the payment as one operation with a defined failure path; returns the provider URL to send the shopper to",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.checkout_start",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "email",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "first_name",
+      "type": "string"
+     },
+     {
+      "name": "last_name",
+      "type": "string"
+     },
+     {
+      "name": "line1",
+      "type": "string"
+     },
+     {
+      "name": "line2",
+      "type": "string"
+     },
+     {
+      "name": "city",
+      "type": "string"
+     },
+     {
+      "name": "province",
+      "type": "string"
+     },
+     {
+      "name": "postal_code",
+      "type": "string"
+     },
+     {
+      "name": "country",
+      "type": "string"
+     },
+     {
+      "name": "phone",
+      "type": "string"
+     },
+     {
+      "name": "company",
+      "type": "string"
+     },
+     {
+      "name": "shipping_rate_id",
+      "type": "integer"
+     },
+     {
+      "name": "same_billing",
+      "type": "boolean"
+     },
+     {
+      "name": "accepts_marketing",
+      "type": "boolean"
+     },
+     {
+      "name": "provider",
+      "type": "string"
+     },
+     {
+      "name": "return_url",
+      "type": "string"
+     },
+     {
+      "name": "cancel_url",
+      "type": "string"
+     },
+     {
+      "name": "cart_token",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 30,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/checkout/return",
+    "name": "shop.checkout_return",
+    "description": "Confirm the order when the shopper comes back from the provider. Verifies rather than trusts: the provider's own answer decides, and it is idempotent",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.checkout_return",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 60,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/collections",
+    "name": "shop.collections",
+    "description": "Published collections",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.collections",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/collections/{slug}",
+    "name": "shop.collection",
+    "description": "One collection and its products (manual, or computed from its rules)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.collection",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/shop/{store}/help/tickets",
+    "name": "shop.help_create",
+    "description": "A shopper asks a question: opens a ticket with its first message (no account; the ticket token is the capability)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.help_create",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "name",
+      "type": "string"
+     },
+     {
+      "name": "email",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "message",
+      "type": "text",
+      "required": true
+     },
+     {
+      "name": "opt_in_email",
+      "type": "boolean"
+     }
+    ],
+    "rate_limit": {
+     "limit": 10,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/help/tickets/{token}",
+    "name": "shop.help_show",
+    "description": "A ticket's conversation, with the realtime channel for live replies (this is also the page behind the link in the reply email)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.help_show",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/shop/{store}/help/tickets/{token}/reply",
+    "name": "shop.help_reply",
+    "description": "A shopper follows up (this reopens the ticket)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.help_reply",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "message",
+      "type": "text",
+      "required": true
+     }
+    ],
+    "rate_limit": {
+     "limit": 30,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/home",
+    "name": "shop.home",
+    "description": "The homepage: always a block tree, through the same renderers the builder draws with (a store that never opened the builder gets the starter tree, live)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.home",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/orders/{number}/{token}",
+    "name": "shop.order",
+    "description": "A customer's view of their own order, by its own unguessable token",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.order",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 60,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/orders/{number}/{token}/receipt/{fmt}",
+    "name": "shop.receipt",
+    "description": "The receipt for a paid order as a png or pdf: a short-lived signed URL to the file (refused until the order is paid: a receipt for money that has not arrived says something untrue)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.receipt",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "rate_limit": {
+     "limit": 30,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/pages/{slug}",
+    "name": "shop.page",
+    "description": "A page the merchant built",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.page",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/products",
+    "name": "shop.products",
+    "description": "The product listing (featured, newest or by title)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.products",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/products/{slug}",
+    "name": "shop.product",
+    "description": "One product: images, options, variants (stock shown as a number only when it is low enough to matter), SEO, related",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.product",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/robots.txt",
+    "name": "shop.robots",
+    "description": "robots.txt honouring the merchant's indexing choice (a store set to noindex gets a real Disallow: /)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.robots",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/sandbox/{provider_reference}",
+    "name": "shop.sandbox_charge",
+    "description": "The sandbox provider's 'hosted page' data: what is being charged (only when SANDBOX_ENABLED)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.sandbox_charge",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/shop/{store}/sandbox/{provider_reference}/settle",
+    "name": "shop.sandbox_settle",
+    "description": "Decide a sandbox charge (succeeded or failed; default: the outcome the amount forces) and confirm the order",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.sandbox_settle",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "outcome",
+      "type": "string"
+     }
+    ],
+    "rate_limit": {
+     "limit": 120,
+     "window": 60
+    }
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/search",
+    "name": "shop.search",
+    "description": "Search products by title, summary or type",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.search",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/shop/{store}/sitemap.xml",
+    "name": "shop.sitemap",
+    "description": "An XML sitemap of everything public (returned as {content_type, body} for the storefront host to serve)",
+    "policy": "public",
+    "handler_type": "function",
+    "handler": "shop.sitemap",
+    "tags": [
+     "shop"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/pages",
+    "name": "pages.list",
+    "description": "Every page this store has built",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.list",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pages",
+    "name": "pages.create",
+    "description": "Add a page (home and the two templates and header are singletons)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.create",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "title",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "kind",
+      "type": "string"
+     },
+     {
+      "name": "slug",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pages/blocks/new",
+    "name": "pages.new_block",
+    "description": "A fresh block of a requested type, built on the server so it has exactly the shape sanitise will accept",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.new_block",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "type",
+      "type": "string",
+      "required": true
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pages/publish-all",
+    "name": "pages.publish_all",
+    "description": "Publish every page whose draft would change what is live (empty drafts are skipped, each page still gets its snapshot and audit entry)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.publish_all",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pages/sections/new",
+    "name": "pages.new_section",
+    "description": "A section preset (a whole prebuilt band) drawn with this store's theme imagery",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.new_section",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "key",
+      "type": "string",
+      "required": true
+     }
+    ]
+   },
+   {
+    "method": "DELETE",
+    "path": "/dash/{store}/pages/{page_id}",
+    "name": "pages.delete",
+    "description": "Delete a page (refused for the singletons)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.delete",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/pages/{page_id}",
+    "name": "pages.show",
+    "description": "The builder's payload: the tree, the block registry, theme, palettes, section presets, pickable products/collections, real canvas data, revisions",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.show",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "PATCH",
+    "path": "/dash/{store}/pages/{page_id}",
+    "name": "pages.save",
+    "description": "Autosave the draft: the tree is rebuilt from the registry, so nothing the browser invents is stored; answers with the server's version",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.save",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "tree",
+      "type": "json"
+     },
+     {
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "name": "seo_title",
+      "type": "string"
+     },
+     {
+      "name": "seo_description",
+      "type": "string"
+     },
+     {
+      "name": "og_image_url",
+      "type": "string"
+     },
+     {
+      "name": "noindex",
+      "type": "boolean"
+     },
+     {
+      "name": "settings",
+      "type": "json"
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pages/{page_id}/publish",
+    "name": "pages.publish",
+    "description": "Make the draft live",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.publish",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pages/{page_id}/restore/{revision_id}",
+    "name": "pages.restore",
+    "description": "Put an earlier version back into the *draft* (never straight to live); what it replaces is snapshotted first, so a restore is undoable",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.restore",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/pages/{page_id}/unpublish",
+    "name": "pages.unpublish",
+    "description": "Take a page off the storefront, keeping the draft (the published tree is cleared too, so it never says 'not published' while still serving)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "pages.unpublish",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/storefront/domains",
+    "name": "domains.list",
+    "description": "Domains, and what to publish in DNS to verify one",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "domains.list",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/storefront/domains",
+    "name": "domains.add",
+    "description": "Add a custom domain (pending until its TXT record is verified)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "domains.add",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "hostname",
+      "type": "string",
+      "required": true
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/storefront/domains/{domain_id}/verify",
+    "name": "domains.verify",
+    "description": "Check a custom domain's DNS (a real TXT lookup: an unverified domain stays unusable, or anyone could serve another merchant's shop from a hostname they control)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "domains.verify",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/storefront/logo",
+    "name": "storefront.upload_logo",
+    "description": "Upload the shop's logo (the same sniffing, size cap and storage as a product photograph)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "storefront.upload_logo",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "file",
+      "type": "text",
+      "required": true
+     }
+    ]
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/storefront/palette/apply",
+    "name": "storefront.apply_palette",
+    "description": "Recolour the theme from a palette; no pages are touched",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "storefront.apply_palette",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "palette",
+      "type": "string",
+      "required": true
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/storefront/seo",
+    "name": "seo.get",
+    "description": "SEO settings, canonical addresses, and how many products lack metadata",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "seo.get",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/storefront/seo",
+    "name": "seo.save",
+    "description": "Save SEO settings",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "seo.save",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "title",
+      "type": "string"
+     },
+     {
+      "name": "description",
+      "type": "string"
+     },
+     {
+      "name": "og_image_url",
+      "type": "string"
+     },
+     {
+      "name": "robots",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/storefront/templates",
+    "name": "storefront.templates",
+    "description": "The template gallery: finished shops (only each homepage tree is sent; ten whole sites is most of a megabyte)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "storefront.templates",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/storefront/templates/apply",
+    "name": "storefront.apply_template",
+    "description": "Apply a template: its look, and (only if asked) its pages, as drafts",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "storefront.apply_template",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "preset",
+      "type": "string",
+      "required": true
+     },
+     {
+      "name": "replace_pages",
+      "type": "boolean"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/storefront/templates/{key}",
+    "name": "storefront.template",
+    "description": "Every page of one template, as block trees, for the preview",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "storefront.template",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/storefront/theme",
+    "name": "storefront.theme",
+    "description": "The store's theme as the storefront renders it (sanitised)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "storefront.theme",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "PATCH",
+    "path": "/dash/{store}/storefront/theme",
+    "name": "storefront.save_theme",
+    "description": "Save the merchant's own theme edits (every value sanitised)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "storefront.save_theme",
+    "tags": [
+     "storefront"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "colors",
+      "type": "json"
+     },
+     {
+      "name": "fonts",
+      "type": "json"
+     },
+     {
+      "name": "corner_style",
+      "type": "string"
+     },
+     {
+      "name": "announcement",
+      "type": "string"
+     },
+     {
+      "name": "footer_text",
+      "type": "text"
+     },
+     {
+      "name": "logo_url",
+      "type": "string"
+     },
+     {
+      "name": "header_links",
+      "type": "json"
+     },
+     {
+      "name": "footer_links",
+      "type": "json"
+     },
+     {
+      "name": "social_links",
+      "type": "json"
+     },
+     {
+      "name": "name",
+      "type": "string"
+     }
+    ]
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/support",
+    "name": "support.list",
+    "description": "The inbox: tickets by status, with counts",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "support.list",
+    "tags": [
+     "support"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/support/channel",
+    "name": "support.channel",
+    "description": "The realtime channel for this store's inbox. The channel name embeds a per-store secret that only a member with support.read is ever given",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "support.channel",
+    "tags": [
+     "support"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "GET",
+    "path": "/dash/{store}/support/{ticket_id}",
+    "name": "support.show",
+    "description": "A ticket and its whole thread",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "support.show",
+    "tags": [
+     "support"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/support/{ticket_id}/close",
+    "name": "support.close",
+    "description": "Close a ticket (a shopper's follow-up reopens it)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "support.close",
+    "tags": [
+     "support"
+    ],
+    "enabled": true
+   },
+   {
+    "method": "POST",
+    "path": "/dash/{store}/support/{ticket_id}/reply",
+    "name": "support.reply",
+    "description": "Answer a ticket (emails the shopper if they opted in)",
+    "policy": "authenticated",
+    "handler_type": "function",
+    "handler": "support.reply",
+    "tags": [
+     "support"
+    ],
+    "enabled": true,
+    "input_fields": [
+     {
+      "name": "message",
+      "type": "text",
+      "required": true
+     }
+    ]
+   }
+  ],
+  "buckets": [
+   {
+    "name": "media",
+    "description": "Product images, logos and their derivatives. Public: product images are on a public storefront, and a signed URL on every <img> would break browser caching for no security gain. Only the application writes.",
+    "public": true,
+    "read_policy": "public",
+    "write_policy": "service",
+    "accepts": [
+     "image/jpeg",
+     "image/png",
+     "image/webp",
+     "image/avif",
+     "image/gif"
+    ],
+    "max_bytes": 12582912,
+    "signed_uploads": false
+   },
+   {
+    "name": "exports",
+    "description": "Finished CSV and Excel exports. Private: they hold customer names, emails and addresses, and are handed out as short-lived signed URLs after a permission check.",
+    "public": false,
+    "read_policy": "service",
+    "write_policy": "service",
+    "accepts": [],
+    "max_bytes": 0,
+    "signed_uploads": false
+   }
+  ],
+  "schedules": [
+   {
+    "name": "webhook-delivery",
+    "description": "Send merchant webhook deliveries whose time has come.",
+    "interval_seconds": 30,
+    "target_type": "function",
+    "target": "webhooks.sweep"
+   },
+   {
+    "name": "abandoned-carts",
+    "description": "Close out checkouts that were given up on: release their stock and record the recovery opportunity.",
+    "interval_seconds": 300,
+    "target_type": "function",
+    "target": "carts.sweep_abandoned"
+   },
+   {
+    "name": "payment-reconciliation",
+    "description": "Ask the provider about payments a webhook never resolved.",
+    "interval_seconds": 600,
+    "target_type": "function",
+    "target": "payments.reconcile"
+   },
+   {
+    "name": "export-expiry",
+    "description": "Delete finished export files past their retention window.",
+    "interval_seconds": 3600,
+    "target_type": "function",
+    "target": "exports.expire"
+   },
+   {
+    "name": "daily-analytics",
+    "description": "Roll up the day that just closed (and the day before, for late webhooks) for every store.",
+    "cron": "15 0 * * *",
+    "target_type": "function",
+    "target": "analytics.aggregate_yesterday"
+   },
+   {
+    "name": "segment-counts",
+    "description": "Recompute every segment's cached size.",
+    "cron": "30 0 * * *",
+    "target_type": "function",
+    "target": "segments.refresh_all"
+   },
+   {
+    "name": "campaign-scheduler",
+    "description": "Start and finish campaigns whose window has arrived or passed.",
+    "cron": "0 * * * *",
+    "target_type": "function",
+    "target": "campaigns.advance"
+   },
+   {
+    "name": "export-runner",
+    "description": "Run exports that were queued but whose job was lost (a restart).",
+    "interval_seconds": 120,
+    "target_type": "function",
+    "target": "exports.run_queued"
+   }
+  ],
+  "inbound-hooks": [
+   {
+    "slug": "paystack",
+    "name": "Paystack",
+    "description": "Paystack events (charge.success, refunds, transfers). Set this hook's secret to the platform's Paystack secret key: Paystack signs every delivery with it (HMAC-SHA512, x-paystack-signature).",
+    "verification": "hmac-sha512",
+    "signature_header": "x-paystack-signature",
+    "target_type": "event",
+    "target": "webhook.paystack"
+   },
+   {
+    "slug": "stripe",
+    "name": "Stripe",
+    "description": "Stripe events. Registered but unoffered, as in the original.",
+    "verification": "none",
+    "signature_header": "stripe-signature",
+    "target_type": "event",
+    "target": "webhook.stripe",
+    "enabled": false
+   },
+   {
+    "slug": "sandbox",
+    "name": "Sandbox",
+    "description": "The offline sandbox provider's test deliveries (demo and test environments only).",
+    "verification": "none",
+    "signature_header": "x-signature",
+    "target_type": "event",
+    "target": "webhook.sandbox",
+    "enabled": false
+   }
+  ],
+  "subscriptions": [
+   {
+    "name": "paystack-events",
+    "description": "Handle a verified Paystack delivery exactly once.",
+    "event": "webhook.paystack",
+    "target_type": "function",
+    "target": "payments.webhook_event"
+   },
+   {
+    "name": "stripe-events",
+    "description": "Handle a Stripe delivery.",
+    "event": "webhook.stripe",
+    "target_type": "function",
+    "target": "payments.webhook_event",
+    "enabled": false
+   },
+   {
+    "name": "sandbox-events",
+    "description": "Handle a sandbox delivery.",
+    "event": "webhook.sandbox",
+    "target_type": "function",
+    "target": "payments.webhook_event",
+    "enabled": false
+   }
+  ]
+ },
+ "roles": [
+  {
+   "name": "platform_admin",
+   "description": "People who run the platform itself (the original's is_superuser). Says nothing about what anyone may do inside a store: that is the store membership's job.",
+   "permissions": []
+  }
+ ],
+ "auth": {
+  "signup_enabled": true,
+  "require_email_verification": false,
+  "password_min_length": 10,
+  "mfa_enabled": true,
+  "magic_link_enabled": false
+ },
+ "settings": {
+  "public_docs": true,
+  "realtime": {
+   "channels": [
+    {
+     "pattern": "help:ticket:*",
+     "subscribe": "public",
+     "publish": "deny",
+     "presence": false,
+     "history": 20
+    },
+    {
+     "pattern": "help:staff:*",
+     "subscribe": "public",
+     "publish": "deny",
+     "presence": false,
+     "history": 20
+    }
+   ],
+   "allow_client_publish": false,
+   "default_policy": "deny"
+  }
+ },
+ "data": {}
+}

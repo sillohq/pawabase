@@ -1,0 +1,123 @@
+[
+ {
+  "name": "profiles",
+  "description": "What Sell4me kept on the user (identity itself is Akountz's): name, avatar, timezone, last store, onboarding survey.",
+  "fields": [
+   {
+    "name": "user_id",
+    "type": "string",
+    "max_length": 64,
+    "unique": true
+   },
+   {
+    "name": "email",
+    "type": "string",
+    "max_length": 255,
+    "indexed": true
+   },
+   {
+    "name": "full_name",
+    "type": "string",
+    "max_length": 150
+   },
+   {
+    "name": "avatar_url",
+    "type": "string",
+    "max_length": 500
+   },
+   {
+    "name": "timezone_name",
+    "type": "string",
+    "max_length": 64,
+    "default": "UTC"
+   },
+   {
+    "name": "last_store_id",
+    "type": "integer"
+   },
+   {
+    "name": "heard_from",
+    "type": "string",
+    "max_length": 32
+   },
+   {
+    "name": "signup_goal",
+    "type": "string",
+    "max_length": 32
+   },
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "identity"
+  ]
+ },
+ {
+  "name": "sandbox_charges",
+  "description": "Charges of the offline sandbox payment provider (development and demos only). Rows, not process memory: functions run in separate workers.",
+  "fields": [
+   {
+    "name": "reference",
+    "type": "string",
+    "max_length": 100,
+    "indexed": true
+   },
+   {
+    "name": "provider_reference",
+    "type": "string",
+    "max_length": 100,
+    "unique": true
+   },
+   {
+    "name": "amount_minor",
+    "type": "integer"
+   },
+   {
+    "name": "currency",
+    "type": "string",
+    "max_length": 3
+   },
+   {
+    "name": "email",
+    "type": "string",
+    "max_length": 255
+   },
+   {
+    "name": "status",
+    "type": "string",
+    "max_length": 20,
+    "default": "pending"
+   },
+   {
+    "name": "metadata",
+    "type": "json"
+   },
+   {
+    "name": "refunded_minor",
+    "type": "integer",
+    "default": 0
+   },
+   {
+    "name": "return_url",
+    "type": "text"
+   },
+   {
+    "name": "cancel_url",
+    "type": "text"
+   },
+   {
+    "name": "deleted_at",
+    "type": "datetime"
+   }
+  ],
+  "operations": {},
+  "events": false,
+  "tags": [
+   "identity"
+  ]
+ }
+]

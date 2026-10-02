@@ -1,0 +1,8 @@
+# Which Pawabase this project deploys to. The API key is not here: it belongs in .env (PAWABASE_API_KEY), see .env.example.
+project = "sell4me"
+environment = "development"
+# The endpoints and jobs, and the shared package they import (shipped in the bundle beside them).
+functions = "code/sell4me/functions"
+include = ["kit/sell4me_kit"]
+# On your machine `pawabase emulate` finds the shared package here, as an import path.
+paths = ["kit"]

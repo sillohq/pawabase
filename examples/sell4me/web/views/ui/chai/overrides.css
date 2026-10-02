@@ -1,0 +1,546 @@
+/*
+ * Our tokens, re-asserted after ChaiBuilder's stylesheet.
+ *
+ * `sdk.css` declares its own shadcn-shaped palette on `:root`, and one name
+ * collides with ours: `--radius`. Ours is 1.1rem — the soft, generous corner
+ * the whole dashboard is drawn with — and the SDK's is 0.5rem. Because the
+ * SDK's stylesheet arrives with the builder's chunk, it loads *after* the
+ * global one and wins, which would give the builder's own top bar and modals
+ * squarer corners than every other screen.
+ *
+ * Imported after the SDK's styles in `Editor.tsx`. That order is the whole
+ * mechanism, so it is worth not reordering those two imports.
+ *
+ * Only the collision is restored. ChaiBuilder's other tokens — `--primary`,
+ * `--background`, `--foreground` — are names we do not use, and they are what
+ * its own chrome is drawn with; overriding those would mean restyling the
+ * editor by accident.
+ */
+
+:root {
+  --radius: 1.1rem;
+}
+
+/*
+ * While the builder is open, and only then.
+ *
+ * `:has()` rather than a class the editor toggles, for two reasons. Radix puts
+ * menus, selects and dialogs in a portal on <body>, outside the builder's own
+ * element, so anything scoped to that element never reaches a dropdown — which
+ * is exactly how they came to be transparent. And the builder's stylesheet stays
+ * in the document after navigating away (a chunk's CSS is never unloaded), so a
+ * rule on a bare `:root` would leak into the dashboard; this one stops matching
+ * the moment the builder unmounts.
+ */
+:root:has(.chai-builder-shell) {
+  /* The SDK's `accent` is a quiet hover and selected state. The dashboard's is
+   * the saturated plum its charts are drawn in, and menu rows lit up in that
+   * were unreadable. Plum's soft tint instead: still ours, and legible. */
+  --color-accent: var(--color-brand-soft);
+}
+
+/*
+ * The library's palette, redrawn in ours.
+ *
+ * ChaiBuilder's chrome is written in Tailwind's cool greys and its blue: grey
+ * panels, a slate frame round the canvas, blue selected states in the Style
+ * tab. Against the dashboard's warm neutrals and plum it reads as a different
+ * product bolted on. Tailwind v4 draws every one of those utilities through a
+ * custom property (`bg-gray-200` is `var(--color-gray-200)`), so redefining the
+ * properties here, on the builder's own elements, recolours the library's
+ * markup without touching it — and without reaching the dashboard, which never
+ * sits under these selectors.
+ *
+ * Mapped onto our semantic tokens rather than to fixed colours, so dark mode
+ * comes along for free: the tokens flip, and everything mapped to them does.
+ * The storefront's renderers use none of these palettes, so the section
+ * previews drawn inside the panel are unaffected; the canvas is an iframe and
+ * is out of reach of this file entirely.
+ */
+.chai-builder-shell,
+[data-radix-popper-content-wrapper] {
+  --color-gray-50: var(--color-sunken);
+  --color-gray-100: var(--color-sunken);
+  --color-gray-200: var(--color-line);
+  --color-gray-300: var(--color-line);
+  --color-gray-400: var(--color-ink-faint);
+  --color-gray-500: var(--color-ink-muted);
+  --color-gray-600: var(--color-ink-muted);
+  --color-gray-700: var(--color-ink);
+  --color-gray-800: var(--color-ink-soft);
+  --color-gray-900: var(--color-ink-soft);
+  --color-slate-50: var(--color-sunken);
+  --color-slate-100: var(--color-sunken);
+  --color-slate-200: var(--color-line);
+  --color-slate-300: var(--color-line);
+  --color-slate-400: var(--color-ink-faint);
+  --color-slate-500: var(--color-ink-muted);
+  --color-slate-600: var(--color-ink-muted);
+  --color-slate-700: var(--color-ink);
+  --color-slate-800: var(--color-ink-soft);
+  --color-slate-900: var(--color-ink-soft);
+  --color-blue-100: var(--color-brand-soft);
+  --color-blue-400: var(--color-brand);
+  --color-blue-500: var(--color-brand);
+  --color-blue-600: var(--color-brand-strong);
+  --color-blue-900: var(--color-brand-strong);
+}
+
+/*
+ * A denser set of corners for an editor.
+ *
+ * The dashboard's scale is generous — `md` is 0.9rem — because its controls are
+ * large and far apart. The builder's are small and packed: a 28px unit field
+ * with a 14px corner is a pill, and a column of them read as a row of buttons.
+ * Same family of soft corners, sized for controls this small.
+ */
+.chai-builder-shell,
+[data-radix-popper-content-wrapper] {
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+}
+
+/*
+ * Hairlines for markup that names no border colour.
+ *
+ * Tailwind v4 draws a bare `border` in `currentColor`, where v3 drew it grey.
+ * The SDK leans on the v3 default, so the panel edges and the frame around the
+ * canvas came out as dark rules. In `@layer base` so any explicit border colour
+ * — ours or the SDK's — still wins.
+ */
+@layer base {
+  .chai-builder-shell *,
+  .chai-builder-shell ::before,
+  .chai-builder-shell ::after,
+  [data-radix-popper-content-wrapper] *,
+  [role='alertdialog'],
+  [role='alertdialog'] * {
+    border-color: var(--color-line);
+  }
+}
+
+/*
+ * Menus, lists and dialogs: above the page, so they are the one place a shadow
+ * belongs (the dashboard's rule — see the note on shadows below).
+ */
+:root:has(.chai-builder-shell) [data-radix-popper-content-wrapper] > *,
+:root:has(.chai-builder-shell) [role='alertdialog'] {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  border: 1px solid var(--color-line);
+  box-shadow: none;
+}
+:root:has(.chai-builder-shell) [role='alertdialog'] {
+  border-radius: var(--radius);
+}
+:root:has(.chai-builder-shell) [role='menuitem'][data-highlighted],
+:root:has(.chai-builder-shell) [role='option'][data-highlighted] {
+  background-color: var(--color-brand-soft);
+  color: var(--color-brand-strong);
+}
+
+/*
+ * The frame around the canvas: the dashboard's warm canvas colour rather than
+ * the library's cool grey, so the page being edited sits on the same ground as
+ * every other screen.
+ */
+.chai-builder-shell #canvas-container {
+  background-color: var(--color-canvas) !important;
+}
+
+/*
+ * The Style tab.
+ *
+ * Two things in it the palette remap cannot reach. The side toggles for margin
+ * and padding are drawn in a hardcoded blue, an arbitrary value rather than a
+ * palette class. And the Typography and Background groups are bare
+ * `<details>` elements whose summaries are 11px bars, which read as footnotes
+ * rather than as the two largest groups of controls in the tab.
+ */
+.chai-builder-shell [class*='bg-[#3E57F0]'] {
+  background-color: var(--color-ink) !important;
+  color: var(--color-surface) !important;
+}
+.chai-builder-shell details {
+  border-top: 1px solid var(--color-line-soft);
+}
+.chai-builder-shell details > summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 9px 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-ink);
+  background: transparent !important;
+  border-radius: 0;
+  cursor: pointer;
+  list-style: none;
+}
+.chai-builder-shell details > summary::-webkit-details-marker {
+  display: none;
+}
+.chai-builder-shell details > summary::after {
+  content: '';
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23857d88' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 6.5 8 10l3.5-3.5'/%3E%3C/svg%3E")
+    no-repeat center / 14px;
+  transition: transform 120ms;
+}
+.chai-builder-shell details[open] > summary::after {
+  transform: rotate(180deg);
+}
+.chai-builder-shell details:hover > summary {
+  color: var(--color-brand-strong);
+}
+
+/*
+ * The Add panel's block cards.
+ *
+ * Tighter than the library's: its cards are 66px tall for a 16px glyph and a
+ * word, which is how the list got long enough to scroll before reaching the
+ * content blocks.
+ */
+.chai-builder-shell [class*='chai-block-'][draggable] {
+  padding: 10px 6px 8px;
+  border-color: var(--color-line);
+  border-radius: var(--radius-lg);
+  color: var(--color-ink);
+  transition:
+    border-color 120ms,
+    background-color 120ms;
+}
+.chai-builder-shell [class*='chai-block-'][draggable]:hover {
+  background-color: var(--color-brand-soft);
+  border-color: color-mix(in oklch, var(--color-brand) 35%, transparent);
+  color: var(--color-brand-strong);
+}
+.chai-builder-shell [data-add-core-block-icon] {
+  width: 18px;
+  height: 18px;
+  color: var(--color-ink-muted);
+}
+.chai-builder-shell [class*='chai-block-'][draggable]:hover [data-add-core-block-icon] {
+  color: var(--color-brand);
+}
+
+/*
+ * Block settings.
+ *
+ * These forms are react-jsonschema-form's core theme, which ships markup and no
+ * styles at all: native selects in the browser's own chrome, inputs with no
+ * border, and a field's help text in the paragraph default, which is larger than
+ * the label it explains. Drawn here in the dashboard's form language instead.
+ */
+.chai-builder-shell .form-group {
+  margin-bottom: 14px;
+}
+.chai-builder-shell .control-label,
+.chai-builder-shell .form-group > label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-ink-muted);
+}
+.chai-builder-shell .form-control {
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: var(--color-ink);
+  background-color: var(--color-sunken);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  transition:
+    border-color 120ms,
+    box-shadow 120ms;
+}
+.chai-builder-shell textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  line-height: 1.45;
+}
+.chai-builder-shell .form-control::placeholder {
+  color: var(--color-ink-faint);
+}
+.chai-builder-shell .form-control:hover {
+  border-color: var(--color-line);
+}
+.chai-builder-shell .form-control:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: none;
+}
+.chai-builder-shell select.form-control {
+  appearance: none;
+  padding-right: 30px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23857d88' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 6.5 8 10l3.5-3.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+  background-size: 14px;
+}
+.chai-builder-shell .field-description,
+.chai-builder-shell .help-block {
+  margin: 4px 0 0;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--color-ink-faint);
+}
+/* A checkbox's label beside its box, and its explanation beneath the pair. */
+.chai-builder-shell .checkbox {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+}
+.chai-builder-shell .checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+.chai-builder-shell .checkbox input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--color-brand);
+}
+
+/*
+ * The canvas is an iframe, and an iframe has no height of its own. Without
+ * this the editor collapses to nothing inside our full-window container.
+ */
+.chai-builder-canvas iframe {
+  height: 100%;
+  width: 100%;
+}
+
+/*
+ * No shadows anywhere in the builder.
+ *
+ * The dashboard's rule is hairlines, not shadows — a border separates, a
+ * shadow floats, and only a popover and a modal are genuinely above the page.
+ * The library disagrees and puts a drop shadow on the canvas, on every panel
+ * and on each draggable row, which makes a screen full of flat panels look
+ * like a screen full of cards nobody can stack.
+ *
+ * Scoped to the builder so it changes nothing else, and `!important` because
+ * the rules being overridden are utilities of equal specificity that happen to
+ * load after this file.
+ */
+.chai-builder-shell [class*='shadow'],
+.chai-builder-shell [class*='drop-shadow'] {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/*
+ * `leading-1`, and why the outline was unreadable.
+ *
+ * The library is written for Tailwind v3, where `leading-1` is not a class at
+ * all and is silently ignored. Our build is v4, where the line-height scale
+ * gained numeric steps and `leading-1` means `calc(var(--spacing) * 1)` —
+ * four pixels. So the moment our Tailwind started generating the library's
+ * classes (which it must, or nothing has any layout) every outline row
+ * collapsed to a 4px line box and the labels sat on top of each other.
+ *
+ * This is the shape of hazard to expect from mixing the two: not a missing
+ * class, but a class that used to mean nothing and now means something.
+ */
+.chai-builder-shell .leading-1 {
+  line-height: 1.4 !important;
+}
+
+/*
+ * The outline panel, given room to breathe.
+ *
+ * Its rows are absolutely positioned at a fixed 25px pitch by the virtualised
+ * tree it is built on, so the pitch itself cannot be changed from here. What
+ * can is the space *inside* each row: 12px of text pinned flush against a 25px
+ * box reads as a list nobody has looked at.
+ */
+.chai-builder-shell [role='treeitem'] {
+  padding-inline: 4px;
+}
+.chai-builder-shell [role='treeitem'] > * {
+  border-radius: 6px;
+  padding-block: 2px;
+}
+.chai-builder-shell [role='tree'] {
+  padding: 6px 4px;
+}
+
+/*
+ * The AI assistant, removed.
+ *
+ * There is no flag for it, so it goes by id — and only by id. This rule once
+ * also matched any button whose title contained "ai", case-insensitively,
+ * which hid every section tile described as a "claim". The reason it goes: it writes
+ * into a merchant's public storefront through a service we do not control,
+ * with no record on our side of what was sent or what came back. If this
+ * platform ever offers writing help it will be ours, under our terms, and
+ * auditable. Until then a sparkle button that quietly ships a merchant's page
+ * to a third party is not a feature we are shipping.
+ *
+ * Hidden rather than intercepted because there is no callback registered for
+ * it either — `askAiCallBack` is deliberately never passed, so the panel is
+ * already inert and this is what stops it being a button that does nothing.
+ */
+.chai-builder-shell [data-panel-id='chai-chat-panel'],
+.chai-builder-shell [data-panel='chai-chat-panel'] {
+  display: none !important;
+}
+
+/*
+ * The left rail and the panels beside it.
+ *
+ * The library packs its icon buttons flush against the top edge. A little room
+ * puts them in line with our own top bar rather than a few pixels above it.
+ */
+.chai-builder-shell [data-panel-id],
+.chai-builder-shell aside {
+  padding-top: 2px;
+}
+
+
+/* The panels are cards on the cream ground, like the dashboard's. */
+.chai-builder-shell {
+  --color-white: var(--color-surface);
+}
+
+/*
+ * The editor's layout, redrawn as the dashboard's: a cream ground with the
+ * two side panels as white cards, the page being edited as a rounded card in
+ * the middle, and no rules or shadows between them.
+ *
+ * The library sizes itself to the window (`h-screen w-screen`) and to fixed
+ * ids (`#sidebar`, `#left-panel`, `#canvas-container`, `#right-panel`), which is
+ * what these selectors hold on to.
+ */
+.chai-builder-shell .h-screen,
+.chai-builder-shell .max-h-full {
+  max-height: 100% !important;
+}
+.chai-builder-shell div.h-screen.bg-background,
+.chai-builder-shell div.flex-col.bg-background {
+  background-color: var(--color-canvas) !important;
+}
+
+/* The top bar: part of the ground, not a bar across it. */
+.chai-builder-shell div[class*='h-[50px]'],
+.chai-builder-shell div[class*='h-[50px]'] > div {
+  background: transparent !important;
+  border: 0 !important;
+  height: 60px;
+  padding-inline: 16px;
+}
+
+.chai-builder-shell main {
+  gap: 0;
+  padding: 0;
+  height: calc(100vh - 60px) !important;
+}
+
+/* The tool rail. */
+.chai-builder-shell #sidebar {
+  border: 0 !important;
+  width: 56px;
+  padding-top: 4px;
+}
+
+/* The two side panels: flat, full height, one hairline against the canvas. */
+.chai-builder-shell #left-panel,
+.chai-builder-shell #right-panel {
+  background: var(--color-surface);
+  border-radius: 0;
+  overflow: hidden;
+}
+.chai-builder-shell #left-panel {
+  border: 0 !important;
+  border-right: 1px solid var(--color-line) !important;
+}
+.chai-builder-shell #right-panel {
+  border: 0 !important;
+  border-left: 1px solid var(--color-line) !important;
+}
+
+/*
+ * The canvas toolbar — device sizes, zoom, undo and redo — moves up into the
+ * top bar, beside the page's own actions, so the page gets the whole height
+ * beneath it. Fixed to the bar rather than reparented: the library owns that
+ * markup. "Clear" is left out of the bar; it is one click away in the menu and
+ * not something to keep in reach of an errant click.
+ */
+.chai-builder-shell #canvas-container > div:first-child {
+  position: fixed;
+  top: 0;
+  right: 440px;
+  z-index: 60;
+  height: 60px;
+  padding: 0;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.chai-builder-shell #canvas-container > div:first-child > div:last-child {
+  display: none;
+}
+.chai-builder-shell #canvas-container > div:first-child button {
+  border-radius: 10px;
+}
+
+/* The canvas: the page itself, edge to edge. */
+.chai-builder-shell #canvas-container {
+  background: transparent !important;
+  gap: 0;
+}
+.chai-builder-shell #canvas-container div.bg-gray-100\/40,
+.chai-builder-shell #canvas-container div[class*='bg-gray-100'] {
+  background: transparent !important;
+  border-radius: 0;
+}
+.chai-builder-shell #main-content {
+  border: 0 !important;
+  padding: 0;
+}
+.chai-builder-shell #main-content > div {
+  border-radius: 0;
+  background: transparent;
+}
+.chai-builder-shell #canvas-iframe {
+  box-shadow: none !important;
+  border: 0 !important;
+  border-radius: 0;
+}
+
+/* Outline rows and selections in the dashboard's language. */
+.chai-builder-shell #outline-view [class*='bg-primary\/20'] {
+  background: var(--color-sunken) !important;
+  border-radius: 12px !important;
+}
+.chai-builder-shell #left-panel h2,
+.chai-builder-shell #right-panel h2,
+.chai-builder-shell #left-panel [class*='font-bold'],
+.chai-builder-shell #right-panel [class*='font-bold'] {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* The library sizes itself to the window; keep it filling the shell. */
+.chai-builder-shell .h-screen {
+  height: 100% !important;
+}
+.chai-builder-shell .w-screen {
+  width: 100% !important;
+}

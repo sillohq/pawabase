@@ -1,0 +1,548 @@
+/*
+ * The visual system.
+ *
+ * Calm, warm and rounded — the feel of a modern fintech console rather than an
+ * enterprise admin: an off-white canvas, white cards with large soft corners
+ * and barely-there borders, generous air, pill buttons (charcoal filled / plum
+ * outline), and a plum accent that marks anything interactive.
+ *
+ * Three rules everything here follows:
+ *
+ * 1. **One accent, used sparingly.** Plum marks what is interactive and what
+ *    is active. Nothing is coloured for decoration, which is what keeps the
+ *    coloured things readable.
+ * 2. **Hairlines, not shadows.** A border separates; a shadow floats. Shadows
+ *    appear on exactly two things — a popover and a modal — because only they
+ *    are genuinely above the page.
+ * 3. **Status hues are reserved.** ok / caution / abnormal / critical mean a
+ *    state and are never reused as a fourth series colour.
+ *
+ * Tailwind v4: no config file and no PostCSS step — the Vite plugin does both.
+ */
+
+@import 'tailwindcss';
+
+/*
+ * The builder's own markup, scanned for utility classes.
+ *
+ * This one line is the difference between a working page builder and a broken
+ * one. Tailwind v4 generates only the classes it finds in the files it scans,
+ * and by default it does not look inside `node_modules`. The builder SDK ships
+ * *unstyled* markup — its stylesheet carries design tokens and nothing else —
+ * and expects the host application's Tailwind build to produce the utilities
+ * its components name.
+ *
+ * Without this, every `flex`, `grid`, `fixed` and `xl:hidden` the builder
+ * emits resolves to nothing: panels stack on top of each other, headings
+ * overlap, and a "screen too small" overlay that should hide above 1280px is
+ * permanently visible because the breakpoint that hides it was never
+ * generated. It looks like the library is broken. It is not; it was never
+ * given a stylesheet.
+ */
+/* The storefront's aesthetic layer — what makes ten templates ten shops
+ * rather than ten colourways. */
+/* In the components layer, so a utility on the same element wins — the way
+ * Tailwind is meant to work. Unlayered, it beat every utility, and a class set
+ * in the builder's Style tab could never override a heading's size. */
+@import './../views/ui/shop-style.css' layer(components);
+
+@source '../node_modules/@chaibuilder/sdk/dist';
+@source '../node_modules/@chaibuilder/runtime/dist';
+
+/*
+ * Dark mode has three states, not two.
+ *
+ *   data-theme="dark"   the reader chose dark
+ *   data-theme="light"  the reader chose light
+ *   no attribute        follow the operating system
+ *
+ * `useTheme` in `js/hooks.ts` writes that attribute on `<html>`. This variant
+ * has to agree with it, and for a long time it did not: it matched a `.dark`
+ * class that nothing anywhere set, so all sixty-nine `dark:` utilities in the
+ * application were dead and the toggle changed nothing.
+ *
+ * The second arm is what makes "system" work, and the `:not([data-theme="light"])`
+ * is what makes an explicit *light* choice hold on a machine set to dark. Drop
+ * it and the toggle becomes one-way.
+ */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *):not(:where([data-theme='light'], [data-theme='light'] *)) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *):not(:where([data-theme='light'], [data-theme='light'] *)) {
+      @slot;
+    }
+  }
+}
+
+@theme {
+  /* Sage — the interactive accent. Links, focus, the "live" state. */
+  --color-brand: oklch(0.52 0.07 160);
+  --color-brand-strong: oklch(0.44 0.07 160);
+  --color-brand-soft: oklch(0.95 0.02 160);
+  --color-brand-ring: oklch(0.52 0.07 160 / 0.3);
+
+  /* The filled primary button — near-black on light, near-white on dark. */
+  --color-ink: oklch(0.2 0 0);
+  --color-ink-soft: oklch(0.14 0 0);
+
+  /* The page: a warm cream panel, with white cards on it. */
+  --color-canvas: oklch(0.962 0.006 70);
+  --color-line: oklch(0.915 0.006 70);
+
+  --color-surface: oklch(1 0 0);
+  --color-sunken: oklch(0.945 0.006 70);
+  --color-line-soft: oklch(0.94 0.005 70);
+
+  --color-ink-muted: oklch(0.5 0.01 70);
+  --color-ink-faint: oklch(0.66 0.01 70);
+
+  /* Aliases the older screens were written against. */
+  --color-accent: var(--color-brand);
+  --color-accent-soft: var(--color-brand-soft);
+  --color-accent-line: var(--color-brand-ring);
+  --color-positive: var(--color-ok);
+  --color-positive-soft: var(--color-ok-soft);
+  --color-info: var(--color-brand);
+  --color-info-soft: var(--color-brand-soft);
+
+  /* Status. Reserved: these mean a state, never a series. */
+  --color-ok: oklch(0.62 0.1 150);
+  --color-ok-soft: oklch(0.95 0.03 150);
+  --color-caution: oklch(0.72 0.11 65);
+  --color-caution-soft: oklch(0.96 0.04 75);
+  --color-abnormal: oklch(0.66 0.13 45);
+  --color-abnormal-soft: oklch(0.955 0.035 50);
+  --color-critical: oklch(0.6 0.13 30);
+  --color-critical-soft: oklch(0.955 0.03 30);
+
+  /* The three pastel card fills — sage, clay, taupe. Dark text on all of them,
+     in either theme, so a coloured card reads the same in both. */
+  --color-sage: oklch(0.74 0.05 160);
+  --color-clay: oklch(0.76 0.09 65);
+  --color-taupe: oklch(0.73 0.03 50);
+  --color-frame: oklch(0.925 0.008 20);
+
+  /* One radius scale, generous everywhere: cards are 28px, controls 16px,
+     and anything pill-shaped is a pill. */
+  --radius: 1.75rem;
+  --radius-lg: 2rem;
+  --radius-sm: 1rem;
+  --radius-md: 1.25rem;
+  --radius-xs: 0.6rem;
+
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+}
+
+/*
+ * The page builder's palette, drawn in ours.
+ *
+ * ChaiBuilder's interface is written shadcn-style against nineteen colour names
+ * — `bg-popover`, `border-border`, `text-muted-foreground` — about four hundred
+ * times. Its stylesheet declares them the Tailwind v3 way, as bare HSL triplets
+ * in `--popover`, and Tailwind v4 generates `bg-popover` only when
+ * `--color-popover` exists. None did, so none of those utilities were ever
+ * emitted: menus and dialogs had no background, hairlines fell back to
+ * `currentColor` and drew as dark rules, and primary buttons had no fill.
+ *
+ * Each name points at the dashboard token it corresponds to, so the builder is
+ * drawn in the platform's colours and follows dark mode with it. `inline`
+ * because they are aliases: the utility should read the underlying token where
+ * it is used, not a copy taken at `:root`.
+ *
+ * Nothing else in the application uses these names — checked, not assumed —
+ * so defining them globally changes no other screen. `accent` is the exception
+ * and is not here: the dashboard already uses it for its plum, and the builder
+ * remaps it only while it is open (`views/ui/chai/overrides.css`).
+ */
+@theme inline {
+  --color-background: var(--color-surface);
+  --color-foreground: var(--color-ink);
+  --color-card: var(--color-surface);
+  --color-card-foreground: var(--color-ink);
+  --color-popover: var(--color-surface);
+  --color-popover-foreground: var(--color-ink);
+  /* Charcoal filled, like every primary button on the platform. The text is
+   * `surface` rather than white so it stays legible when dark mode lightens ink. */
+  --color-primary: var(--color-ink);
+  --color-primary-foreground: var(--color-surface);
+  --color-secondary: var(--color-sunken);
+  --color-secondary-foreground: var(--color-ink);
+  --color-muted: var(--color-sunken);
+  --color-muted-foreground: var(--color-ink-muted);
+  --color-accent-foreground: var(--color-brand-strong);
+  --color-destructive: var(--color-critical);
+  --color-destructive-foreground: oklch(0.99 0 0);
+  --color-border: var(--color-line);
+  --color-input: var(--color-line);
+  --color-ring: var(--color-brand-ring);
+}
+
+/*
+ * The dark palette.
+ *
+ * Written once and applied under both conditions the variant above matches, so
+ * the tokens and the `dark:` utilities can never disagree about which mode the
+ * page is in — which they would the moment one was edited and the other was
+ * not.
+ *
+ * The tokens that describe *surfaces* invert. The ones that describe *meaning*
+ * — brand, ok, caution, abnormal, critical — do not: a warning is a warning in
+ * either mode, and re-picking those hues per theme is how a palette drifts
+ * into two palettes. Only their soft tints move, because a 96%-lightness wash
+ * is invisible on a dark ground.
+ *
+ * `color-scheme` moves with them. Without it the scrollbars, the date pickers
+ * and every native control stay light on a dark page.
+ */
+/*
+ * `color-scheme` is set outside any layer, on purpose.
+ *
+ * Tailwind orders `theme` before `base`, so a `color-scheme: dark` declared in
+ * the theme layer loses to the `html { color-scheme: light dark }` in base —
+ * and the scrollbars, the date pickers and every native control stay light on
+ * a dark page while everything around them is dark. Unlayered rules beat
+ * layered ones regardless of order, which is exactly what is wanted here.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+@layer theme {
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      color-scheme: dark;
+      --color-frame: oklch(0.105 0 0);
+      --color-canvas: oklch(0.155 0 0);
+      --color-surface: oklch(0.21 0 0);
+      --color-sunken: oklch(0.27 0 0);
+      --color-line: oklch(0.27 0 0);
+      --color-line-soft: oklch(0.24 0 0);
+
+      --color-ink: oklch(0.96 0 0);
+      --color-ink-soft: oklch(0.99 0 0);
+      --color-ink-muted: oklch(0.72 0 0);
+      --color-ink-faint: oklch(0.55 0 0);
+
+      --color-brand: oklch(0.78 0.07 160);
+      --color-brand-strong: oklch(0.85 0.07 160);
+      --color-brand-soft: oklch(0.3 0.03 160);
+      --color-brand-ring: oklch(0.78 0.07 160 / 0.35);
+
+      --color-ok-soft: oklch(0.3 0.04 150);
+      --color-caution-soft: oklch(0.32 0.05 70);
+      --color-abnormal-soft: oklch(0.31 0.05 45);
+      --color-critical-soft: oklch(0.3 0.045 30);
+    }
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --color-frame: oklch(0.105 0 0);
+    --color-canvas: oklch(0.155 0 0);
+    --color-surface: oklch(0.21 0 0);
+    --color-sunken: oklch(0.27 0 0);
+    --color-line: oklch(0.27 0 0);
+    --color-line-soft: oklch(0.24 0 0);
+
+    --color-ink: oklch(0.96 0 0);
+    --color-ink-soft: oklch(0.99 0 0);
+    --color-ink-muted: oklch(0.72 0 0);
+    --color-ink-faint: oklch(0.55 0 0);
+
+    --color-brand: oklch(0.78 0.07 160);
+    --color-brand-strong: oklch(0.85 0.07 160);
+    --color-brand-soft: oklch(0.3 0.03 160);
+    --color-brand-ring: oklch(0.78 0.07 160 / 0.35);
+
+    --color-ok-soft: oklch(0.3 0.04 150);
+    --color-caution-soft: oklch(0.32 0.05 70);
+    --color-abnormal-soft: oklch(0.31 0.05 45);
+    --color-critical-soft: oklch(0.3 0.045 30);
+  }
+
+  /* And the explicit light choice, so it holds on a machine set to dark. */
+  :root[data-theme='light'] {
+    color-scheme: light;
+  }
+}
+
+@layer base {
+  html {
+    /* Overridden per mode in the theme layer above. This is the default for a
+       reader who has expressed no preference at all. */
+    color-scheme: light dark;
+  }
+
+  body {
+    @apply bg-canvas text-ink antialiased;
+    font-family: var(--font-sans);
+    letter-spacing: -0.005em;
+  }
+
+  a {
+    @apply text-inherit;
+  }
+
+  /* A reference — an order number, a SKU, a key prefix. */
+  .id {
+    @apply font-mono text-[0.85em] tracking-tight;
+  }
+
+  /* Numbers in a column must align on the decimal, or money is unreadable at
+     a glance. */
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hair {
+    @apply border-line;
+  }
+
+  ::selection {
+    /* One rule, both modes. `--color-brand-soft` is already a pale wash in
+       light and a deep tint in dark, so the selection follows the theme
+       without a second selector that has to be kept in step. */
+    background: var(--color-brand-soft);
+  }
+
+  * {
+    scrollbar-width: thin;
+    /* Likewise: `--color-line` inverts, so the scrollbar does. Every rule that
+       used to name a slate step here needed a dark twin, and every dark twin
+       was a place the two could disagree. */
+    scrollbar-color: var(--color-line) transparent;
+  }
+
+  /* Anyone who has asked not to see motion gets none of it. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* The one card. A filled, borderless surface with a large radius — no
+     border, no shadow. Separation comes from the fill against the panel. */
+  .surface {
+    @apply rounded-[var(--radius)] bg-surface;
+  }
+
+  .surface-muted {
+    @apply rounded-[var(--radius)] bg-sunken;
+  }
+
+  /* No shadows anywhere. Kept as empty names so existing markup stays valid. */
+  .card-shadow,
+  .modal-shadow {
+    box-shadow: none;
+  }
+
+  /* Section labels — signposts, not content. */
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint;
+  }
+
+  /* One focus ring, everywhere, and only for keyboard users. Removing it is
+     the accessibility mistake; showing it on every mouse click is the
+     aesthetic one. */
+  .ring-focus {
+    @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand;
+  }
+
+  /* Sidebar navigation: large rounded rows. The active one is filled black
+     with a blue ring — the same treatment on every screen. */
+  .nav-heading {
+    @apply flex w-full items-center gap-2 px-4 pb-1.5 pt-5
+           text-[11px] font-bold uppercase tracking-[0.1em] text-ink-faint;
+  }
+  .nav-heading svg {
+    @apply opacity-60;
+  }
+
+  .nav-link {
+    @apply relative flex items-center gap-3.5 rounded-2xl px-4 py-3 text-[15px]
+           font-medium text-ink-muted transition
+           hover:bg-sunken hover:text-ink;
+  }
+  .nav-link[data-active='true'] {
+    @apply bg-ink font-semibold text-surface;
+  }
+
+  .nav-group {
+    @apply space-y-1;
+  }
+
+  /* Table rows. The hover is barely there on purpose — enough to track which
+     row the cursor is on, not enough to read as a selection. */
+  .row-hover {
+    @apply transition-colors hover:bg-sunken;
+  }
+
+  /* Skeletons for deferred props. A pulse rather than a spinner: the shape of
+     what is coming is more informative than the fact that something is. */
+  .skeleton {
+    @apply rounded-[var(--radius-sm)];
+    background: linear-gradient(
+      90deg,
+      var(--color-sunken) 25%,
+      var(--color-line) 37%,
+      var(--color-sunken) 63%
+    );
+    background-size: 400% 100%;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0 50%;
+    }
+  }
+
+  /* The page-builder canvas: a subtle grid so a merchant can see the frame
+     they are arranging blocks inside. */
+  .builder-grid {
+    background-image:
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
+  }
+
+
+  /* A block on the canvas, and the state it takes when the pointer is over a
+     valid drop target. */
+  .builder-block {
+    @apply relative rounded-[var(--radius-sm)] outline-2 outline-offset-2 outline-transparent transition;
+  }
+  .builder-block[data-selected='true'] {
+    @apply outline-brand;
+  }
+  .builder-block[data-dragging='true'] {
+    @apply opacity-40;
+  }
+  .builder-drop {
+    @apply h-1.5 rounded-full bg-transparent transition-all;
+  }
+  .builder-drop[data-over='true'] {
+    @apply h-8 bg-brand-soft ring-2 ring-inset ring-brand/40;
+  }
+}
+
+
+/*
+ * The application shell.
+ *
+ * Every dashboard screen was written against Tailwind's slate scale and `dark:`
+ * twins (`text-slate-700 dark:text-slate-200`). Rather than edit each one, the
+ * scale is redrawn here as a neutral grey ramp — same lightness steps as
+ * Tailwind's `neutral`, no blue cast — so those classes keep their meaning and
+ * simply land on the new palette. `bg-white` follows the surface token.
+ *
+ * The sidebar is a light card in both themes and carries `data-theme="light"`,
+ * which the `dark` variant above treats as a boundary: inside it, `dark:`
+ * utilities do not apply and the light tokens below are declared again.
+ */
+.app-shell,
+.app-shell .pastel {
+  --color-white: var(--color-surface);
+  --color-slate-50: oklch(0.985 0 0);
+  --color-slate-100: oklch(0.97 0 0);
+  --color-slate-200: oklch(0.922 0 0);
+  --color-slate-300: oklch(0.87 0 0);
+  --color-slate-400: oklch(0.708 0 0);
+  --color-slate-500: oklch(0.556 0 0);
+  --color-slate-600: oklch(0.439 0 0);
+  --color-slate-700: oklch(0.371 0 0);
+  --color-slate-800: oklch(0.269 0 0);
+  --color-slate-900: oklch(0.205 0 0);
+  --color-slate-950: oklch(0.145 0 0);
+  --color-gray-50: oklch(0.985 0 0);
+  --color-gray-100: oklch(0.97 0 0);
+  --color-gray-200: oklch(0.922 0 0);
+  --color-gray-300: oklch(0.87 0 0);
+  --color-gray-400: oklch(0.708 0 0);
+  --color-gray-500: oklch(0.556 0 0);
+  --color-gray-600: oklch(0.439 0 0);
+  --color-gray-700: oklch(0.371 0 0);
+  --color-gray-800: oklch(0.269 0 0);
+  --color-gray-900: oklch(0.205 0 0);
+}
+
+/* The three pastel cards: fixed dark ink on a fixed pastel fill, whatever the
+   theme, so the chart and text inside read the same in light and dark. */
+.app-shell .pastel {
+  color: #141414;
+  --color-ink: #141414;
+  --color-ink-soft: #141414;
+  --color-ink-muted: rgb(20 20 20 / 0.62);
+  --color-ink-faint: rgb(20 20 20 / 0.48);
+  --color-line: rgb(20 20 20 / 0.14);
+  --color-sunken: rgb(20 20 20 / 0.08);
+  --color-surface: rgb(255 255 255 / 0.4);
+  --color-accent: #141414;
+  --color-brand: #141414;
+}
+
+
+/* -- motion ---------------------------------------------------------------
+ * Everything on the overview plays once when the page loads and again when the
+ * range changes: the line draws itself, the area fades in behind it, the cards
+ * rise in a short stagger, and the figures count up (see `useCountUp`).
+ * Disabled entirely for anyone who has asked for reduced motion.
+ */
+@keyframes draw-line {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+.chart-line {
+  stroke-dasharray: 1;
+  animation: draw-line 1.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+.chart-area {
+  animation: fade-in 1s ease 1s both;
+}
+.rise {
+  animation: rise-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+.stat-grid > * {
+  animation: rise-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.stat-grid > *:nth-child(2) { animation-delay: 80ms; }
+.stat-grid > *:nth-child(3) { animation-delay: 160ms; }
+.stat-grid > *:nth-child(4) { animation-delay: 240ms; }
+.stat-grid > *:nth-child(n + 5) { animation-delay: 320ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-line, .chart-area, .rise, .stat-grid > * {
+    animation: none;
+  }
+  .chart-line { stroke-dasharray: none; }
+}

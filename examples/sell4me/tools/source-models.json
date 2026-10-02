@@ -1,0 +1,6650 @@
+{
+ "DailyStat": {
+  "module": "analytics",
+  "table": "daily_stats",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "date": {
+    "type": "DateField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": true
+   },
+   "orders_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "paid_orders_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "cancelled_orders_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "gross_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "discount_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "shipping_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "tax_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "refund_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "provider_fee_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "platform_fee_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "net_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "new_customers": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "returning_customers": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "sessions": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "product_views": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "add_to_carts": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "checkouts_started": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "payments_succeeded": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "payments_failed": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": [
+   [
+    "store",
+    "date"
+   ]
+  ]
+ },
+ "ExportJob": {
+  "module": "analytics",
+  "table": "export_jobs",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "requested_by": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "resource": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": true
+   },
+   "filters": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "format": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 8,
+    "index": false,
+    "default": "csv"
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "queued"
+   },
+   "row_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "file_path": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "file_size": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "error": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "started_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "completed_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "expires_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "StorefrontEvent": {
+  "module": "analytics",
+  "table": "storefront_events",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": true
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": true
+   },
+   "product": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "variant": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "collection": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "session_token": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": true
+   },
+   "value_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "quantity": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "referrer": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "Design": {
+  "module": "builder",
+  "table": "designs",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "title": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "poster"
+   },
+   "width": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 1080
+   },
+   "height": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 1080
+   },
+   "data": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "thumbnail": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "product": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "discount": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "created_by": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "PageRevision": {
+  "module": "builder",
+  "table": "page_revisions",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": true
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "page": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "tree": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "reason": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": false,
+    "default": "autosave"
+   },
+   "label": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 120,
+    "index": false
+   },
+   "actor": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "StorefrontPage": {
+  "module": "builder",
+  "table": "storefront_pages",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "title": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "slug": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": true
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": true,
+    "default": "page"
+   },
+   "draft": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "published": {
+    "type": "JSONField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "is_published": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": true,
+    "default": false
+   },
+   "published_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "seo_title": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "seo_description": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 400,
+    "index": false
+   },
+   "og_image_url": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 1000,
+    "index": false
+   },
+   "noindex": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "settings": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "created_by": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "store",
+    "slug"
+   ]
+  ]
+ },
+ "Collection": {
+  "module": "catalog",
+  "table": "collections",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "title": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "slug": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": true
+   },
+   "description": {
+    "type": "TextField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": ""
+   },
+   "image_url": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 1000,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": false,
+    "default": "manual"
+   },
+   "rules": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "is_published": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "position": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "seo_title": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "seo_description": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 400,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "store",
+    "slug"
+   ]
+  ]
+ },
+ "CollectionProduct": {
+  "module": "catalog",
+  "table": "collection_products",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "collection": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "product": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "position": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": [
+   [
+    "collection",
+    "product"
+   ]
+  ]
+ },
+ "InventoryMovement": {
+  "module": "catalog",
+  "table": "inventory_movements",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "variant": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "delta": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "balance_after": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "reason": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": true
+   },
+   "note": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "reference_type": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 40,
+    "index": false
+   },
+   "reference_id": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "actor": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "Product": {
+  "module": "catalog",
+  "table": "products",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "title": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "slug": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": true
+   },
+   "description": {
+    "type": "TextField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": ""
+   },
+   "summary": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "draft"
+   },
+   "product_type": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "vendor": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "tags": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "requires_shipping": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "is_taxable": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "seo_title": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "seo_description": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 400,
+    "index": false
+   },
+   "view_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "cart_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "purchase_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "published_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "store",
+    "slug"
+   ]
+  ]
+ },
+ "ProductImage": {
+  "module": "catalog",
+  "table": "product_images",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "product": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "variant": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "url": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 1000,
+    "index": false
+   },
+   "storage_key": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "alt": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "position": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "variants": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "width": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "height": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "placeholder": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "dominant_color": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 16,
+    "index": false
+   },
+   "processed_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "ProductOption": {
+  "module": "catalog",
+  "table": "product_options",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "product": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 60,
+    "index": false
+   },
+   "position": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": []
+ },
+ "ProductOptionValue": {
+  "module": "catalog",
+  "table": "product_option_values",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "option": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "value": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "position": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": []
+ },
+ "ProductVariant": {
+  "module": "catalog",
+  "table": "product_variants",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "product": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "title": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": false,
+    "default": "Default"
+   },
+   "sku": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": true
+   },
+   "barcode": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "price_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "compare_at_minor": {
+    "type": "BigIntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "cost_minor": {
+    "type": "BigIntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "stock": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "reserved": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "track_inventory": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "allow_backorder": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "low_stock_threshold": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 5
+   },
+   "weight_grams": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "length_mm": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "width_mm": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "height_mm": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "position": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "is_default": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   }
+  },
+  "unique_together": []
+ },
+ "VariantOptionValue": {
+  "module": "catalog",
+  "table": "variant_option_values",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "variant": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "option_value": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "variant",
+    "option_value"
+   ]
+  ]
+ },
+ "AbandonedCart": {
+  "module": "commerce",
+  "table": "abandoned_carts",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "cart": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "customer": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "email": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "value_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "currency": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 3,
+    "index": false,
+    "default": "NGN"
+   },
+   "item_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "recovery_status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "pending"
+   },
+   "recovery_token": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 64,
+    "index": true
+   },
+   "notified_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "recovered_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "recovered_order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "Cart": {
+  "module": "commerce",
+  "table": "carts",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "token": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 64,
+    "index": true
+   },
+   "customer": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "email": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "currency": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 3,
+    "index": false,
+    "default": "NGN"
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "open"
+   },
+   "discount": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "discount_code": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "last_activity_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "reserved_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "converted_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "CartItem": {
+  "module": "commerce",
+  "table": "cart_items",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "cart": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "variant": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "quantity": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 1
+   },
+   "unit_price_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": [
+   [
+    "cart",
+    "variant"
+   ]
+  ]
+ },
+ "Customer": {
+  "module": "commerce",
+  "table": "customers",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "email": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": true
+   },
+   "first_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "last_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "phone": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 40,
+    "index": false
+   },
+   "password": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 128,
+    "index": false
+   },
+   "accepts_marketing": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "tags": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "note": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "orders_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "total_spent_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "first_order_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "last_order_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "risk_score": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": [
+   [
+    "store",
+    "email"
+   ]
+  ]
+ },
+ "CustomerAddress": {
+  "module": "commerce",
+  "table": "customer_addresses",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "customer": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "label": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 60,
+    "index": false
+   },
+   "first_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "last_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "company": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "line1": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "line2": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "city": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "province": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "postal_code": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 20,
+    "index": false
+   },
+   "country": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 2,
+    "index": false,
+    "default": "US"
+   },
+   "phone": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 40,
+    "index": false
+   },
+   "is_default": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   }
+  },
+  "unique_together": []
+ },
+ "Order": {
+  "module": "commerce",
+  "table": "orders",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "number": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": true
+   },
+   "customer": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "email": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": true
+   },
+   "phone": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 40,
+    "index": false
+   },
+   "currency": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 3,
+    "index": false,
+    "default": "NGN"
+   },
+   "subtotal_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "discount_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "shipping_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "tax_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "total_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "refunded_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": true,
+    "default": "pending"
+   },
+   "payment_status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": true,
+    "default": "unpaid"
+   },
+   "fulfilment_status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": true,
+    "default": "unfulfilled"
+   },
+   "discount": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "discount_code": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "shipping_method": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 120,
+    "index": false
+   },
+   "tracking_number": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 120,
+    "index": false
+   },
+   "tracking_url": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "note": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "tags": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "source": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "storefront"
+   },
+   "campaign": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "risk_score": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "risk_flags": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "cart_token": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "client_ip": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "pos_session": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "placed_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "paid_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "fulfilled_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "cancelled_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "store",
+    "number"
+   ]
+  ]
+ },
+ "OrderAddress": {
+  "module": "commerce",
+  "table": "order_addresses",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": false
+   },
+   "first_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "last_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "company": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "line1": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "line2": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "city": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "province": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "postal_code": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 20,
+    "index": false
+   },
+   "country": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 2,
+    "index": false,
+    "default": "US"
+   },
+   "phone": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 40,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "order",
+    "kind"
+   ]
+  ]
+ },
+ "OrderEvent": {
+  "module": "commerce",
+  "table": "order_events",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 48,
+    "index": true
+   },
+   "message": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "data": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "actor": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "is_customer_visible": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   }
+  },
+  "unique_together": []
+ },
+ "OrderItem": {
+  "module": "commerce",
+  "table": "order_items",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "variant": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "product": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "title": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "variant_title": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "sku": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "image_url": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 1000,
+    "index": false
+   },
+   "quantity": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 1
+   },
+   "unit_price_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "discount_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "tax_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "total_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "cost_minor": {
+    "type": "BigIntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "quantity_fulfilled": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "quantity_refunded": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "requires_shipping": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   }
+  },
+  "unique_together": []
+ },
+ "LedgerEntry": {
+  "module": "finance",
+  "table": "ledger_entries",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": true
+   },
+   "amount_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "currency": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 3,
+    "index": false,
+    "default": "NGN"
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "payment": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "refund": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "payout": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "description": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "metadata": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "occurred_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": true
+   }
+  },
+  "unique_together": []
+ },
+ "Payment": {
+  "module": "finance",
+  "table": "payments",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "provider": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": true
+   },
+   "provider_account": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "provider_reference": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": true
+   },
+   "reference": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 64,
+    "index": true
+   },
+   "currency": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 3,
+    "index": false,
+    "default": "NGN"
+   },
+   "amount_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "provider_fee_minor": {
+    "type": "BigIntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "platform_fee_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "refunded_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "pending"
+   },
+   "method": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 40,
+    "index": false
+   },
+   "card_brand": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 24,
+    "index": false
+   },
+   "card_last4": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 4,
+    "index": false
+   },
+   "failure_code": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "failure_message": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "raw_response": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "authorized_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "captured_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "failed_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "provider",
+    "provider_reference"
+   ]
+  ]
+ },
+ "PaymentAttempt": {
+  "module": "finance",
+  "table": "payment_attempts",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "payment": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "provider": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": false
+   },
+   "reference": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 64,
+    "index": true
+   },
+   "amount_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "currency": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 3,
+    "index": false,
+    "default": "NGN"
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "pending"
+   },
+   "error_code": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "error_message": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "client_ip": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "user_agent": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "instrument_fingerprint": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 128,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "PaymentProviderAccount": {
+  "module": "finance",
+  "table": "payment_provider_accounts",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "provider": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": true
+   },
+   "label": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "public_key": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "secret_key_encrypted": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "webhook_secret_encrypted": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "provider_account_id": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "bank_code": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 16,
+    "index": false
+   },
+   "bank_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "account_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "account_number_last4": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 4,
+    "index": false
+   },
+   "recipient_code": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "is_test_mode": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "is_default": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "pending"
+   },
+   "status_message": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "capabilities": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "last_verified_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "store",
+    "provider"
+   ]
+  ]
+ },
+ "Payout": {
+  "module": "finance",
+  "table": "payouts",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "payment": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "provider": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": false
+   },
+   "provider_account": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "provider_reference": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": true
+   },
+   "amount_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "platform_fee_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "currency": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 3,
+    "index": false,
+    "default": "NGN"
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": true,
+    "default": "pending"
+   },
+   "destination": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "period_start": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "period_end": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "initiated_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "expected_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "paid_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "failure_message": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "raw_response": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   }
+  },
+  "unique_together": [
+   [
+    "provider",
+    "provider_reference"
+   ]
+  ]
+ },
+ "Refund": {
+  "module": "finance",
+  "table": "refunds",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "payment": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "reference": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 64,
+    "index": true
+   },
+   "provider": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": false
+   },
+   "provider_reference": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": true
+   },
+   "amount_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "currency": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 3,
+    "index": false,
+    "default": "NGN"
+   },
+   "reason": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "note": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "line_items": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "restock": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "pending"
+   },
+   "failure_message": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "platform_fee_reversed": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "actor": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "processed_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "WebhookEvent": {
+  "module": "finance",
+  "table": "webhook_events",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "provider": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": true
+   },
+   "event_id": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": true
+   },
+   "event_type": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 100,
+    "index": true
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "payload": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "received"
+   },
+   "error": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "attempts": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "processed_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "provider",
+    "event_id"
+   ]
+  ]
+ },
+ "Invitation": {
+  "module": "identity",
+  "table": "invitations",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "email": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": true
+   },
+   "role": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": false,
+    "default": "support"
+   },
+   "token": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 64,
+    "index": true
+   },
+   "invited_by": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "expires_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "accepted_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "revoked_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "Store": {
+  "module": "identity",
+  "table": "stores",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "slug": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 64,
+    "index": true
+   },
+   "name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "legal_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "currency": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 3,
+    "index": false,
+    "default": "NGN"
+   },
+   "country": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 2,
+    "index": false,
+    "default": "NG"
+   },
+   "timezone_name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 64,
+    "index": false,
+    "default": "UTC"
+   },
+   "weight_unit": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 8,
+    "index": false,
+    "default": "kg"
+   },
+   "email": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "phone": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 40,
+    "index": false
+   },
+   "support_email": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "address_line1": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "address_line2": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "city": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "province": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "postal_code": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 20,
+    "index": false
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "draft"
+   },
+   "onboarding_completed": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "launched_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "maintenance_enabled": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "maintenance_title": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 120,
+    "index": false
+   },
+   "maintenance_message": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "maintenance_ends_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "help_desk_enabled": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "help_desk_greeting": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "owner": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "StoreMember": {
+  "module": "identity",
+  "table": "store_members",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "user": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "role": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": false,
+    "default": "support"
+   },
+   "extra_permissions": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "denied_permissions": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": false,
+    "default": "active"
+   },
+   "last_seen_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": [
+   [
+    "store",
+    "user"
+   ]
+  ]
+ },
+ "User": {
+  "module": "identity",
+  "table": "users",
+  "fields": {
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "email": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 255,
+    "index": true
+   },
+   "username": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 150,
+    "index": true
+   },
+   "password": {
+    "type": "PasswordField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "is_active": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "is_staff": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "is_superuser": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "last_login": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "email_verified_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "full_name": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "avatar_url": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "timezone_name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 64,
+    "index": false,
+    "default": "UTC"
+   },
+   "last_store_id": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "heard_from": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 32,
+    "index": false
+   },
+   "signup_goal": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 32,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "Campaign": {
+  "module": "marketing",
+  "table": "campaigns",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "discount"
+   },
+   "description": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "draft"
+   },
+   "segment": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "discount": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "product_ids": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "starts_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "ends_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "budget_minor": {
+    "type": "BigIntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "spend_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "orders_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "revenue_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "recipients_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "recovered_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "last_run_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "created_by": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "Discount": {
+  "module": "marketing",
+  "table": "discounts",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "code": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 64,
+    "index": true
+   },
+   "title": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "description": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 24,
+    "index": false,
+    "default": "percentage"
+   },
+   "value": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "scope": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": false,
+    "default": "order"
+   },
+   "scope_ids": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "minimum_order_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "maximum_discount_minor": {
+    "type": "BigIntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "usage_limit": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "per_customer_limit": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "usage_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "starts_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "ends_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "is_active": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "segment": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "is_automatic": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   }
+  },
+  "unique_together": [
+   [
+    "store",
+    "code"
+   ]
+  ]
+ },
+ "DiscountUsage": {
+  "module": "marketing",
+  "table": "discount_usages",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "discount": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "customer": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "amount_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": [
+   [
+    "discount",
+    "order"
+   ]
+  ]
+ },
+ "Segment": {
+  "module": "marketing",
+  "table": "segments",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "description": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "rules": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "is_system": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "cached_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "counted_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "ApiKey": {
+  "module": "platform",
+  "table": "api_keys",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "prefix": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true
+   },
+   "key_hash": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 128,
+    "index": true
+   },
+   "scopes": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "last_used_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "last_used_ip": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "request_count": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "expires_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "revoked_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "rotated_from_id": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "created_by": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "AuditLog": {
+  "module": "platform",
+  "table": "audit_logs",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": true
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "actor": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "actor_label": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "action": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 64,
+    "index": true
+   },
+   "resource_type": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 48,
+    "index": true
+   },
+   "resource_id": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "summary": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "changes": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "ip_address": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "user_agent": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "Domain": {
+  "module": "platform",
+  "table": "domains",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "hostname": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 255,
+    "index": true
+   },
+   "is_platform": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "is_primary": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "pending"
+   },
+   "verification_token": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "verified_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "last_checked_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "check_message": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "Notification": {
+  "module": "platform",
+  "table": "notifications",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "user": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 48,
+    "index": true
+   },
+   "title": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "body": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "url": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "level": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": false,
+    "default": "info"
+   },
+   "required_permission": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "read_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "ShippingRate": {
+  "module": "platform",
+  "table": "shipping_rates",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "zone": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "description": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 300,
+    "index": false
+   },
+   "kind": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": false,
+    "default": "flat"
+   },
+   "price_minor": {
+    "type": "BigIntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "min_weight_grams": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "max_weight_grams": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "min_subtotal_minor": {
+    "type": "BigIntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "max_subtotal_minor": {
+    "type": "BigIntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "delivery_estimate": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "is_active": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "position": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": []
+ },
+ "ShippingZone": {
+  "module": "platform",
+  "table": "shipping_zones",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 150,
+    "index": false
+   },
+   "countries": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "position": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": []
+ },
+ "Theme": {
+  "module": "platform",
+  "table": "themes",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 100,
+    "index": false,
+    "default": "Default"
+   },
+   "is_active": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "logo_url": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 1000,
+    "index": false
+   },
+   "favicon_url": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 1000,
+    "index": false
+   },
+   "color_primary": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "#111827"
+   },
+   "color_accent": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "#2563eb"
+   },
+   "color_background": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "#ffffff"
+   },
+   "color_surface": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "#f9fafb"
+   },
+   "color_text": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "#111827"
+   },
+   "color_muted": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "#6b7280"
+   },
+   "color_border": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "#e5e7eb"
+   },
+   "font_heading": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 80,
+    "index": false,
+    "default": "Inter"
+   },
+   "font_body": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 80,
+    "index": false,
+    "default": "Inter"
+   },
+   "corner_style": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": false,
+    "default": "soft"
+   },
+   "style": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "sections": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "header_links": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "footer_links": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "social_links": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "announcement": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "footer_text": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "seo_title": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "seo_description": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 400,
+    "index": false
+   },
+   "og_image_url": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 1000,
+    "index": false
+   },
+   "robots_policy": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 32,
+    "index": false,
+    "default": "index,follow"
+   }
+  },
+  "unique_together": []
+ },
+ "Webhook": {
+  "module": "platform",
+  "table": "webhooks",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "url": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 1000,
+    "index": false
+   },
+   "events": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "list"
+   },
+   "description": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 300,
+    "index": false
+   },
+   "secret": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "is_active": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": true
+   },
+   "consecutive_failures": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "disabled_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "last_delivery_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "last_status_code": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "WebhookDelivery": {
+  "module": "platform",
+  "table": "webhook_deliveries",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "webhook": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "event": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 64,
+    "index": true
+   },
+   "event_id": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 64,
+    "index": true
+   },
+   "payload": {
+    "type": "JSONField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default_factory": "dict"
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "pending"
+   },
+   "attempt": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 1
+   },
+   "status_code": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "response_body": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "error": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "duration_ms": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "next_attempt_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": true
+   },
+   "delivered_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "PosDevice": {
+  "module": "pos",
+  "table": "pos_devices",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "label": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "token": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 64,
+    "index": true
+   },
+   "pos_domain": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 253,
+    "index": true
+   },
+   "pos_domain_status": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 16,
+    "index": true
+   },
+   "pos_domain_verification_token": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 64,
+    "index": false
+   },
+   "pos_domain_verified_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "pos_domain_last_checked_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "pos_domain_check_message": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 500,
+    "index": false
+   },
+   "last_operator": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "receipt_header": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "receipt_footer": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "print_receipt_auto": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "is_active": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": true,
+    "default": true
+   }
+  },
+  "unique_together": []
+ },
+ "PosSession": {
+  "module": "pos",
+  "table": "pos_sessions",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "device": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "opened_by": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "closed_by": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "open"
+   },
+   "opening_float_minor": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "closing_count_minor": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "expected_cash_minor": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "total_sales_minor": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "total_refunds_minor": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "order_count": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "cash_tendered_minor": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "card_tendered_minor": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "note": {
+    "type": "TextField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "opened_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "closed_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "PosSessionItem": {
+  "module": "pos",
+  "table": "pos_session_items",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "CreatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "session": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "variant_id": {
+    "type": "IntField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "product_title": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "variant_title": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 255,
+    "index": false
+   },
+   "sku": {
+    "type": "CharField",
+    "null": true,
+    "unique": false,
+    "max_length": 100,
+    "index": false
+   },
+   "quantity_sold": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "quantity_refunded": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "gross_minor": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   },
+   "refunded_minor": {
+    "type": "IntField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": 0
+   }
+  },
+  "unique_together": []
+ },
+ "HelpMessage": {
+  "module": "support",
+  "table": "help_messages",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "ticket": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "from_staff": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "author": {
+    "type": "ForeignKeyFieldInstance",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "body": {
+    "type": "TextField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ },
+ "HelpTicket": {
+  "module": "support",
+  "table": "help_tickets",
+  "fields": {
+   "id": {
+    "type": "IntField",
+    "null": false,
+    "unique": true,
+    "max_length": null,
+    "index": true
+   },
+   "created_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "updated_at": {
+    "type": "UpdatedAtField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "deleted_at": {
+    "type": "SoftDeleteField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "store": {
+    "type": "ForeignKeyFieldInstance",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "token": {
+    "type": "CharField",
+    "null": false,
+    "unique": true,
+    "max_length": 64,
+    "index": true
+   },
+   "customer_name": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 120,
+    "index": false
+   },
+   "customer_email": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 255,
+    "index": true
+   },
+   "opt_in_email": {
+    "type": "BooleanField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false,
+    "default": false
+   },
+   "subject": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 200,
+    "index": false
+   },
+   "status": {
+    "type": "CharField",
+    "null": false,
+    "unique": false,
+    "max_length": 16,
+    "index": true,
+    "default": "open"
+   },
+   "last_message_at": {
+    "type": "DatetimeField",
+    "null": false,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   },
+   "closed_at": {
+    "type": "DatetimeField",
+    "null": true,
+    "unique": false,
+    "max_length": null,
+    "index": false
+   }
+  },
+  "unique_together": []
+ }
+}
