@@ -19,7 +19,7 @@ from pypika_tortoise.functions import Count, Star
 from pawabase_core.ids import new_ulid
 
 from . import inspect as db_inspect
-from .source import DataSource
+from .source import DataSource, timed
 from .sql import (
     TIMESTAMP_FIELDS,
     SqlError,
@@ -313,11 +313,11 @@ class ResourceStore:
         if dialect == "postgres":
             query = query.returning(self.table.field(self.spec.primary_key))
             sql, params = query.get_parameterized_sql()
-            rows = await runner.execute_query_dict(sql, params)
+            rows = await timed(runner, "execute_query_dict", sql, params)
             new_id = rows[0][self.spec.primary_key]
         else:
             sql, params = query.get_parameterized_sql()
-            new_id = await runner.execute_insert(sql, params)
+            new_id = await timed(runner, "execute_insert", sql, params)
             if self.spec.primary_key in values:
                 new_id = values[self.spec.primary_key]
         record = await self._get_with(runner, new_id)
@@ -335,7 +335,7 @@ class ResourceStore:
             .limit(1)
         )
         sql, params = query.get_parameterized_sql()
-        rows = await runner.execute_query_dict(sql, params)
+        rows = await timed(runner, "execute_query_dict", sql, params)
         return self._decode(rows[0]) if rows else None
 
     async def update(
@@ -356,7 +356,7 @@ class ResourceStore:
                 == self._encode(self.spec.primary_key, record_id)
             )
             sql, params = query.get_parameterized_sql()
-            await runner.execute_query(sql, params)
+            await timed(runner, "execute_query", sql, params)
         return await self._get_with(runner, record_id)
 
     async def delete(self, record_id: Any, *, client: Any = None) -> bool:
@@ -371,7 +371,7 @@ class ResourceStore:
         )
         sql, params = query.get_parameterized_sql()
         runner = client or self.source.client
-        count, _ = await runner.execute_query(sql, params)
+        count, _ = await timed(runner, "execute_query", sql, params)
         return bool(count)
 
 
